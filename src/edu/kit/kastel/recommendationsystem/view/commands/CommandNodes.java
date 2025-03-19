@@ -1,12 +1,12 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
-import edu.kit.kastel.recommendationsystem.model.DataSet;
+import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
-public class CommandNodes implements Command<DataSet> {
+public class CommandNodes implements Command<Graph> {
 
     @Override
-    public Result execute(DataSet handle) {
+    public Result execute(Graph handle) {
         // TODO Auto-generated method stub
         return null;
     }

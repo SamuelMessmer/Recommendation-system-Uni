@@ -1,5 +1,7 @@
 package edu.kit.kastel.recommendationsystem;
 
+import edu.kit.kastel.recommendationsystem.view.Communication;
+
 /**
  * The class offering the entry point for the application.
  * 
@@ -23,7 +25,7 @@ public final class Application {
             return;
         }
         
-        edu.kit.kastel.recommendationsystem.view.UserInterface userInterface = new edu.kit.kastel.recommendationsystem.view.UserInterface(System.in, System.out, System.err);
-        userInterface.handleUserInput();
+        Communication cummunication = new Communication();
+        cummunication.toString();
     }
 }

@@ -1,5 +1,14 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
-public class CommandEdges {
+import edu.kit.kastel.recommendationsystem.model.Graph;
+import edu.kit.kastel.recommendationsystem.view.Result;
+
+public class CommandEdges implements Command<Graph> {
+
+    @Override
+    public Result execute(Graph handle) {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
 }
