@@ -1,6 +1,8 @@
 package edu.kit.kastel.recommendationsystem.view;
 
 import edu.kit.kastel.recommendationsystem.view.commands.Command;
+import edu.kit.kastel.recommendationsystem.view.commands.CommandLoad;
+import edu.kit.kastel.recommendationsystem.view.commands.CommandNodes;
 import edu.kit.kastel.recommendationsystem.view.commands.CommandProvider;
 import edu.kit.kastel.recommendationsystem.view.commands.CommandQuit;
 
@@ -12,10 +14,10 @@ import edu.kit.kastel.recommendationsystem.view.commands.CommandQuit;
 public enum ViewKeyword implements Keyword<UserInterface> {
 
     /**
-     * The keyword for the {@link CommandStart start} command.
+     * The keyword for the {@link CommandPlace place} command.
      */
-    // START(arguments -> new CommandStart(arguments.parseToken())),
-    /**
+    LOAD(argumetns -> new CommandLoad()),
+     /**
      * The keyword for the {@link CommandQuit quit} command.
      */
     QUIT(arguments -> new CommandQuit());
