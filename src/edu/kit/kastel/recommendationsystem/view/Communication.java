@@ -1,5 +1,141 @@
 package edu.kit.kastel.recommendationsystem.view;
 
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.Scanner;
+import java.util.Set;
+
+import edu.kit.kastel.recommendationsystem.model.Graph;
+import edu.kit.kastel.recommendationsystem.view.commands.Command;
+
 public class Communication {
-    
+
+    private static final String COMMAND_SEPARATOR = " ";
+    private static final String ERROR_PREFIX = "Error, ";
+    private static final String ERROR_UNKNOWN_COMMAND_FORMAT = ERROR_PREFIX + " unknown command: %s";
+    private static final String ERROR_TOO_MANY_ARGUMENTS = ERROR_PREFIX + "too many arguments provided.";
+    private static final String ERROR_INVALID_PRECONDITION = ERROR_PREFIX + "command cannot be used right now.";
+    private final Set<GraphKeyword> graphKeywords = EnumSet.allOf(GraphKeyword.class);
+    private final Set<ViewKeyword> viewKeywords = EnumSet.allOf(ViewKeyword.class);
+
+    private final InputStream inputSource;
+    private final PrintStream defaultStream;
+    private final PrintStream errorStream;
+
+    private Graph graph;
+    private boolean isRunning;
+
+    public Communication(InputStream inputSource, PrintStream defaultStream, PrintStream errorStream) {
+        this.inputSource = inputSource;
+        this.defaultStream = defaultStream;
+        this.errorStream = errorStream;
+    }
+
+    /**
+     * Sets the graph instance that is provided by this class {@link Communication}
+     * to its managed commands.
+     * 
+     * @param game the graph instance to be provided to the commands
+     */
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
+    /**
+     * Stops this instance from reading further input from the source.
+     */
+    public void stop() {
+        this.isRunning = false;
+    }
+
+    /**
+     * Starts the interaction with the user. This method will block while
+     * interacting.
+     * The interaction will continue as long as the provided source has more lines
+     * to read,
+     * or until it is stopped. The provided input source is closed after the
+     * interaction is finished.
+     *
+     * @see Scanner#hasNextLine()
+     * @see #stop()
+     * @see #UserInterface(InputStream, PrintStream, PrintStream)
+     */
+    public void handleUserInput() {
+        this.isRunning = true;
+        try (Scanner scanner = new Scanner(this.inputSource)) {
+            while (this.isRunning && scanner.hasNextLine()) {
+                handleLine(scanner.nextLine());
+            }
+        }
+    }
+
+    private void handleLine(String line) {
+        String[] split = line.split(COMMAND_SEPARATOR, -1);
+        String command = split[0];
+        String[] arguments = Arrays.copyOfRange(split, 1, split.length);
+
+        if (!findAndHandleCommand(this.viewKeywords, this, command, arguments)
+                && !findAndHandleCommand(this.graphKeywords, graph, command, arguments)) {
+            this.errorStream.println(ERROR_UNKNOWN_COMMAND_FORMAT.formatted(command));
+        }
+    }
+
+    private <S, T extends Keyword<S>> boolean findAndHandleCommand(Set<T> keywords, S value, String command,
+            String[] arguments) {
+        T keyword = retrieveKeyword(keywords, command);
+        if (keyword != null) {
+            handleCommand(value, arguments, keyword);
+            return true;
+        }
+        return false;
+    }
+
+    private <S, T extends Keyword<S>> void handleCommand(S value, String[] arguments, T keyword) {
+        if (value == null) {
+            this.errorStream.println(ERROR_INVALID_PRECONDITION);
+            return;
+        }
+
+        Arguments argumentsHolder = new Arguments(this.graph, arguments);
+        Command<S> providedCommand;
+        try {
+            providedCommand = keyword.provide(argumentsHolder);
+        } catch (InvalidArgumentException e) {
+            this.errorStream.println(ERROR_PREFIX + e.getMessage());
+            return;
+        }
+
+        if (!argumentsHolder.isExhausted()) {
+            this.errorStream.println(ERROR_TOO_MANY_ARGUMENTS);
+            return;
+        }
+
+        handleResult(providedCommand.execute(value));
+    }
+
+    private void handleResult(Result result) {
+        if (result.getMessage() == null) { // schau ob auch nur result.getMessage() == null reicht
+            return;
+        }
+
+        PrintStream outputStream = switch (result.getType()) {
+            case SUCCESS -> this.defaultStream;
+            case FAILURE -> this.errorStream;
+        };
+
+        outputStream.println((result.getType().equals(ResultType.FAILURE) ? ERROR_PREFIX : "")
+                + result.getMessage());
+    }
+
+    private static <T extends Keyword<?>> T retrieveKeyword(Collection<T> keywords, String command) {
+        for (T keyword : keywords) {
+            if (keyword.matches(command)) {
+                return keyword;
+            }
+        }
+        return null;
+    }
 }

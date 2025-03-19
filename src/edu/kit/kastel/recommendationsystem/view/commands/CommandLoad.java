@@ -7,7 +7,8 @@ public class CommandLoad implements Command<Communication> {
 
     @Override
     public Result execute(Communication handle) {
-        // TODO Auto-generated method stub
+        handle.setGraph(null);
+
         return null;
     }
 }

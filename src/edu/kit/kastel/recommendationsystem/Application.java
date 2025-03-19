@@ -9,7 +9,7 @@ import edu.kit.kastel.recommendationsystem.view.Communication;
  */
 public final class Application {
 
-    private static final String ERROR_MESSAGE_COMMAND_LINE_ARGUMENTS = "Error, no command line arguments expected.";
+    private static final String ERROR_MESSAGE_COMMAND_LINE_ARGUMENTS = "Error, one command line argument expected. (Path to Database.txt file)";
 
     private Application() {
         // utility class
@@ -17,15 +17,16 @@ public final class Application {
 
     /**
      * The entry point for the application. No command line arguments are expected.
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        if (args.length != 0) {
+        if (args.length != 1) {
             System.err.println(ERROR_MESSAGE_COMMAND_LINE_ARGUMENTS);
             return;
         }
-        
-        Communication cummunication = new Communication();
-        cummunication.toString();
+
+        Communication cummunication = new Communication(System.in, System.out, System.err);
+        System.out.print(cummunication.hashCode());
     }
 }
