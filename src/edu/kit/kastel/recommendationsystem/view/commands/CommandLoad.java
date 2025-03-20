@@ -1,5 +1,6 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,8 +29,8 @@ public class CommandLoad implements Command<Communication> {
             Graph graph = new DatabaseParser().parse(parseStringArray(this.dataBasePath));
             handle.setGraph(graph);
 
-            return Result.success();
-        } catch (DataParsException exception) {
+            return Result.success(createOutputString());
+        } catch (DataParsException | IOException exception) {
             return Result.error(exception.getMessage());
         }
     }
@@ -40,5 +41,14 @@ public class CommandLoad implements Command<Communication> {
         } catch (IOException | SecurityException exception) {
             throw new DataParsException(String.format(ERROR_READING_FILE, configFilePath));
         }
+    }
+
+    private String createOutputString() throws IOException {
+        try {
+            return Files.readString(this.dataBasePath);
+        } catch (IOException e) {
+            throw new IOException();
+        }
+
     }
 }
