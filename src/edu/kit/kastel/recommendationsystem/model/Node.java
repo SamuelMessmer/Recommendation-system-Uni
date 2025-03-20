@@ -4,6 +4,7 @@ public abstract class Node {
 
     protected final String name;
     private boolean isProduct;
+    private boolean isCategory;
 
     public Node(String name) {
         this.name = name;
@@ -21,6 +22,10 @@ public abstract class Node {
 
     public boolean isProduct() {
         return this.isProduct;
+    }
+
+    public boolean isCategory() {
+        return isCategory;
     }
 
     public String getName() {

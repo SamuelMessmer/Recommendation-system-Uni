@@ -4,6 +4,7 @@ import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.view.commands.Command;
 import edu.kit.kastel.recommendationsystem.view.commands.CommandAdd;
 import edu.kit.kastel.recommendationsystem.view.commands.CommandEdges;
+import edu.kit.kastel.recommendationsystem.view.commands.CommandExport;
 import edu.kit.kastel.recommendationsystem.view.commands.CommandNodes;
 import edu.kit.kastel.recommendationsystem.view.commands.CommandProvider;
 import edu.kit.kastel.recommendationsystem.view.commands.CommandRecommend;
@@ -26,13 +27,17 @@ public enum GraphKeyword implements Keyword<Graph> {
      */
     EDGES(arguments -> new CommandEdges()),
     /**
+     * The keyword for the {@link CommandExport export} command.
+     */
+    EXPORT(arguments -> new CommandExport()),
+    /**
      * The keyword for the {@link CommandNodes nodes} command.
      */
     NODES(arguments -> new CommandNodes()),
     /**
      * The keyword for the {@link CommandRecommend recommend} command.
      */
-    REDOMMEND(arguments -> new CommandRecommend()),
+    RECOMMEND(arguments -> new CommandRecommend()),
     /**
      * The keyword for the {@link CommandRemove remove} command.
      */
