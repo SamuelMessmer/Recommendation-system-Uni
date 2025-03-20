@@ -10,7 +10,8 @@ public class Product extends Node {
         this.name = lowerCase;
     }
 
+    @Override
     public String toString() {
-        return this.name + ", " + this.id;
+        return this.name + ":" + this.id;
     }
 }

@@ -18,4 +18,8 @@ public record Graph(
     public void addNode(Node newNode) {
         this.nodes.add(newNode);
     }
+
+    public boolean removeEdge(Edge edgeToRemove) {
+        return true;
+    }
 }

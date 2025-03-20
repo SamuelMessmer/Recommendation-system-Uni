@@ -13,6 +13,6 @@ public class Edge {
     }
 
     public String toString() {
-        return "from: " + this.startNode + " to: " + this.endNode + "Relationship: " + this.relationship;
+        return startNode.toString() + "-[" + relationship.toString() + "]->" + endNode;
     }
 }

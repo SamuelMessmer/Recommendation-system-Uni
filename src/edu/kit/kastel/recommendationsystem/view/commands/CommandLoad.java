@@ -24,7 +24,8 @@ public class CommandLoad implements Command<Communication> {
     @Override
     public Result execute(Communication handle) {
         try {
-            Graph graph = new DatabaseParser(readFile(this.dataBasePath)).parse();
+
+            Graph graph = new DatabaseParser().parse(parseStringArray(this.dataBasePath));
             handle.setGraph(graph);
 
             return Result.success();
@@ -33,7 +34,7 @@ public class CommandLoad implements Command<Communication> {
         }
     }
 
-    private static List<String> readFile(Path configFilePath) throws DataParsException {
+    private static List<String> parseStringArray(Path configFilePath) throws DataParsException {
         try {
             return Files.readAllLines(configFilePath);
         } catch (IOException | SecurityException exception) {

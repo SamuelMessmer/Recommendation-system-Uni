@@ -1,30 +1,44 @@
 package edu.kit.kastel.recommendationsystem.model;
 
 public enum RelationshipType {
-    CONTAINS(false),
-    CONTAINED_IN(false),
-    PART_OF(true),
-    HAS_PART(true),
-    SUCCESSOR_OF(true),
-    PREDECESSOR_OF(true);
+    CONTAINS("contains"),
+    CONTAINED_IN("contained-in"),
+    PART_OF("part-of"),
+    HAS_PART("has-part"),
+    SUCCESSOR_OF("successor-of"),
+    PREDECESSOR_OF("predecessor-of");
 
-    private final boolean productsOnly;
+    private final String representation;
 
-    RelationshipType(boolean productsOnly) {
-        this.productsOnly = productsOnly;
+    RelationshipType(String representation) {
+        this.representation = representation;
     }
 
-    public boolean requiresProducts() {
-        return productsOnly;
+    public RelationshipType getReverse() {
+        return switch (this) {
+            case CONTAINS -> CONTAINED_IN;
+            case CONTAINED_IN -> CONTAINS;
+            case PART_OF -> HAS_PART;
+            case HAS_PART -> PART_OF;
+            case SUCCESSOR_OF -> PREDECESSOR_OF;
+            case PREDECESSOR_OF -> SUCCESSOR_OF;
+        };
     }
 
-    public static RelationshipType fromString(String representation) {
-        for (RelationshipType type : values()) {
-            if(type.equals(representation)){
-                return type;
-            }
-        }
-        
-        return null;
+    public static RelationshipType fromString(String value) {
+        return switch (value.toLowerCase()) {
+            case "contains" -> CONTAINS;
+            case "contained-in" -> CONTAINED_IN;
+            case "part-of" -> PART_OF;
+            case "has-part" -> HAS_PART;
+            case "successor-of" -> SUCCESSOR_OF;
+            case "predecessor-of" -> PREDECESSOR_OF;
+            default -> throw new IllegalArgumentException();
+        };
+    }
+
+    @Override
+    public String toString() {
+        return this.representation;
     }
 }
