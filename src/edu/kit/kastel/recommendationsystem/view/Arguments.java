@@ -17,8 +17,8 @@ public class Arguments {
 
     private static final String CONFIG_FILE_EXTENSION = ".txt";
 
-    private static final String ERROR_INVALID_PATH_TO_CONFIG_FILE = "the provided path is not ";
-    private static final String ERROR_TOO_FEW_ARGUMENTS_PATH = "too few provided arguments for the path";
+    private static final String ERROR_INVALID_PATH_TO_DATABASE_FILE = "the provided path is not correct. Should end with .txt";
+    private static final String ERROR_TOO_FEW_ARGUMENTS_PATH = "too few provided arguments. Please provide the path";
 
     private final Graph graph;
     private String[] arguments;
@@ -59,15 +59,15 @@ public class Arguments {
         }
 
         String argument = retrieveArgument();
-        Path pathToConfigFile = Paths.get(argument);
+        Path databasePath = Paths.get(argument);
 
-        if (pathToConfigFile.endsWith(CONFIG_FILE_EXTENSION)
-                || !Files.isRegularFile(pathToConfigFile)
-                || !Files.isReadable(pathToConfigFile)) {
-            throw new InvalidArgumentException(ERROR_INVALID_PATH_TO_CONFIG_FILE);
+        if (databasePath.endsWith(CONFIG_FILE_EXTENSION)
+                || !Files.isRegularFile(databasePath)
+                || !Files.isReadable(databasePath)) {
+            throw new InvalidArgumentException(ERROR_INVALID_PATH_TO_DATABASE_FILE);
         }
 
-        return pathToConfigFile;
+        return databasePath;
     }
 
     /**

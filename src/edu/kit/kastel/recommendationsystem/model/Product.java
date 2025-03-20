@@ -2,17 +2,15 @@ package edu.kit.kastel.recommendationsystem.model;
 
 public class Product extends Node {
 
-    private final String name;
     private final int id;
+    private final String name;
 
     public Product(String lowerCase, int id) {
-        this.name = lowerCase;
         this.id = id;
-
-        //TODO Auto-generated constructor stub
+        this.name = lowerCase;
     }
 
     public String toString() {
-        return "Penis";
+        return this.name + ", " + this.id;
     }
 }

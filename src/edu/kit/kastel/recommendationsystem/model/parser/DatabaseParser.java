@@ -1,8 +1,11 @@
 package edu.kit.kastel.recommendationsystem.model.parser;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
 
 import edu.kit.kastel.recommendationsystem.model.Category;
 import edu.kit.kastel.recommendationsystem.model.Edge;
@@ -24,8 +27,10 @@ public class DatabaseParser {
     }
 
     public Graph parse() throws DataParsException {
-        Map<String, Node> nodes = new LinkedHashMap<>();
-        Map<String, Edge> edges = new LinkedHashMap<>();
+        List<Node> nodes = new ArrayList<>();
+        List<Edge> edges = new ArrayList<>();
+
+        Map<String, Node> mentionedNodes = new LinkedHashMap<>();
 
         for (String line : this.lines) {
             this.currentLine = line;
@@ -35,7 +40,17 @@ public class DatabaseParser {
             validateEndOfInput();
             validateSemantics(subject, predicate, object);
 
-            System.out.println("Erste Line geparsed..");
+            nodes.add(subject);
+            edges.add(new Edge(subject, object, predicate));
+            edges.add(new Edge(object, subject, predicate));
+            
+            mentionedNodes.put(object.toString(), object);
+        }
+
+        for (Node node : nodes) {
+            if (mentionedNodes.get(node.toString()) == null) {
+                throw new DataParsException("semantic Error");
+            }
         }
 
         return new Graph(nodes, edges);
@@ -82,8 +97,9 @@ public class DatabaseParser {
         while (position < currentLine.length() && isValidNameChar(currentLine.charAt(position))) {
             position++;
         }
-        if (currentTokenStart == position)
+        if (currentTokenStart == position) {
             throw new DataParsException("Expected name");
+        }
         return currentLine.substring(currentTokenStart, position);
     }
 
@@ -92,8 +108,9 @@ public class DatabaseParser {
         while (position < currentLine.length() && Character.isDigit(this.currentLine.charAt(position))) {
             position++;
         }
-        if (currentTokenStart == position)
+        if (currentTokenStart == position) {
             throw new DataParsException("Expected number");
+        }
         return Integer.parseInt(this.currentLine.substring(currentTokenStart, position));
     }
 
@@ -138,13 +155,14 @@ public class DatabaseParser {
     private void validateEndOfInput() throws DataParsException {
         skipWhitespace();
         if (position < this.currentLine.length()) {
-            throw new DataParsException("Unexpected characters at end of input");
+            throw new DataParsException("Unexpected characters at the end of a line");
         }
     }
 
     private void validateSemantics(Node subject, RelationshipType predicate, Node object) throws DataParsException {
-        // if (predicate.requiresProducts() && (!(subject instanceof Product) || !(object instanceof Product))) {
-        //     throw new DataParsException(predicate + " requires products");
+        // if (predicate.requiresProducts() && (!(subject instanceof Product) ||
+        // !(object instanceof Product))) {
+        // throw new DataParsException(predicate + " requires products");
         // }
     }
 

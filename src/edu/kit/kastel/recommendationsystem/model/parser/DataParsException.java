@@ -8,8 +8,6 @@ package edu.kit.kastel.recommendationsystem.model.parser;
  */
 public class DataParsException extends Exception {
 
-    private static final String ERROR_PREFIX = "Error, ";
-
     /**
      * Constructs a new exception with the specified detail message.
      * 
@@ -18,6 +16,6 @@ public class DataParsException extends Exception {
      *                         method.
      */
     public DataParsException(String exceptionMessage) {
-        super(String.format(ERROR_PREFIX, exceptionMessage));
+        super(String.format(exceptionMessage));
     }
 }

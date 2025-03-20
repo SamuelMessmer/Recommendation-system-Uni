@@ -103,8 +103,8 @@ public class Communication {
         Command<S> providedCommand;
         try {
             providedCommand = keyword.provide(argumentsHolder);
-        } catch (InvalidArgumentException e) {
-            this.errorStream.println(ERROR_PREFIX + e.getMessage());
+        } catch (InvalidArgumentException exception) {
+            this.errorStream.println(ERROR_PREFIX + exception.getMessage());
             return;
         }
 
@@ -117,7 +117,7 @@ public class Communication {
     }
 
     private void handleResult(Result result) {
-        if (result == null || result.getMessage() == null) { 
+        if (result == null) {
             return;
         }
 
@@ -126,8 +126,10 @@ public class Communication {
             case FAILURE -> this.errorStream;
         };
 
-        outputStream.println((result.getType().equals(ResultType.FAILURE) ? ERROR_PREFIX : "")
-                + result.getMessage());
+        if (result.getMessage() != null) {
+            outputStream.println((result.getType().equals(ResultType.FAILURE) ? ERROR_PREFIX : "")
+                    + result.getMessage());
+        }
     }
 
     private static <T extends Keyword<?>> T retrieveKeyword(Collection<T> keywords, String command) {

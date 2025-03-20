@@ -37,7 +37,7 @@ public class CommandLoad implements Command<Communication> {
         try {
             return Files.readAllLines(configFilePath);
         } catch (IOException | SecurityException exception) {
-            throw new DataParsException(String.format(ERROR_READING_FILE, exception.getMessage()));
+            throw new DataParsException(ERROR_READING_FILE);
         }
     }
 }

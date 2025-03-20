@@ -1,21 +1,21 @@
 package edu.kit.kastel.recommendationsystem.model;
 
-import java.util.Map;
+import java.util.List;
 
 public record Graph(
-        Map<String, Node> nodes,
-        Map<String, Edge> edges) {
+        List<Node> nodes,
+        List<Edge> edges) {
 
-    public Graph(Map<String, Node> nodes, Map<String, Edge> edges) {
+    public Graph(List<Node> nodes, List<Edge> edges) {
         this.nodes = nodes;
         this.edges = edges;
     }
 
     public void addEdge(Edge newEdge) {
-        this.edges.put(null, newEdge);
+        this.edges.add(newEdge);
     }
 
     public void addNode(Node newNode) {
-        this.nodes.put(null, newNode);
+        this.nodes.add(newNode);
     }
 }
