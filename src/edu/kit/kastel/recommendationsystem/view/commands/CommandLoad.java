@@ -17,7 +17,7 @@ public class CommandLoad implements Command<Communication> {
 
     private final Path dataBasePath;
 
-    public CommandLoad(Path dataBasePath) {
+    public CommandLoad(String databaseFlag, Path dataBasePath) {
         this.dataBasePath = dataBasePath;
     }
 

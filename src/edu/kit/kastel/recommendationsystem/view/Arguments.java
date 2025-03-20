@@ -16,9 +16,11 @@ import edu.kit.kastel.recommendationsystem.view.commands.Command;
 public class Arguments {
 
     private static final String CONFIG_FILE_EXTENSION = ".txt";
+    private static final String DATABASE_FLAG = "database";
 
-    private static final String ERROR_INVALID_PATH_TO_DATABASE_FILE = "the provided path is not incorrect";
+    private static final String ERROR_INVALID_PATH_TO_DATABASE_FILE = "the provided path is incorrect";
     private static final String ERROR_TOO_FEW_ARGUMENTS_PATH = "too few provided arguments. Please provide the path";
+    private static final String ERROR_MISSING_DATABASE_FLAG = "the second is missing. Should be: 'database'";
 
     private final Graph graph;
     private String[] arguments;
@@ -27,7 +29,7 @@ public class Arguments {
     /**
      * Constructs a new instance.
      * 
-     * @param graph      the game to retrieve tokens from
+     * @param graph     the game to retrieve tokens from
      * @param arguments the arguments to parse
      */
     public Arguments(Graph graph, String[] arguments) {
@@ -68,6 +70,16 @@ public class Arguments {
         }
 
         return databasePath;
+    }
+
+    public String parseDatabaseFlag() throws InvalidArgumentException {
+        String argument = retrieveArgument();
+
+        if (!argument.equals(DATABASE_FLAG)) {
+            throw new InvalidArgumentException(ERROR_MISSING_DATABASE_FLAG);
+        }
+
+        return DATABASE_FLAG;
     }
 
     /**
