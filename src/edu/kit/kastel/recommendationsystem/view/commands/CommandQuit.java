@@ -18,6 +18,7 @@ public class CommandQuit implements Command<Communication> {
      */
     @Override
     public Result execute(Communication handle) {
+        handle.stop();
         return null;
     }
 }

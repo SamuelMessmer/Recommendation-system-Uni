@@ -5,8 +5,4 @@ public abstract class Node {
     Edge getAllEdges() {
         return null;
     }
-
-    void isCategory() {
-
-    }
 }

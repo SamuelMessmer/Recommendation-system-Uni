@@ -15,7 +15,7 @@ public enum ViewKeyword implements Keyword<Communication> {
     /**
      * The keyword for the {@link CommandLoad load} command.
      */
-    LOAD(argumetns -> new CommandLoad()),
+    LOAD(argumetns -> new CommandLoad(argumetns.parsePath())),
      /**
      * The keyword for the {@link CommandQuit quit} command.
      */

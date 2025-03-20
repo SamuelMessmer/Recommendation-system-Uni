@@ -38,7 +38,7 @@ public class Communication {
      * Sets the graph instance that is provided by this class {@link Communication}
      * to its managed commands.
      * 
-     * @param game the graph instance to be provided to the commands
+     * @param graph the graph instance to be provided to the commands
      */
     public void setGraph(Graph graph) {
         this.graph = graph;
@@ -117,7 +117,7 @@ public class Communication {
     }
 
     private void handleResult(Result result) {
-        if (result.getMessage() == null) { // schau ob auch nur result.getMessage() == null reicht
+        if (result == null || result.getMessage() == null) { 
             return;
         }
 
