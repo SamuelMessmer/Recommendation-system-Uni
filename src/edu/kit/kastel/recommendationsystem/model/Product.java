@@ -3,15 +3,18 @@ package edu.kit.kastel.recommendationsystem.model;
 public class Product extends Node {
 
     private final int id;
-    private final String name;
 
-    public Product(String lowerCase, int id) {
+    public Product(String name, int id) {
+        super(name, true);
         this.id = id;
-        this.name = lowerCase;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
     public String toString() {
-        return this.name + ":" + this.id;
+        return name + ":" + this.id;
     }
 }

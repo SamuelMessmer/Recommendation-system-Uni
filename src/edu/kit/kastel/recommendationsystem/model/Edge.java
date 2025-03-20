@@ -12,6 +12,18 @@ public class Edge {
         this.relationship = relationship;
     }
 
+    public Node getStartNode() {
+        return startNode;
+    }
+
+    public Node getEndNode() {
+        return endNode;
+    }
+
+    public RelationshipType getRelationship() {
+        return relationship;
+    }
+
     public String toString() {
         return startNode.toString() + "-[" + relationship.toString() + "]->" + endNode;
     }

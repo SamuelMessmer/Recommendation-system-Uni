@@ -17,7 +17,7 @@ public class Arguments {
 
     private static final String CONFIG_FILE_EXTENSION = ".txt";
 
-    private static final String ERROR_INVALID_PATH_TO_DATABASE_FILE = "the provided path is not correct. Should end with .txt";
+    private static final String ERROR_INVALID_PATH_TO_DATABASE_FILE = "the provided path is not incorrect";
     private static final String ERROR_TOO_FEW_ARGUMENTS_PATH = "too few provided arguments. Please provide the path";
 
     private final Graph graph;
