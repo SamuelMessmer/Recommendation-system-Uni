@@ -1,6 +1,5 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,12 +24,11 @@ public class CommandLoad implements Command<Communication> {
     @Override
     public Result execute(Communication handle) {
         try {
-
-            Graph graph = new DatabaseParser().parse(parseStringArray(this.dataBasePath));
+            Graph graph = DatabaseParser.parse(parseStringArray(this.dataBasePath));
             handle.setGraph(graph);
 
             return Result.success(createOutputString());
-        } catch (DataParsException | IOException exception) {
+        } catch (DataParsException exception) {
             return Result.error(exception.getMessage());
         }
     }
@@ -43,11 +41,11 @@ public class CommandLoad implements Command<Communication> {
         }
     }
 
-    private String createOutputString() throws IOException {
+    private String createOutputString() throws DataParsException {
         try {
             return Files.readString(this.dataBasePath);
-        } catch (IOException e) {
-            throw new IOException();
+        } catch (IOException exception) {
+            throw new DataParsException(exception.getMessage());
         }
 
     }

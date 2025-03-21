@@ -24,8 +24,9 @@ public class CommandNodes implements Command<Graph> {
             @Override
             public int compare(Node n1, Node n2) {
                 int nameCompare = n1.getName().compareToIgnoreCase(n2.getName());
-                if (nameCompare != 0)
+                if (nameCompare != 0) {
                     return nameCompare;
+                }
 
                 if (n1.isProduct() && n2.isProduct()) {
                     return Integer.compare(
