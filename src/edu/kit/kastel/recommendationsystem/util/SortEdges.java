@@ -38,7 +38,10 @@ public final class SortEdges {
             }
 
             private int compareNodes(Node firstNode, Node secondNode) {
-                int nameCompare = firstNode.getName().compareToIgnoreCase(secondNode.getName());
+                // int nameCompare = firstNode.getName().compareToIgnoreCase(secondNode.getName());
+                String name1 = firstNode.getName().toLowerCase();
+                String name2 = secondNode.getName().toLowerCase();
+                int nameCompare = name1.compareTo(name2);
                 if (nameCompare != 0) {
                     return nameCompare;
                 }
