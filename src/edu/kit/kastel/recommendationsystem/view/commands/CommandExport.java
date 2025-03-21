@@ -61,8 +61,7 @@ public class CommandExport implements Command<Graph> {
         String target = edge.getEndNode().getName();
         String label = formatRelationship(edge.getRelationship());
 
-        output.append("  ")
-                .append(source)
+        output.append(source)
                 .append(" -> ")
                 .append(target)
                 .append(" [label=")
