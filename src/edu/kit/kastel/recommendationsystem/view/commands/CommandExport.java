@@ -13,6 +13,7 @@ import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
 import edu.kit.kastel.recommendationsystem.model.Product;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
+import edu.kit.kastel.recommendationsystem.util.SortEdges;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
 public class CommandExport implements Command<Graph> {
@@ -36,7 +37,7 @@ public class CommandExport implements Command<Graph> {
         Set<Category> categories = new HashSet<>();
 
         // Sort edges
-        edges.sort(new EdgeComparator());
+        SortEdges.sort(edges);
 
         // Process edges and collect categories
         for (Edge edge : edges) {
