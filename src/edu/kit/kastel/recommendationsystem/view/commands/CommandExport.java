@@ -57,8 +57,8 @@ public class CommandExport implements Command<Graph> {
 
     private void processEdge(Edge edge, StringBuilder output, Set<Category> categories) {
         // Add edge line
-        String source = formatNode(edge.getStartNode());
-        String target = formatNode(edge.getEndNode());
+        String source = edge.getStartNode().getName();
+        String target = edge.getEndNode().getName();
         String label = formatRelationship(edge.getRelationship());
 
         output.append("  ")
@@ -76,14 +76,6 @@ public class CommandExport implements Command<Graph> {
         if (edge.getEndNode().isCategory()) {
             categories.add((Category) edge.getEndNode());
         }
-    }
-
-    private String formatNode(Node node) {
-        if (node instanceof Product) {
-            Product product = (Product) node;
-            return product.getName().toLowerCase() + ":" + product.getId();
-        }
-        return node.getName().toLowerCase();
     }
 
     private String formatRelationship(RelationshipType relationship) {
