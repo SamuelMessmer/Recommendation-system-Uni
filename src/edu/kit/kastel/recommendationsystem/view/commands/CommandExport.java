@@ -18,7 +18,9 @@ import edu.kit.kastel.recommendationsystem.view.Result;
 
 public class CommandExport implements Command<Graph> {
 
-    // Predicate order as specified in A.2.2
+    private static final String DIGRAPH_START_SYMBOL = "digraph {";
+    private static final String DIGRAPH_END_SYMBOL = "}";
+    private static final String CATEGORY_IDENTIFIER_STRING = " [shape=box]";
     private static final List<RelationshipType> PREDICATE_ORDER = Arrays.asList(
             RelationshipType.CONTAINS,
             RelationshipType.CONTAINED_IN,
@@ -30,34 +32,32 @@ public class CommandExport implements Command<Graph> {
     @Override
     public Result execute(Graph graph) {
         StringBuilder output = new StringBuilder();
-        output.append("digraph {\n");
+        output.append(DIGRAPH_START_SYMBOL).append(System.lineSeparator());
 
-        // Collect edges and categories
         List<Edge> edges = new ArrayList<>(graph.edges());
         Set<Category> categories = new HashSet<>();
 
-        // Sort edges
         SortEdges.sort(edges);
 
-        // Process edges and collect categories
         for (Edge edge : edges) {
             processEdge(edge, output, categories);
         }
 
-        // Sort and process categories
+        // Ist das überhaupt notwendig
         List<Category> sortedCategories = new ArrayList<>(categories);
         sortedCategories.sort(new CategoryComparator());
 
         for (Category category : sortedCategories) {
-            output.append("  ").append(category.getName()).append(" [shape=box]\n");
+            output.append(category.getName())
+                    .append(CATEGORY_IDENTIFIER_STRING)
+                    .append(System.lineSeparator());
         }
 
-        output.append("}");
+        output.append(DIGRAPH_END_SYMBOL);
         return Result.success(output.toString());
     }
 
     private void processEdge(Edge edge, StringBuilder output, Set<Category> categories) {
-        // Add edge line
         String source = edge.getStartNode().getName().toLowerCase();
         String target = edge.getEndNode().getName().toLowerCase();
         String label = formatRelationship(edge.getRelationship());
@@ -79,7 +79,7 @@ public class CommandExport implements Command<Graph> {
     }
 
     private String formatRelationship(RelationshipType relationship) {
-        return relationship.toString().toLowerCase().replace("-", "");
+        return relationship.toString().toLowerCase().replace("-", " ");
     }
 
     // Comparator implementations

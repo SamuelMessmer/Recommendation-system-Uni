@@ -74,9 +74,9 @@ public class DatabaseParser {
 
     private static Node parseNode(String productName, String productId, String categoryName) throws DataParsException {
         if (productName == null) {
-            return new Category(categoryName);
+            return new Category(categoryName.toLowerCase());
         }
-        return new Product(productName, parseInt(productId));
+        return new Product(productName.toLowerCase(), parseInt(productId));
     }
 
     private static RelationshipType parsePredicate(String relationship) throws DataParsException {

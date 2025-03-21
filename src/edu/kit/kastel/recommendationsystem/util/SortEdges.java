@@ -21,34 +21,34 @@ public final class SortEdges {
     public static void sort(List<Edge> edges) {
         edges.sort(new Comparator<Edge>() {
             @Override
-            public int compare(Edge e1, Edge e2) {
-                int sourceCompare = compareNodes(e1.getStartNode(), e2.getStartNode());
+            public int compare(Edge firstEdge, Edge secondEdge) {
+                int sourceCompare = compareNodes(firstEdge.getStartNode(), secondEdge.getStartNode());
                 if (sourceCompare != 0) {
                     return sourceCompare;
                 }
 
-                int targetCompare = compareNodes(e1.getEndNode(), e2.getEndNode());
+                int targetCompare = compareNodes(firstEdge.getEndNode(), secondEdge.getEndNode());
                 if (targetCompare != 0) {
                     return targetCompare;
                 }
 
                 return Integer.compare(
-                        PREDICATE_ORDER.indexOf(e1.getRelationship()),
-                        PREDICATE_ORDER.indexOf(e2.getRelationship()));
+                        PREDICATE_ORDER.indexOf(firstEdge.getRelationship()),
+                        PREDICATE_ORDER.indexOf(secondEdge.getRelationship()));
             }
 
-            private int compareNodes(Node n1, Node n2) {
-                int nameCompare = n1.getName().compareToIgnoreCase(n2.getName());
+            private int compareNodes(Node firstNode, Node secondNode) {
+                int nameCompare = firstNode.getName().compareToIgnoreCase(secondNode.getName());
                 if (nameCompare != 0) {
                     return nameCompare;
                 }
 
-                if (n1.isProduct() && n2.isProduct()) {
+                if (firstNode.isProduct() && secondNode.isProduct()) {
                     return Integer.compare(
-                            ((Product) n1).getId(),
-                            ((Product) n2).getId());
+                            ((Product) firstNode).getId(),
+                            ((Product) secondNode).getId());
                 }
-                return n1.isProduct() ? -1 : 1;
+                return firstNode.isProduct() ? -1 : 1;
             }
         });
     }
