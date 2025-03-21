@@ -79,7 +79,7 @@ public class CommandExport implements Command<Graph> {
     }
 
     private String formatRelationship(RelationshipType relationship) {
-        return relationship.toString().toLowerCase().replace("-", " ");
+        return relationship.toString().toLowerCase().replace("-", "");
     }
 
     // Comparator implementations
