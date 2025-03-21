@@ -58,8 +58,8 @@ public class CommandExport implements Command<Graph> {
 
     private void processEdge(Edge edge, StringBuilder output, Set<Category> categories) {
         // Add edge line
-        String source = edge.getStartNode().getName();
-        String target = edge.getEndNode().getName();
+        String source = edge.getStartNode().getName().toLowerCase();
+        String target = edge.getEndNode().getName().toLowerCase();
         String label = formatRelationship(edge.getRelationship());
 
         output.append(source)
