@@ -1,7 +1,7 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +25,7 @@ public class CommandExport implements Command<Graph> {
         output.append(DIGRAPH_START_SYMBOL).append(System.lineSeparator());
 
         List<Edge> edges = new ArrayList<>(graph.edges());
-        Set<String> categories = new HashSet<>();
+        Set<String> categories = new LinkedHashSet<>();
 
         SortEdges.sort(edges);
 
