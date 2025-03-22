@@ -21,10 +21,10 @@ public class CommandEdges implements Command<Graph> {
 
         SortEdges.sort(edges); 
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder output = new StringBuilder();
         for (Edge edge : edges) {
-            sb.append(edge.toString()).append(System.lineSeparator());
+            output.append(edge.toString()).append(System.lineSeparator());
         }
-        return sb.toString().trim();
+        return output.toString().trim();
     }
 }

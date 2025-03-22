@@ -1,7 +1,6 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import edu.kit.kastel.recommendationsystem.model.DTO;
 import edu.kit.kastel.recommendationsystem.model.Edge;
@@ -23,23 +22,16 @@ public class CommandAdd implements Command<Graph> {
     }
 
     @Override
-    public Result execute(Graph handle) {
-        List<Edge> edges = new ArrayList<>();
-        edges.addAll(handle.getEdges());
+    public Result execute(Graph graph) {
+        Set<Edge> edges = graph.getEdges();
+        Edge newEdge = new Edge(this.subject, this.object, this.predicate);
 
-        for (Edge edge : edges) {
-            String subjectName = edge.getStartNode().getName();
-            String objectName = edge.getEndNode().getName();
-
-            if (subjectName.equals(this.subject.getName())
-                    && objectName.equals(this.object.getName())
-                    && edge.getRelationship() == this.predicate) {
-                return Result.error("Edge is already existing");
-            }
+        if (edges.contains(newEdge)) {
+            return Result.error("already exists");
         }
 
-        Edge newEdge = new Edge(this.subject, this.object, this.predicate);
-        edges.add(newEdge);
+        graph.addEdge(newEdge);
+        graph.addNodes(this.object, this.subject);
         return Result.success();
     }
 

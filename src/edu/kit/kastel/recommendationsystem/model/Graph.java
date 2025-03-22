@@ -27,7 +27,7 @@ public class Graph {
         return true;
     }
 
-    public boolean addNode(Node newNode) {
+    public boolean addNodes(Node newNode, Node secondNode) {
         if (!nodes.contains(newNode)) {
             nodes.add(newNode);
             return true;

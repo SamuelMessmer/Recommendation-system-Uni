@@ -28,17 +28,17 @@ public class CommandExport implements Command<Graph> {
     public Result execute(Graph graph) {
         List<Edge> edges = new ArrayList<>(graph.getEdges());
         SortEdges.sort(edges);
-        
+
         StringBuilder output = new StringBuilder();
-        
+
         output.append(DIGRAPH_START_SYMBOL).append(System.lineSeparator());
-        createOutputString(edges, output);
+        buildOutputString(edges, output);
         output.append(DIGRAPH_END_SYMBOL);
 
         return Result.success(output.toString());
     }
 
-    private static void createOutputString(List<Edge> edges, StringBuilder output) {
+    private static void buildOutputString(List<Edge> edges, StringBuilder output) {
         Set<String> categories = new LinkedHashSet<>();
 
         for (Edge edge : edges) {

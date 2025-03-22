@@ -23,39 +23,15 @@ public class CommandRemove implements Command<Graph> {
     }
 
     @Override
-    public Result execute(Graph handle) {
-        Edge comperatorEdge = new Edge(subject, object, predicate);
+    public Result execute(Graph graph) {
+        List<Edge> edges = new ArrayList<>(graph.getEdges());
+        Edge comperatorEdge = new Edge(this.subject, this.object, this.predicate);
 
-        List<Edge> edges = new ArrayList<>();
-        edges.addAll(handle.getEdges());
-
-        List<Node> nodes = new ArrayList<>();
-        nodes.addAll(handle.getNodes());
-
-        for (Edge edge : edges) {
-            String subjectName = edge.getStartNode().getName();
-            String objectName = edge.getEndNode().getName();
-
-            if (subjectName.equals(this.subject.getName())
-                    && objectName.equals(this.object.getName())
-                    && edge.getRelationship() == this.predicate) {
-                handle.getEdges().remove(edge);
-                removeNode(nodes);
-                return Result.success();
-            }
+        if (!edges.contains(comperatorEdge)) {
+            return Result.error("Edge was not found");
         }
 
-        return Result.error("Edge was not found");
-    }
-
-    private void removeNode(List<Node> nodes) {
-        for (Node node : nodes) {
-            String nodeName = node.getName();
-
-            if (nodeName.equals(this.subject.getName())) {
-                int nodeIndex = nodes.indexOf(node);
-                nodes.remove(nodeIndex);
-            }
-        }
+        graph.removeEdge();
+        return Result.success();
     }
 }
