@@ -48,7 +48,6 @@ public class CommandExport implements Command<Graph> {
 
         if (edge.getStartNode().isCategory()) {
             categories.add(edge.getStartNode().getName());
-            return;
         }
 
         output.append(source)

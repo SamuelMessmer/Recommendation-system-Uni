@@ -22,19 +22,16 @@ public final class SortEdges {
         edges.sort(new Comparator<Edge>() {
             @Override
             public int compare(Edge firstEdge, Edge secondEdge) {
-                // Compare start nodes using compareNodes (name, type, ID)
                 int sourceCompare = compareNodes(firstEdge.getStartNode(), secondEdge.getStartNode());
                 if (sourceCompare != 0) {
                     return sourceCompare;
                 }
-
-                // Compare end nodes strictly by name (case-insensitive)
+                
                 int targetCompare = compareNodes(firstEdge.getEndNode(), secondEdge.getEndNode());
                 if (targetCompare != 0) {
                     return targetCompare;
                 }
 
-                // If end nodes are the same, compare relationship types
                 int typeCompare = Integer.compare(
                         RELATIONSHIP_ORDER.indexOf(firstEdge.getRelationship()),
                         RELATIONSHIP_ORDER.indexOf(secondEdge.getRelationship()));
