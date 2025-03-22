@@ -26,6 +26,7 @@ public class CommandRemove implements Command<Graph> {
         Edge comperatorEdge = new Edge(subject, object, predicate);
 
         List<Edge> edges = handle.edges();
+        List<Node> nodes = handle.nodes();
 
         for (Edge edge : edges) {
             String subjectName = edge.getStartNode().getName();
@@ -36,6 +37,16 @@ public class CommandRemove implements Command<Graph> {
                     && edge.getRelationship() == this.predicate) {
                 int edgeIndex = handle.edges().indexOf(edge);
                 handle.edges().remove(edgeIndex);
+                return Result.success();
+            }
+        }
+
+        for (Node node : nodes) {
+            String nodeName = node.getName();
+
+            if (nodeName.equals(this.subject.getName())) {
+                int nodeIndex = handle.nodes().indexOf(node);
+                handle.nodes().remove(nodeIndex);
                 return Result.success();
             }
         }
