@@ -42,12 +42,12 @@ public abstract class Node {
         if (!(o instanceof Node node)) {
             return false;
         }
-        return name.equals(node.name) && type == node.type;
+        return name.equals(node.name) && this.type == node.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type);
+        return Objects.hash(this.name, this.type);
     }
 
     @Override

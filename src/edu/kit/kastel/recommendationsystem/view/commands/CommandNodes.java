@@ -3,6 +3,7 @@ package edu.kit.kastel.recommendationsystem.view.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
 import edu.kit.kastel.recommendationsystem.util.SortNodes;

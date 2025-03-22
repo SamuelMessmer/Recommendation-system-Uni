@@ -32,9 +32,9 @@ public class DatabaseParser {
 
             validateSemantics(dto, nodes, edges);
 
-            nodes.add(dto.subject());
-            nodes.add(dto.object());
-            addEdge(dto, edges);
+            Node subject = addNode(dto.subject(), nodes);
+            Node object = addNode(dto.object(), nodes);
+            addEdge(subject, object, dto.predicate(), edges);
         }
 
         return new Graph(nodes, edges);
@@ -57,13 +57,27 @@ public class DatabaseParser {
         return true;
     }
 
-    private static void addEdge(DTO dto, Set<Edge> edges) {
-        Edge newEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
-        edges.add(newEdge);
-        dto.subject().addEdge(newEdge);
+    private static Node addNode(Node newNode, Set<Node> nodes) {
+        if (!nodes.contains(newNode)) {
+            nodes.add(newNode);
+            return newNode;
+        } else {
+            for (Node node : nodes) {
+                if (newNode.equals(node)) {
+                    return node;
+                }
+            }
+        }
+        return null;
+    }
 
-        Edge secondNewEdge = new Edge(dto.object(), dto.subject(), dto.predicate().getReverse());
+    private static void addEdge(Node subject, Node object, RelationshipType predicate, Set<Edge> edges) {
+        Edge newEdge = new Edge(subject, object, predicate);
+        edges.add(newEdge);
+        subject.addEdge(newEdge);
+
+        Edge secondNewEdge = new Edge(object, subject, predicate.getReverse());
         edges.add(secondNewEdge);
-        dto.object().addEdge(secondNewEdge);
+        object.addEdge(secondNewEdge);
     }
 }
