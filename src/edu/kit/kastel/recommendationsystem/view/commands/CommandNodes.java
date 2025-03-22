@@ -20,13 +20,13 @@ public class CommandNodes implements Command<Graph> {
 
         SortNodes.sort(nodes);
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder output = new StringBuilder();
         for (Node node : nodes) {
-            if (sb.length() == 0) {
-                sb.append(" ");
+            if (output.length() == 0) {
+                output.append(" ");
             }
-            sb.append(node.toString());
+            output.append(node.toString()).append(" ");
         }
-        return sb.toString().trim();
+        return output.toString().trim();
     }
 }
