@@ -21,7 +21,7 @@ public enum GraphKeyword implements Keyword<Graph> {
     /**
      * The keyword for the {@link CommandAdd add} command.
      */
-    ADD(arguments -> new CommandAdd(arguments.parseRelationship())),
+    ADD(arguments -> new CommandAdd(arguments.parseLine())),
     /**
      * The keyword for the {@link CommandEdges edges} command.
      */
@@ -41,7 +41,7 @@ public enum GraphKeyword implements Keyword<Graph> {
     /**
      * The keyword for the {@link CommandRemove remove} command.
      */
-    REMOVE(arguments -> new CommandRemove());
+    REMOVE(arguments -> new CommandRemove(arguments.parseLine()));
 
     private final CommandProvider<Graph> provider;
 

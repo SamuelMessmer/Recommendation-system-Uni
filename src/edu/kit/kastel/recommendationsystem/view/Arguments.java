@@ -90,7 +90,7 @@ public class Arguments {
         return DATABASE_FLAG;
     }
 
-    public DTO parseRelationship() throws InvalidArgumentException {
+    public DTO parseLine() throws InvalidArgumentException {
         if (isExhausted()) {
             throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
         }

@@ -10,16 +10,4 @@ public record Graph(
         this.nodes = nodes;
         this.edges = edges;
     }
-
-    public void addEdge(Edge newEdge) {
-        this.edges.add(newEdge);
-    }
-
-    public void addNode(Node newNode) {
-        this.nodes.add(newNode);
-    }
-
-    public boolean removeEdge(Edge edgeToRemove) {
-        return true;
-    }
 }
