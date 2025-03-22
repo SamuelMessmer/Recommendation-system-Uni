@@ -29,8 +29,7 @@ public final class SortEdges {
                 }
 
                 // Compare end nodes strictly by name (case-insensitive)
-                int targetCompare = firstEdge.getEndNode().getName()
-                        .compareToIgnoreCase(secondEdge.getEndNode().getName());
+                int targetCompare = compareNodes(firstEdge.getEndNode(), secondEdge.getEndNode());
                 if (targetCompare != 0) {
                     return targetCompare;
                 }
@@ -44,22 +43,7 @@ public final class SortEdges {
             }
 
             private int compareNodes(Node firstNode, Node secondNode) {
-                // Existing logic for start nodes (name, type, ID)
-                int nameCompare = firstNode.getName().compareToIgnoreCase(secondNode.getName());
-                if (nameCompare != 0) {
-                    return nameCompare;
-                }
-
-                if (firstNode.isCategory() && secondNode.isCategory()) {
-                    return 0;
-                }
-
-                if (firstNode.isProduct() && secondNode.isProduct()) {
-                    return Integer.compare(
-                            ((Product) firstNode).getId(),
-                            ((Product) secondNode).getId());
-                }
-                return firstNode.isProduct() ? -1 : 1;
+                return firstNode.getName().compareToIgnoreCase(secondNode.getName());
             }
         });
     }
