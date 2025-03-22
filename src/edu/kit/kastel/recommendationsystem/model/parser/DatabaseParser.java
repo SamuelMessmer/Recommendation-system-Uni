@@ -22,7 +22,6 @@ public class DatabaseParser {
             DTO dto = LineParser.parse(line);
 
             nodes.add(dto.subject());
-            nodes.add(dto.object());
             edges.add(new Edge(dto.subject(), dto.object(), dto.predicate()));
             edges.add(new Edge(dto.object(), dto.subject(), dto.predicate().getReverse()));
         }

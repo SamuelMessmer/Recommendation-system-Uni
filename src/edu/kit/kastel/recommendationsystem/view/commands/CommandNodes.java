@@ -10,6 +10,9 @@ import edu.kit.kastel.recommendationsystem.view.Result;
 
 public class CommandNodes implements Command<Graph> {
 
+    private static final String EMPTY_NODES_OUTPUT = " ";
+    
+
     @Override
     public Result execute(Graph handle) {
         return Result.success(createOutputString(handle));
