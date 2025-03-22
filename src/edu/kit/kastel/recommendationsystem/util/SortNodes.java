@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.NodeType;
 import edu.kit.kastel.recommendationsystem.model.Product;
 
 public final class SortNodes {
@@ -17,13 +18,13 @@ public final class SortNodes {
                     return nameCompare;
                 }
 
-                if (n1.isProduct() && n2.isProduct()) {
+                if (n1.isOfType(NodeType.PRODUCT) && n2.isOfType(NodeType.PRODUCT)) {
                     return Integer.compare(
                             ((Product) n1).getId(),
                             ((Product) n2).getId());
                 }
                 // Produkte kommen vor Kategorien bei gleichem Namen
-                return n1.isProduct() ? -1 : 1;
+                return n1.isOfType(NodeType.PRODUCT) ? -1 : 1;
             }
         });
     }

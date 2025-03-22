@@ -1,42 +1,52 @@
 package edu.kit.kastel.recommendationsystem.model;
 
+import java.util.List;
+import java.util.Objects;
+
 public abstract class Node {
 
     protected final String name;
-    private boolean isProduct;
-    private boolean isCategory;
+    protected final NodeType type;
 
-    public Node(String name) {
+    private List<Edge> edges;
+
+    public Node(String name, NodeType type) {
         this.name = name;
-        this.isProduct = false;
-        this.isCategory = false;
+        this.type = type;
     }
 
-    public Node(String name, boolean isProducti, boolean isCategory) {
+    public Node(String name, NodeType type, List<Edge> edges) {
         this.name = name;
-        this.isProduct = isProduct;
-        this.isCategory = isCategory;
-    }
-
-    public Edge getAllEdges() {
-        return null;
-    }
-
-    public boolean isProduct() {
-        return this.isProduct;
-    }
-
-    public boolean isCategory() {
-        return isCategory;
+        this.type = type;
+        this.edges = edges;
     }
 
     public String getName() {
-        return name;
+        return this.name;
+    }
+
+    public boolean isOfType(NodeType type) {
+        return this.type == type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Node node)) {
+            return false;
+        }
+        return name.equals(node.name) && type == node.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, type);
     }
 
     @Override
     public String toString() {
         return this.name;
     }
-
 }

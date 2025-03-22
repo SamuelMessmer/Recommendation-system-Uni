@@ -1,13 +1,42 @@
 package edu.kit.kastel.recommendationsystem.model;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-public record Graph(
-        List<Node> nodes,
-        List<Edge> edges) {
+public class Graph {
 
-    public Graph(List<Node> nodes, List<Edge> edges) {
-        this.nodes = nodes;
-        this.edges = edges;
+    private final Set<Node> nodes;
+    private final Set<Edge> edges;
+
+    public Graph(Set<Node> nodes, Set<Edge> edges) {
+        this.nodes = new HashSet<>(nodes);
+        this.edges = new HashSet<>(edges);
+    }
+
+    public Set<Edge> getEdges() {
+        return Collections.unmodifiableSet(this.edges);
+    }
+
+    public Set<Node> getNodes() {
+        return Collections.unmodifiableSet(this.nodes);
+    }
+
+    public boolean addEdge(Edge newEdge) {
+
+        return true;
+    }
+
+    public boolean addNode(Node newNode) {
+        if (!nodes.contains(newNode)) {
+            nodes.add(newNode);
+            return true;
+        }
+        return true;
+    }
+
+    public boolean removeEdge() {
+
+        return true;
     }
 }

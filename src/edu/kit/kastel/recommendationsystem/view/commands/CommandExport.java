@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
 import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.NodeType;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 import edu.kit.kastel.recommendationsystem.util.SortEdges;
 import edu.kit.kastel.recommendationsystem.view.Result;
@@ -25,7 +26,7 @@ public class CommandExport implements Command<Graph> {
 
     @Override
     public Result execute(Graph graph) {
-        List<Edge> edges = new ArrayList<>(graph.edges());
+        List<Edge> edges = new ArrayList<>(graph.getEdges());
         SortEdges.sort(edges);
         
         StringBuilder output = new StringBuilder();
@@ -44,7 +45,7 @@ public class CommandExport implements Command<Graph> {
             processEdge(edge, output, categories);
 
             Node startNode = edge.getStartNode();
-            if (startNode.isCategory()) {
+            if (startNode.isOfType(NodeType.CATEGORY)) {
                 categories.add(startNode.getName());
             }
         }

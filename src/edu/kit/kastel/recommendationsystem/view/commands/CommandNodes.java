@@ -1,6 +1,8 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import edu.kit.kastel.recommendationsystem.model.Graph;
@@ -19,16 +21,18 @@ public class CommandNodes implements Command<Graph> {
     }
 
     private String createOutputString(Graph graph) {
-        Set<String> nodes = new LinkedHashSet<>();
+        List<Node> nodes = new ArrayList<>();
+        nodes.addAll(graph.getNodes());
+        Set<String> nodeNames = new LinkedHashSet<>();
 
-        SortNodes.sort(graph.nodes());
+        SortNodes.sort(nodes);
 
-        for (Node node : graph.nodes()) {
-            nodes.add(node.toString());
+        for (Node node : graph.getNodes()) {
+            nodeNames.add(node.toString());
         }
 
         StringBuilder output = new StringBuilder();
-        for (String nodeString : nodes) {
+        for (String nodeString : nodeNames) {
             if (output.length() == 0) {
                 output.append(EMPTY_NODES_OUTPUT);
             }

@@ -1,5 +1,6 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.kit.kastel.recommendationsystem.model.DTO;
@@ -25,8 +26,11 @@ public class CommandRemove implements Command<Graph> {
     public Result execute(Graph handle) {
         Edge comperatorEdge = new Edge(subject, object, predicate);
 
-        List<Edge> edges = handle.edges();
-        List<Node> nodes = handle.nodes();
+        List<Edge> edges = new ArrayList<>();
+        edges.addAll(handle.getEdges());
+
+        List<Node> nodes = new ArrayList<>();
+        nodes.addAll(handle.getNodes());
 
         for (Edge edge : edges) {
             String subjectName = edge.getStartNode().getName();
@@ -35,8 +39,7 @@ public class CommandRemove implements Command<Graph> {
             if (subjectName.equals(this.subject.getName())
                     && objectName.equals(this.object.getName())
                     && edge.getRelationship() == this.predicate) {
-                int edgeIndex = handle.edges().indexOf(edge);
-                handle.edges().remove(edgeIndex);
+                handle.getEdges().remove(edge);
                 removeNode(nodes);
                 return Result.success();
             }
@@ -45,7 +48,7 @@ public class CommandRemove implements Command<Graph> {
         return Result.error("Edge was not found");
     }
 
-    private  void removeNode(List<Node> nodes) {
+    private void removeNode(List<Node> nodes) {
         for (Node node : nodes) {
             String nodeName = node.getName();
 

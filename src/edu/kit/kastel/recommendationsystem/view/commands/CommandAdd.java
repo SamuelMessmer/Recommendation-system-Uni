@@ -1,5 +1,6 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.kit.kastel.recommendationsystem.model.DTO;
@@ -23,7 +24,8 @@ public class CommandAdd implements Command<Graph> {
 
     @Override
     public Result execute(Graph handle) {
-        List<Edge> edges = handle.edges();
+        List<Edge> edges = new ArrayList<>();
+        edges.addAll(handle.getEdges());
 
         for (Edge edge : edges) {
             String subjectName = edge.getStartNode().getName();
