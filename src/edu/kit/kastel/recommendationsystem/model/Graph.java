@@ -22,21 +22,39 @@ public class Graph {
         return Collections.unmodifiableSet(this.nodes);
     }
 
-    public boolean addEdge(Edge newEdge) {
+    public boolean removeEdge(DTO dto) {
+        Edge removedEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
 
-        return true;
-    }
-
-    public boolean addNodes(Node newNode, Node secondNode) {
-        if (!nodes.contains(newNode)) {
-            nodes.add(newNode);
-            return true;
+        if (!edges.contains(removedEdge)) {
+            return false;
         }
+
+        edges.remove(removedEdge);
+        updateNodes(dto.subject(), dto.object());
         return true;
     }
 
-    public boolean removeEdge() {
+    public boolean addRelationship(DTO dto) {
+        Edge newEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
 
+        if (this.edges.contains(newEdge) || !this.nodes.contains(dto.subject()) || !this.nodes.contains(dto.object())) {
+            return false;
+        }
+
+        this.edges.add(newEdge);
+        this.edges.add(new Edge(dto.object(), dto.subject(), dto.predicate().getReverse()));
+        this.nodes.add(dto.object());
+        this.nodes.add(dto.subject());
         return true;
+    }
+
+    private void updateNodes(Node firstNode, Node secondNode) {
+        if (firstNode.getEdges().isEmpty()) {
+            this.nodes.remove(firstNode);
+        }
+
+        if (secondNode.getEdges().isEmpty()) {
+            this.nodes.remove(secondNode);
+        }
     }
 }

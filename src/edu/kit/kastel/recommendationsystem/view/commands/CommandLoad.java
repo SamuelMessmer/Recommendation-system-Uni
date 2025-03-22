@@ -33,11 +33,11 @@ public class CommandLoad implements Command<Communication> {
         }
     }
 
-    private static List<String> parseStringArray(Path configFilePath) throws DataParsException {
+    private static List<String> parseStringArray(Path pathToDataBaseFile) throws DataParsException {
         try {
-            return Files.readAllLines(configFilePath);
+            return Files.readAllLines(pathToDataBaseFile);
         } catch (IOException | SecurityException exception) {
-            throw new DataParsException(String.format(ERROR_READING_FILE, configFilePath));
+            throw new DataParsException(String.format(ERROR_READING_FILE, pathToDataBaseFile));
         }
     }
 

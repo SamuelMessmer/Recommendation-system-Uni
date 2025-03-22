@@ -1,8 +1,8 @@
 package edu.kit.kastel.recommendationsystem.model.parser;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.List;
+import java.util.HashSet;
 
 import edu.kit.kastel.recommendationsystem.model.DTO;
 import edu.kit.kastel.recommendationsystem.model.Edge;
@@ -12,6 +12,12 @@ import edu.kit.kastel.recommendationsystem.model.NodeType;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
 public class DatabaseParser {
+
+    private static final List<RelationshipType> RELATIONSHIPS_ONLY_FOR_PRODUCTS = List.of(
+            RelationshipType.PART_OF,
+            RelationshipType.HAS_PART,
+            RelationshipType.SUCCESSOR_OF,
+            RelationshipType.PREDECESSOR_OF);
 
     private DatabaseParser() {
         // Utility class
@@ -24,7 +30,7 @@ public class DatabaseParser {
         for (String line : lines) {
             DTO dto = LineParser.parse(line);
 
-            validateSemantics(dto);
+            validateSemantics(dto, nodes, edges);
 
             nodes.add(dto.subject());
             nodes.add(dto.object());
@@ -34,7 +40,7 @@ public class DatabaseParser {
         return new Graph(nodes, edges);
     }
 
-    private static boolean validateSemantics(DTO dto) {
+    private static boolean validateSemantics(DTO dto, Set<Node> nodes, Set<Edge> edges) {
         if (dto.subject() == dto.object()) {
             return false;
         }
@@ -44,17 +50,20 @@ public class DatabaseParser {
             return false;
         }
 
+        if (edges.contains(new Edge(dto.subject(), dto.object(), dto.predicate()))) {
+            return false;
+        }
+
         return true;
     }
 
     private static void addEdge(DTO dto, Set<Edge> edges) {
-        edges.add(new Edge(dto.subject(), dto.object(), dto.predicate()));
-        edges.add(new Edge(dto.object(), dto.subject(), dto.predicate().getReverse()));
-    }
+        Edge newEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
+        edges.add(newEdge);
+        dto.subject().addEdge(newEdge);
 
-    private static final List<RelationshipType> RELATIONSHIPS_ONLY_FOR_PRODUCTS = List.of(
-            RelationshipType.PART_OF,
-            RelationshipType.HAS_PART,
-            RelationshipType.SUCCESSOR_OF,
-            RelationshipType.PREDECESSOR_OF);
+        Edge secondNewEdge = new Edge(dto.object(), dto.subject(), dto.predicate().getReverse());
+        edges.add(secondNewEdge);
+        dto.object().addEdge(secondNewEdge);
+    }
 }

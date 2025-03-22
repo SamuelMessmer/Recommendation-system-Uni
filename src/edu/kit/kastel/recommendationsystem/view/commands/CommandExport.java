@@ -25,8 +25,8 @@ public class CommandExport implements Command<Graph> {
     private static final String PREDICATE_SEPERATOR_REPLACEMENT_STRING = "";
 
     @Override
-    public Result execute(Graph graph) {
-        List<Edge> edges = new ArrayList<>(graph.getEdges());
+    public Result execute(Graph handle) {
+        List<Edge> edges = new ArrayList<>(handle.getEdges());
         SortEdges.sort(edges);
 
         StringBuilder output = new StringBuilder();
@@ -39,26 +39,20 @@ public class CommandExport implements Command<Graph> {
     }
 
     private static void buildOutputString(List<Edge> edges, StringBuilder output) {
-        Set<String> categories = new LinkedHashSet<>();
+        Set<Node> categories = new LinkedHashSet<>();
 
         for (Edge edge : edges) {
-            processEdge(edge, output, categories);
+            processEdge(edge, output);
 
-            Node startNode = edge.getStartNode();
-            if (startNode.isOfType(NodeType.CATEGORY)) {
-                categories.add(startNode.getName());
+            if (edge.getStartNode().isOfType(NodeType.CATEGORY)) {
+                categories.add(edge.getStartNode());
             }
         }
 
-        for (String categoryName : categories) {
-            output.append(categoryName)
-                    .append(CATEGORY_IDENTIFIER_STRING)
-                    .append(System.lineSeparator());
-
-        }
+        processCategory(categories, output);
     }
 
-    private static void processEdge(Edge edge, StringBuilder output, Set<String> categories) {
+    private static void processEdge(Edge edge, StringBuilder output) {
         String source = edge.getStartNode().getName().toLowerCase();
         String target = edge.getEndNode().getName().toLowerCase();
         String label = formatRelationship(edge.getRelationship());
@@ -70,6 +64,15 @@ public class CommandExport implements Command<Graph> {
                 .append(label)
                 .append(LABEL_END_SYMBOL)
                 .append(System.lineSeparator());
+    }
+
+    private static void processCategory(Set<Node> categories, StringBuilder output) {
+        for (Node category : categories) {
+            output.append(category.getName())
+                    .append(CATEGORY_IDENTIFIER_STRING)
+                    .append(System.lineSeparator());
+
+        }
     }
 
     private static String formatRelationship(RelationshipType relationship) {

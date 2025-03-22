@@ -1,24 +1,21 @@
 package edu.kit.kastel.recommendationsystem.model;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class Node {
 
     protected final String name;
     protected final NodeType type;
 
-    private List<Edge> edges;
+    private Set<Edge> edges;
 
     public Node(String name, NodeType type) {
         this.name = name;
         this.type = type;
-    }
-
-    public Node(String name, NodeType type, List<Edge> edges) {
-        this.name = name;
-        this.type = type;
-        this.edges = edges;
+        this.edges = new HashSet<>();
     }
 
     public String getName() {
@@ -27,6 +24,14 @@ public abstract class Node {
 
     public boolean isOfType(NodeType type) {
         return this.type == type;
+    }
+
+    public Set<Edge> getEdges() {
+        return Collections.unmodifiableSet(this.edges);
+    }
+
+    public void addEdge(Edge newEdge) {
+        this.edges.add(newEdge);
     }
 
     @Override

@@ -16,9 +16,8 @@ public class CommandEdges implements Command<Graph> {
         return Result.success(createOutputString(handle));
     }
 
-    private String createOutputString(Graph graph) {
-        List<Edge> edges = new ArrayList<>(graph.getEdges());
-
+    private String createOutputString(Graph handle) {
+        List<Edge> edges = new ArrayList<>(handle.getEdges());
         SortEdges.sort(edges); 
 
         StringBuilder output = new StringBuilder();
