@@ -4,7 +4,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import edu.kit.kastel.recommendationsystem.model.DTO;
 import edu.kit.kastel.recommendationsystem.model.Graph;
+import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
+import edu.kit.kastel.recommendationsystem.model.parser.LineParser;
 import edu.kit.kastel.recommendationsystem.view.commands.Command;
 
 /**
@@ -17,9 +20,10 @@ public class Arguments {
 
     private static final String CONFIG_FILE_EXTENSION = ".txt";
     private static final String DATABASE_FLAG = "database";
+    private static final String INPUT_LINE_SEPERATOR = " ";
 
     private static final String ERROR_INVALID_PATH_TO_DATABASE_FILE = "the provided path is incorrect";
-    private static final String ERROR_TOO_FEW_ARGUMENTS_PATH = "too few provided arguments. Please provide the path";
+    private static final String ERROR_TOO_FEW_ARGUMENTS = "too few provided arguments.";
     private static final String ERROR_MISSING_DATABASE_FLAG = "the second is missing. Should be: 'database'";
 
     private final Graph graph;
@@ -57,7 +61,7 @@ public class Arguments {
      */
     public Path parsePath() throws InvalidArgumentException {
         if (isExhausted()) {
-            throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS_PATH);
+            throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
         }
 
         String argument = retrieveArgument();
@@ -73,6 +77,10 @@ public class Arguments {
     }
 
     public String parseDatabaseFlag() throws InvalidArgumentException {
+        if (isExhausted()) {
+            throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
+        }
+
         String argument = retrieveArgument();
 
         if (!argument.equals(DATABASE_FLAG)) {
@@ -80,6 +88,31 @@ public class Arguments {
         }
 
         return DATABASE_FLAG;
+    }
+
+    public DTO parseRelationship() throws InvalidArgumentException {
+        if (isExhausted()) {
+            throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
+        }
+
+        String line = retrieveLine();
+
+        try {
+            return LineParser.parse(line);
+        } catch (DataParsException exception) {
+            throw new InvalidArgumentException(exception.getMessage());
+        }
+    }
+
+    private String retrieveLine() {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < arguments.length; i++) {
+            String argumentString = retrieveArgument();
+            builder.append(argumentString).append(INPUT_LINE_SEPERATOR);
+        }
+
+        return builder.toString();
     }
 
     /**

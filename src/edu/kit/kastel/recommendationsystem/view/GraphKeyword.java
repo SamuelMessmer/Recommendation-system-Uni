@@ -21,7 +21,7 @@ public enum GraphKeyword implements Keyword<Graph> {
     /**
      * The keyword for the {@link CommandAdd add} command.
      */
-    ADD(arguments -> new CommandAdd()),
+    ADD(arguments -> new CommandAdd(arguments.parseRelationship())),
     /**
      * The keyword for the {@link CommandEdges edges} command.
      */
