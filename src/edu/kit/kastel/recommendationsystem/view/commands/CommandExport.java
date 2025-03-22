@@ -7,6 +7,7 @@ import java.util.Set;
 
 import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
+import edu.kit.kastel.recommendationsystem.model.Node;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 import edu.kit.kastel.recommendationsystem.util.SortEdges;
 import edu.kit.kastel.recommendationsystem.view.Result;
@@ -16,6 +17,7 @@ public class CommandExport implements Command<Graph> {
     private static final String DIGRAPH_START_SYMBOL = "digraph {";
     private static final String DIGRAPH_END_SYMBOL = "}";
     private static final String CATEGORY_IDENTIFIER_STRING = " [shape=box]";
+    private static final String EDGE_ARROW = " -> ";
 
     @Override
     public Result execute(Graph graph) {
@@ -29,12 +31,18 @@ public class CommandExport implements Command<Graph> {
 
         for (Edge edge : edges) {
             processEdge(edge, output, categories);
+
+            Node startNode = edge.getStartNode();
+            if (startNode.isCategory()) {
+                categories.add(startNode.getName());
+            }
         }
 
         for (String categoryName : categories) {
             output.append(categoryName)
                     .append(CATEGORY_IDENTIFIER_STRING)
                     .append(System.lineSeparator());
+
         }
 
         output.append(DIGRAPH_END_SYMBOL);
@@ -46,12 +54,8 @@ public class CommandExport implements Command<Graph> {
         String target = edge.getEndNode().getName().toLowerCase();
         String label = formatRelationship(edge.getRelationship());
 
-        if (edge.getStartNode().isCategory()) {
-            categories.add(edge.getStartNode().getName());
-        }
-
         output.append(source)
-                .append(" -> ")
+                .append(EDGE_ARROW)
                 .append(target)
                 .append(" [label=")
                 .append(label)
