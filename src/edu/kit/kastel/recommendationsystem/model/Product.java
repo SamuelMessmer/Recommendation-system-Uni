@@ -5,7 +5,7 @@ public class Product extends Node {
     private final int id;
 
     public Product(String name, int id) {
-        super(name, true);
+        super(name, true, false);
         this.id = id;
     }
 

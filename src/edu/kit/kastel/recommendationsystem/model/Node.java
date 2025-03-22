@@ -9,11 +9,13 @@ public abstract class Node {
     public Node(String name) {
         this.name = name;
         this.isProduct = false;
+        this.isCategory = false;
     }
 
-    public Node(String name, boolean isProduct) {
+    public Node(String name, boolean isProducti, boolean isCategory) {
         this.name = name;
         this.isProduct = isProduct;
+        this.isCategory = isCategory;
     }
 
     public Edge getAllEdges() {

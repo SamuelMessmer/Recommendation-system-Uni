@@ -39,6 +39,6 @@ public enum RelationshipType {
 
     @Override
     public String toString() {
-        return this.representation;
+        return this.representation.toString().toLowerCase().replace("-", "");
     }
 }

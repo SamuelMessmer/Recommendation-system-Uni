@@ -10,7 +10,7 @@ import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
 public final class SortEdges {
 
-    private static final List<RelationshipType> PREDICATE_ORDER = List.of(
+    private static final List<RelationshipType> RELATIONSHIP_ORDER = List.of(
             RelationshipType.CONTAINS,
             RelationshipType.CONTAINED_IN,
             RelationshipType.PART_OF,
@@ -22,28 +22,36 @@ public final class SortEdges {
         edges.sort(new Comparator<Edge>() {
             @Override
             public int compare(Edge firstEdge, Edge secondEdge) {
+                // Compare start nodes using compareNodes (name, type, ID)
                 int sourceCompare = compareNodes(firstEdge.getStartNode(), secondEdge.getStartNode());
                 if (sourceCompare != 0) {
                     return sourceCompare;
                 }
 
-                int targetCompare = compareNodes(firstEdge.getEndNode(), secondEdge.getEndNode());
+                // Compare end nodes strictly by name (case-insensitive)
+                int targetCompare = firstEdge.getEndNode().getName()
+                        .compareToIgnoreCase(secondEdge.getEndNode().getName());
                 if (targetCompare != 0) {
                     return targetCompare;
                 }
 
-                return Integer.compare(
-                        PREDICATE_ORDER.indexOf(firstEdge.getRelationship()),
-                        PREDICATE_ORDER.indexOf(secondEdge.getRelationship()));
+                // If end nodes are the same, compare relationship types
+                int typeCompare = Integer.compare(
+                        RELATIONSHIP_ORDER.indexOf(firstEdge.getRelationship()),
+                        RELATIONSHIP_ORDER.indexOf(secondEdge.getRelationship()));
+
+                return typeCompare;
             }
 
             private int compareNodes(Node firstNode, Node secondNode) {
-                // int nameCompare = firstNode.getName().compareToIgnoreCase(secondNode.getName());
-                String name1 = firstNode.getName().toLowerCase();
-                String name2 = secondNode.getName().toLowerCase();
-                int nameCompare = name1.compareTo(name2);
+                // Existing logic for start nodes (name, type, ID)
+                int nameCompare = firstNode.getName().compareToIgnoreCase(secondNode.getName());
                 if (nameCompare != 0) {
                     return nameCompare;
+                }
+
+                if (firstNode.isCategory() && secondNode.isCategory()) {
+                    return 0;
                 }
 
                 if (firstNode.isProduct() && secondNode.isProduct()) {
