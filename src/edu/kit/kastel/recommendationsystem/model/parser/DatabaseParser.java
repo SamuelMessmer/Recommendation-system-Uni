@@ -61,9 +61,11 @@ public class DatabaseParser {
         Edge newEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
         edges.add(newEdge);
         dto.subject().addEdge(newEdge);
+        dto.object().addEdge(newEdge);
 
         Edge secondNewEdge = new Edge(dto.object(), dto.subject(), dto.predicate().getReverse());
         edges.add(secondNewEdge);
+        dto.subject().addEdge(secondNewEdge);
         dto.object().addEdge(secondNewEdge);
     }
 }
