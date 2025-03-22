@@ -37,16 +37,7 @@ public class CommandRemove implements Command<Graph> {
                     && edge.getRelationship() == this.predicate) {
                 int edgeIndex = handle.edges().indexOf(edge);
                 handle.edges().remove(edgeIndex);
-                return Result.success();
-            }
-        }
-
-        for (Node node : nodes) {
-            String nodeName = node.getName();
-
-            if (nodeName.equals(this.subject.getName())) {
-                int nodeIndex = handle.nodes().indexOf(node);
-                handle.nodes().remove(nodeIndex);
+                removeNode(nodes);
                 return Result.success();
             }
         }
@@ -54,4 +45,14 @@ public class CommandRemove implements Command<Graph> {
         return Result.error("Edge was not found");
     }
 
+    private  void removeNode(List<Node> nodes) {
+        for (Node node : nodes) {
+            String nodeName = node.getName();
+
+            if (nodeName.equals(this.subject.getName())) {
+                int nodeIndex = nodes.indexOf(node);
+                nodes.remove(nodeIndex);
+            }
+        }
+    }
 }
