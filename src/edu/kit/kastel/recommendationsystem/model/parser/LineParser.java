@@ -9,10 +9,16 @@ import edu.kit.kastel.recommendationsystem.model.Product;
 import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
-public class LineParser {
-
-    private static final String ERROR_INVALID_STRING_PATTERN = "the given string does not match the provided pattern. line: %s";
-    private static final String ERROR_INVALID_PREDICATE = "the given predicate is incorrect %s";
+/**
+ * A utility class for parsing lines from a database file syntax into
+ * {@link RelationshipDTO} objects.
+ * This class uses regular expressions to validate and extract information from
+ * input lines, ensuring they conform to the expected format for relationships
+ * between nodes.
+ * 
+ * @author urrwg
+ */
+public final class LineParser {
 
     private static final String REGEX_GROUP_SUBJECT_PRODUCT = "subjectProduct";
     private static final String REGEX_GROUP_SUBJECT_ID = "subjectId";
@@ -34,10 +40,22 @@ public class LineParser {
                     + "(?<objectCategory>[a-zA-Z0-9]+)"
                     + ")\\s*$");
 
+    private static final String ERROR_INVALID_STRING_PATTERN = "the given string does not match the provided pattern. line: %s";
+    private static final String ERROR_INVALID_PREDICATE = "the given predicate is incorrect %s";
+
     private LineParser() {
         // Utility class
     }
 
+    /**
+     * Parses a line from the database file into a {@link RelationshipDTO} object.
+     * The line must conform to the expected format for relationships between nodes.
+     * 
+     * @param line the input line to parse
+     * @return a {@link RelationshipDTO} representing the parsed relationship
+     * @throws DataParsException if the line does not match the expected format or
+     *                           contains invalid data
+     */
     public static RelationshipDTO parse(String line) throws DataParsException {
         Matcher matcher = REGEX_LINE_PATTERN.matcher(line);
 

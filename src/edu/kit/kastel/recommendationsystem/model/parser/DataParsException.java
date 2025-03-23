@@ -11,7 +11,7 @@ public class DataParsException extends Exception {
     /**
      * Constructs a new exception with the specified detail message.
      * 
-     * @param exceptionMessage the detail message. The detail message is saved for
+     * @param exceptionMessage the detailed message. The detail message is saved for
      *                         later retrieval by the {@link Throwable#getMessage()}
      *                         method.
      */

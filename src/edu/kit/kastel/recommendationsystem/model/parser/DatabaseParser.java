@@ -20,6 +20,9 @@ import edu.kit.kastel.recommendationsystem.model.RelationshipType;
  */
 public final class DatabaseParser {
 
+    private static final String ERROR_INVALID_RELATIONSHIP_PARTNER = "Self-reference not allowed";
+    private static final String ERROR_ALREADY_EXISTING_EDGE = "Duplicate edge detected";
+
     private DatabaseParser() {
         // Utility class
     }
@@ -87,14 +90,14 @@ public final class DatabaseParser {
 
         private static void validateNoSelfReference(RelationshipDTO relationship) throws DataParsException {
             if (relationship.subject().equals(relationship.object())) {
-                throw new DataParsException("Self-reference not allowed");
+                throw new DataParsException(ERROR_INVALID_RELATIONSHIP_PARTNER);
             }
         }
 
         private static void validateExistingEdges(RelationshipDTO relationship, Set<Node> nodes)
                 throws DataParsException {
             if (edgeExists(relationship, nodes)) {
-                throw new DataParsException("Duplicate edge detected");
+                throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
             }
         }
 

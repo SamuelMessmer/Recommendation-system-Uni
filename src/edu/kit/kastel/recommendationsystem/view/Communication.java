@@ -11,6 +11,13 @@ import java.util.Set;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.view.commands.Command;
 
+/**
+ * Handles user input and command execution for the recommendation system.
+ * This class reads input from a provided source, processes commands, and
+ * executes them on the managed graph instance.
+ * 
+ * @author urrwg
+ */
 public class Communication {
 
     private static final String COMMAND_SEPARATOR = " ";
@@ -28,6 +35,13 @@ public class Communication {
     private Graph graph;
     private boolean isRunning;
 
+    /**
+     * Constructs a new Communication instance.
+     *
+     * @param inputSource   the input stream used to read user commands
+     * @param defaultStream the output stream used for standard messages
+     * @param errorStream   the output stream used for error messages
+     */
     public Communication(InputStream inputSource, PrintStream defaultStream, PrintStream errorStream) {
         this.inputSource = inputSource;
         this.defaultStream = defaultStream;

@@ -78,6 +78,12 @@ public class Arguments {
         return databasePath;
     }
 
+    /**
+     * Parses the database flag from the arguments.
+     * 
+     * @return the validated database flag
+     * @throws InvalidArgumentException if the flag is missing or incorrect
+     */
     public String parseDatabaseFlag() throws InvalidArgumentException {
         if (isExhausted()) {
             throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
@@ -92,6 +98,12 @@ public class Arguments {
         return DATABASE_FLAG;
     }
 
+    /**
+     * Parses a relationship from a command-line input line.
+     * 
+     * @return the parsed {@link RelationshipDTO}
+     * @throws InvalidArgumentException if the line cannot be parsed or is invalid
+     */
     public RelationshipDTO parseLine() throws InvalidArgumentException {
         if (isExhausted()) {
             throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
@@ -105,6 +117,22 @@ public class Arguments {
         } catch (DataParsException exception) {
             throw new InvalidArgumentException(exception.getMessage());
         }
+    }
+
+    /**
+     * Constructs a single input line from the provided arguments.
+     * 
+     * @return the combined input line
+     */
+    public String retrieveLine() {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < arguments.length; i++) {
+            String argumentString = retrieveArgument();
+            builder.append(argumentString).append(INPUT_LINE_SEPERATOR);
+        }
+
+        return builder.toString();
     }
 
     private RelationshipDTO processDTO(RelationshipDTO relationship) throws DataParsException {
@@ -124,17 +152,6 @@ public class Arguments {
         }
         nodes.add(node);
         return node;
-    }
-
-    public String retrieveLine() {
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < arguments.length; i++) {
-            String argumentString = retrieveArgument();
-            builder.append(argumentString).append(INPUT_LINE_SEPERATOR);
-        }
-
-        return builder.toString();
     }
 
     /**
