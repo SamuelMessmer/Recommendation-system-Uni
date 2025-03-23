@@ -60,6 +60,11 @@ public class Graph {
         return null;
     }
 
+    /**
+     * Adds a new Node to the graph.
+     * 
+     * @param newNode the node to be added
+     */
     public void addNode(Node newNode) {
         this.nodes.add(newNode);
     }
