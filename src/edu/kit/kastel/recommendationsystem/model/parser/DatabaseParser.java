@@ -120,7 +120,8 @@ public final class DatabaseParser {
         private static boolean edgeExists(RelationshipDTO relationship, Set<Node> nodes) {
             for (Node node : nodes) {
                 for (Edge edge : node.getEdges()) {
-                    if (edge.equals(relationship.edge())) {
+                    if (edge.equals(
+                            new Edge(relationship.subject(), relationship.object(), relationship.predicate()))) {
                         return true;
                     }
                 }
