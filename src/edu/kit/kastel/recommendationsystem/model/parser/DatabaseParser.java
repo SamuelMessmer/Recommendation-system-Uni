@@ -10,12 +10,27 @@ import edu.kit.kastel.recommendationsystem.model.Node;
 import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
+/**
+ * Utility class for parsing database input and constructing a graph
+ * representation.
+ * This class processes lines of input, validates relationships, and creates
+ * nodes and edges.
+ * 
+ * @author urrwg
+ */
 public final class DatabaseParser {
 
     private DatabaseParser() {
         // Utility class
     }
 
+    /**
+     * Parses a list of input lines and constructs a graph representation.
+     * 
+     * @param lines the list of input lines representing relationships
+     * @return the constructed graph
+     * @throws DataParsException if parsing or validation fails
+     */
     public static Graph parse(List<String> lines) throws DataParsException {
         final Set<Node> nodes = new HashSet<>();
         final Set<Edge> edges = new HashSet<>();

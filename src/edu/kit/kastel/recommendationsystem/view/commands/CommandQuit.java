@@ -8,6 +8,7 @@ import edu.kit.kastel.recommendationsystem.view.Communication;
  * interface. No arguments are expected.
  * 
  * @author Programmieren-Team
+ * @author urrwg
  */
 public class CommandQuit implements Command<Communication> {
 

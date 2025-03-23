@@ -3,13 +3,17 @@ package edu.kit.kastel.recommendationsystem.view.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
-import edu.kit.kastel.recommendationsystem.util.SortEdges;
 import edu.kit.kastel.recommendationsystem.util.SortNodes;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
+/**
+ * Command implementation for listing all nodes in the graph.
+ * Outputs nodes sorted alphabetically by name, with products formatted as name:id.
+ * 
+ * @author urrwg
+ */
 public class CommandNodes implements Command<Graph> {
 
     private static final String EMPTY_NODES_OUTPUT = " ";

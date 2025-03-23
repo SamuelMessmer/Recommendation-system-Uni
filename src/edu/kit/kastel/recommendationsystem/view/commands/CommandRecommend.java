@@ -11,12 +11,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Implements the recommendation command with recursive descent parsing.
+ * Supports union/intersection operations between recommendation strategies.
+ * Validates input syntax and handles strategy execution.
+ * 
+ * @author urrwg
+ */
 public class CommandRecommend implements Command<Graph> {
 
     private final String input;
     private int position;
     private Graph graph;
 
+    /**
+     * Constructs a new CommandRecommend instance.
+     * 
+     * @param input the input string representing the recommendation query,
+     *              which will be parsed to determine the recommendation strategy
+     */
     public CommandRecommend(String input) {
         this.input = input.trim()
                 .replaceAll("\\s*([(),])\\s*", "$1") // Normalize whitespace
@@ -32,8 +45,8 @@ public class CommandRecommend implements Command<Graph> {
             validateEndOfInput();
             Set<Node> recommendations = term.evaluate();
             return Result.success(formatOutput(recommendations));
-        } catch (ParseException e) {
-            return Result.error(e.getMessage());
+        } catch (ParseException exception) {
+            return Result.error(exception.getMessage());
         }
     }
 
@@ -77,8 +90,9 @@ public class CommandRecommend implements Command<Graph> {
     private String parseStrategy() throws ParseException {
         match('S');
         char num = peek();
-        if (num < '1' || num > '3')
+        if (num < '1' || num > '3') {
             throw error("Invalid strategy number");
+        }
         position++;
         return "S" + num;
     }
@@ -89,8 +103,9 @@ public class CommandRecommend implements Command<Graph> {
         while (position < input.length() && Character.isDigit(peek())) {
             position++;
         }
-        if (start == position)
+        if (start == position) {
             throw error("Expected product ID");
+        }
         return Integer.parseInt(input.substring(start, position));
     }
 
@@ -218,7 +233,7 @@ public class CommandRecommend implements Command<Graph> {
     }
 
     private static class ParseException extends Exception {
-        public ParseException(String message) {
+        ParseException(String message) {
             super(message);
         }
     }

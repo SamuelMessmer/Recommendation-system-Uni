@@ -11,12 +11,26 @@ import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
 import edu.kit.kastel.recommendationsystem.model.parser.DatabaseParser;
 import edu.kit.kastel.recommendationsystem.view.Communication;
 
+/**
+ * Command for loading a database file and initializing the graph structure.
+ * Validates file existence and readability before parsing operations, then
+ * updates the current Graph, only if the parsing was successfull.
+ * 
+ * @author urrwg
+ */
 public class CommandLoad implements Command<Communication> {
 
     private static final String ERROR_READING_FILE = "Could not read config file: %s";
 
     private final Path dataBasePath;
 
+    /**
+     * Constructs a new CommandLoad instance.
+     * 
+     * @param databaseFlag a flag indicating database-related operations (not used
+     *                     internally)
+     * @param dataBasePath the path to the database file that should be loaded
+     */
     public CommandLoad(String databaseFlag, Path dataBasePath) {
         this.dataBasePath = dataBasePath;
     }

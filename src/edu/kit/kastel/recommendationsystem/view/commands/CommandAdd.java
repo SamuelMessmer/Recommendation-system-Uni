@@ -15,6 +15,11 @@ public class CommandAdd implements Command<Graph> {
 
     private final RelationshipDTO relationship;
 
+    /**
+     * Constructs a new CommandAdd instance.
+     * 
+     * @param relationship the relationship to be added to the graph
+     */
     public CommandAdd(RelationshipDTO relationship) {
         this.relationship = relationship;
     }

@@ -13,6 +13,13 @@ import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 import edu.kit.kastel.recommendationsystem.util.SortEdges;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
+/**
+ * Handles graph export functionality to DOT notation format.
+ * Produces output compliant with Graphviz DOT language specifications,
+ * visualizing nodes as boxes for categories and edges with relationship labels.
+ * 
+ * @author urrwg
+ */
 public class CommandExport implements Command<Graph> {
 
     private static final String DIGRAPH_START_SYMBOL = "digraph {";
