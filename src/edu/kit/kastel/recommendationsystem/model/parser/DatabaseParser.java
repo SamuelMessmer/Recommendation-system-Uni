@@ -100,12 +100,14 @@ public final class DatabaseParser {
                 throws DataParsException {
             for (Node existingNode : existingNodes) {
                 if (relationship.subject() instanceof Product && existingNode instanceof Product
-                        && ((Product) relationship.subject()).getId() == ((Product) existingNode).getId()) {
-                    throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
+                        && ((Product) relationship.subject()).getId() == ((Product) existingNode).getId()
+                        && !relationship.subject().equals(existingNode)) {
+                    throw new DataParsException("detacted several products with the same id.");
                 }
                 if (relationship.object() instanceof Product && existingNode instanceof Product
-                        && ((Product) relationship.object()).getId() == ((Product) existingNode).getId()) {
-                    throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
+                        && ((Product) relationship.object()).getId() == ((Product) existingNode).getId()
+                        && !relationship.object().equals(existingNode)) {
+                    throw new DataParsException("detacted several products with the same id.");
                 }
             }
         }
