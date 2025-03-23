@@ -36,9 +36,4 @@ public enum RelationshipType {
             default -> throw new IllegalArgumentException();
         };
     }
-
-    @Override
-    public String toString() {
-        return this.representation.toString().toLowerCase().replace("-", "");
-    }
 }
