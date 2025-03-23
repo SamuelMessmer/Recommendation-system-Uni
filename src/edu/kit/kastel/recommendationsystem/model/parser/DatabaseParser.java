@@ -24,7 +24,7 @@ public final class DatabaseParser {
     private static final String ERROR_ALREADY_EXISTING_EDGE = "Duplicate edge detected";
 
     private DatabaseParser() {
-        // Utility class
+        // This is a utitlity class
     }
 
     /**
@@ -84,6 +84,7 @@ public final class DatabaseParser {
         private static void validateDTO(RelationshipDTO relationship, Set<Node> existingNodes)
                 throws DataParsException {
             validateNoSelfReference(relationship);
+            validateUniqueNode(relationship, existingNodes);
             RelationshipType.isAllowedBetween(relationship);
             validateExistingEdges(relationship, existingNodes);
         }
@@ -92,6 +93,15 @@ public final class DatabaseParser {
             if (relationship.subject().equals(relationship.object())) {
                 throw new DataParsException(ERROR_INVALID_RELATIONSHIP_PARTNER);
             }
+        }
+
+        private static void validateUniqueNode(RelationshipDTO relationship, Set<Node> existingNodes) {
+            for (Node existingNode : existingNodes) {
+                if (relationship.subject().equals(existingNodes)) {
+                    throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE)
+                }
+            }
+
         }
 
         private static void validateExistingEdges(RelationshipDTO relationship, Set<Node> nodes)
@@ -104,8 +114,7 @@ public final class DatabaseParser {
         private static boolean edgeExists(RelationshipDTO relationship, Set<Node> nodes) {
             for (Node node : nodes) {
                 for (Edge edge : node.getEdges()) {
-                    if (edge.equals(
-                            new Edge(relationship.subject(), relationship.object(), relationship.predicate()))) {
+                    if (edge.equals(relationship.edge())) {
                         return true;
                     }
                 }
