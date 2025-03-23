@@ -25,25 +25,9 @@ public class Graph {
     public boolean removeEdge(DTO dto) {
         Edge removedEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
 
-        
-        System.out.println("------------------");
-        for (Edge edge : dto.subject().getEdges()) {
-            System.out.println(edge.toString());
-        }
-        System.out.println("------------------");
-        for (Edge edge : dto.object().getEdges()) {
-            System.out.println(edge.toString());
-        }
         edges.remove(removedEdge);
         updateNodes(dto.subject(), dto.object(), removedEdge);
-        System.out.println("------------------");
-        for (Edge edge : dto.subject().getEdges()) {
-            System.out.println(edge.toString());
-        }
-        System.out.println("------------------");
-        for (Edge edge : dto.object().getEdges()) {
-            System.out.println(edge.toString());
-        }
+
         return true;
     }
 

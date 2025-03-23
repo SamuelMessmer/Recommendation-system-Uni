@@ -27,11 +27,6 @@ public class CommandNodes implements Command<Graph> {
 
         for (Node node : nodes) {
             output.append(node.toString()).append(NODE_SEPERATOR);
- 
-            for (Edge edge : node.getEdges()) {
-                System.out.println(edge.toString());
-            }
-            System.out.println("------------------------------------------");
         }
 
         return output.length() == 0 ? EMPTY_NODES_OUTPUT : output.toString().trim();
