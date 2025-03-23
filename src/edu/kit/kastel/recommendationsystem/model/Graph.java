@@ -67,7 +67,11 @@ public class Graph {
     }
 
     public Node findProductById(int productId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findProductById'");
+        for (Node node : this.nodes) {
+            if (node instanceof Product && ((Product) node).getId() == productId) {
+                return node;
+            }
+        }
+        return null;
     }
 }
