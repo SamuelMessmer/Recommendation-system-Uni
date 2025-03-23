@@ -144,13 +144,14 @@ public class Arguments {
         return new RelationshipDTO(subject, relationship.predicate(), object);
     }
 
-    private static Node getOrRegisterNode(Node node, Set<Node> nodes) {
+    private Node getOrRegisterNode(Node node, Set<Node> nodes) {
         for (Node existingNode : nodes) {
             if (existingNode.equals(node)) {
                 return existingNode;
             }
         }
-        nodes.add(node);
+        graph.addNode(node); 
+            
         return node;
     }
 

@@ -60,6 +60,10 @@ public class Graph {
         return null;
     }
 
+    public void addNode(Node newNode) {
+        this.nodes.add(newNode);
+    }
+
     /**
      * Removes an edge (and its reverse) from the graph.
      *

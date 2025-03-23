@@ -36,8 +36,8 @@ public final class DatabaseParser {
      * @throws DataParsException if parsing or validation fails
      */
     public static Graph parse(List<String> lines) throws DataParsException {
-        final Set<Node> nodes = new HashSet<>();
-        final Set<Edge> edges = new HashSet<>();
+        Set<Node> nodes = new HashSet<>();
+        Set<Edge> edges = new HashSet<>();
 
         for (String line : lines) {
             RelationshipDTO relationship = LineParser.parse(line);
@@ -50,8 +50,8 @@ public final class DatabaseParser {
     }
 
     private static void processDTO(RelationshipDTO relationship, Set<Node> nodes, Set<Edge> edges) {
-        final Node subject = getOrRegisterNode(relationship.subject(), nodes);
-        final Node object = getOrRegisterNode(relationship.object(), nodes);
+        Node subject = getOrRegisterNode(relationship.subject(), nodes);
+        Node object = getOrRegisterNode(relationship.object(), nodes);
 
         createEdgeIfAbsent(subject, object, relationship.predicate(), edges);
     }
