@@ -25,12 +25,25 @@ public class Graph {
     public boolean removeEdge(DTO dto) {
         Edge removedEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
 
-        if (!edges.contains(removedEdge)) {
-            return false;
+        
+        System.out.println("------------------");
+        for (Edge edge : dto.subject().getEdges()) {
+            System.out.println(edge.toString());
         }
-
+        System.out.println("------------------");
+        for (Edge edge : dto.object().getEdges()) {
+            System.out.println(edge.toString());
+        }
         edges.remove(removedEdge);
-        updateNodes(dto.subject(), dto.object());
+        updateNodes(dto.subject(), dto.object(), removedEdge);
+        System.out.println("------------------");
+        for (Edge edge : dto.subject().getEdges()) {
+            System.out.println(edge.toString());
+        }
+        System.out.println("------------------");
+        for (Edge edge : dto.object().getEdges()) {
+            System.out.println(edge.toString());
+        }
         return true;
     }
 
@@ -48,7 +61,10 @@ public class Graph {
         return true;
     }
 
-    private void updateNodes(Node firstNode, Node secondNode) {
+    private void updateNodes(Node firstNode, Node secondNode, Edge removedEdge) {
+        firstNode.removeEdge(removedEdge);
+        secondNode.removeEdge(removedEdge);
+
         if (firstNode.getEdges().isEmpty()) {
             this.nodes.remove(firstNode);
         }

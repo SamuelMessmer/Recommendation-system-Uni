@@ -34,6 +34,10 @@ public abstract class Node {
         this.edges.add(newEdge);
     }
 
+    public void removeEdge(Edge removedEdge) {
+        this.edges.remove(removedEdge);
+    } 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

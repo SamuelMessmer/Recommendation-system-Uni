@@ -3,9 +3,13 @@ package edu.kit.kastel.recommendationsystem.view;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Set;
 
 import edu.kit.kastel.recommendationsystem.model.DTO;
+import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
+import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
 import edu.kit.kastel.recommendationsystem.model.parser.LineParser;
 import edu.kit.kastel.recommendationsystem.view.commands.Command;
@@ -98,9 +102,40 @@ public class Arguments {
         String line = retrieveLine();
 
         try {
-            return LineParser.parse(line);
+            DTO dto = LineParser.parse(line);
+            return processDTO(dto);
         } catch (DataParsException exception) {
             throw new InvalidArgumentException(exception.getMessage());
+        }
+    }
+
+    private DTO processDTO(DTO dto) throws DataParsException {
+        Set<Node> nodes = graph.getNodes();
+        Set<Edge> edges = graph.getEdges();
+
+        isEdgeExisting(dto.subject(), dto.object(), dto.predicate(), edges);
+
+        Node subject = getOrRegisterNode(dto.subject(), nodes);
+        Node object = getOrRegisterNode(dto.object(), nodes);
+
+        return new DTO(subject, dto.predicate(), object);
+    }
+
+    private static Node getOrRegisterNode(Node node, Set<Node> nodes) {
+        for (Node existingNode : nodes) {
+            if (existingNode.equals(node)) {
+                return existingNode;
+            }
+        }
+        nodes.add(node);
+        return node;
+    }
+
+    private static void isEdgeExisting(Node from, Node to, RelationshipType type, Set<Edge> edges)
+            throws DataParsException {
+        Edge edge = new Edge(from, to, type);
+        if (!edges.contains(edge)) {
+            throw new DataParsException("Edge is not existing");
         }
     }
 

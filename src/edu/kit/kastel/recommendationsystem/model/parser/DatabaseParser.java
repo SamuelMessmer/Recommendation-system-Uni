@@ -1,8 +1,8 @@
 package edu.kit.kastel.recommendationsystem.model.parser;
 
-import java.util.Set;
 import java.util.List;
 import java.util.HashSet;
+import java.util.Set;
 
 import edu.kit.kastel.recommendationsystem.model.DTO;
 import edu.kit.kastel.recommendationsystem.model.Edge;
@@ -11,73 +11,106 @@ import edu.kit.kastel.recommendationsystem.model.Node;
 import edu.kit.kastel.recommendationsystem.model.NodeType;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
-public class DatabaseParser {
-
-    private static final List<RelationshipType> RELATIONSHIPS_ONLY_FOR_PRODUCTS = List.of(
+public final class DatabaseParser {
+    private static final List<RelationshipType> PRODUCT_ONLY_RELATIONSHIPS = List.of(
             RelationshipType.PART_OF,
             RelationshipType.HAS_PART,
             RelationshipType.SUCCESSOR_OF,
             RelationshipType.PREDECESSOR_OF);
 
     private DatabaseParser() {
-        // Utility class
+        throw new UnsupportedOperationException("Utility class");
     }
 
     public static Graph parse(List<String> lines) throws DataParsException {
-        Set<Node> nodes = new HashSet<>();
-        Set<Edge> edges = new HashSet<>();
+        final Set<Node> nodes = new HashSet<>();
+        final Set<Edge> edges = new HashSet<>();
 
         for (String line : lines) {
-            DTO dto = LineParser.parse(line);
+            final DTO dto = LineParser.parse(line);
 
-            validateSemantics(dto, nodes, edges);
-
-            Node subject = addNode(dto.subject(), nodes);
-            Node object = addNode(dto.object(), nodes);
-            addEdge(subject, object, dto.predicate(), edges);
+            ValidationUtils.validateDTO(dto, nodes);
+            processDTO(dto, nodes, edges);
         }
 
         return new Graph(nodes, edges);
     }
 
-    private static boolean validateSemantics(DTO dto, Set<Node> nodes, Set<Edge> edges) {
-        if (dto.subject() == dto.object()) {
-            return false;
-        }
+    private static void processDTO(DTO dto, Set<Node> nodes, Set<Edge> edges) {
+        final Node subject = getOrRegisterNode(dto.subject(), nodes);
+        final Node object = getOrRegisterNode(dto.object(), nodes);
 
-        if (dto.subject().isOfType(NodeType.CATEGORY) && dto.object().isOfType(NodeType.CATEGORY)
-                && RELATIONSHIPS_ONLY_FOR_PRODUCTS.contains(dto.predicate())) {
-            return false;
-        }
-
-        if (edges.contains(new Edge(dto.subject(), dto.object(), dto.predicate()))) {
-            return false;
-        }
-
-        return true;
+        createEdgeIfAbsent(subject, object, dto.predicate(), edges);
     }
 
-    private static Node addNode(Node newNode, Set<Node> nodes) {
-        if (!nodes.contains(newNode)) {
-            nodes.add(newNode);
-            return newNode;
-        } else {
-            for (Node node : nodes) {
-                if (newNode.equals(node)) {
-                    return node;
-                }
+    private static Node getOrRegisterNode(Node node, Set<Node> nodes) {
+        for (Node existingNode : nodes) {
+            if (existingNode.equals(node)) {
+                return existingNode;
             }
         }
-        return null;
+        nodes.add(node);
+        return node;
     }
 
-    private static void addEdge(Node subject, Node object, RelationshipType predicate, Set<Edge> edges) {
-        Edge newEdge = new Edge(subject, object, predicate);
-        edges.add(newEdge);
-        subject.addEdge(newEdge);
+    private static void createEdgeIfAbsent(Node from, Node to, RelationshipType type, Set<Edge> edges) {
+        final Edge edge = new Edge(from, to, type);
+        if (!edges.contains(edge)) {
+            edges.add(edge);
+            from.addEdge(edge);
+        }
 
-        Edge secondNewEdge = new Edge(object, subject, predicate.getReverse());
-        edges.add(secondNewEdge);
-        object.addEdge(secondNewEdge);
+        final Edge reverseEdge = new Edge(from, to, type.getReverse());
+        if (!edges.contains(reverseEdge)) {
+            edges.add(reverseEdge);
+            from.addEdge(reverseEdge);
+        }
+    }
+
+    private final class ValidationUtils {
+
+        private static void validateDTO(DTO dto, Set<Node> existingNodes) throws DataParsException {
+            validateNoSelfReference(dto);
+            validateNodeTypes(dto);
+            validateExistingEdges(dto, existingNodes);
+        }
+
+        private static void validateNoSelfReference(DTO dto) throws DataParsException {
+            if (dto.subject().equals(dto.object())) {
+                throw new DataParsException("Self-reference not allowed");
+            }
+        }
+
+        private static void validateNodeTypes(DTO dto) throws DataParsException {
+            if (bothAreCategories(dto) && hasProductOnlyRelationship(dto)) {
+                throw new DataParsException("Invalid relationship between categories");
+            }
+        }
+
+        private static boolean bothAreCategories(DTO dto) {
+            return dto.subject().isOfType(NodeType.CATEGORY)
+                    && dto.object().isOfType(NodeType.CATEGORY);
+        }
+
+        private static boolean hasProductOnlyRelationship(DTO dto) {
+            return PRODUCT_ONLY_RELATIONSHIPS.contains(dto.predicate());
+        }
+
+        private static void validateExistingEdges(DTO dto, Set<Node> nodes) throws DataParsException {
+            if (edgeExists(dto, nodes)) {
+                throw new DataParsException("Duplicate edge detected");
+            }
+        }
+
+        private static boolean edgeExists(DTO dto, Set<Node> nodes) {
+            for (Node node : nodes) {
+                for (Edge edge : node.getEdges()) {
+                    if (edge.equals(new Edge(dto.subject(), dto.object(), dto.predicate()))) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
