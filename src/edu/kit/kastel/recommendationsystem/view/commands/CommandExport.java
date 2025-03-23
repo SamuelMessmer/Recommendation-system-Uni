@@ -21,7 +21,7 @@ public class CommandExport implements Command<Graph> {
     private static final String EDGE_ARROW = " -> ";
     private static final String LABEL_START_SYMBOL = " [label=";
     private static final String LABEL_END_SYMBOL = "]";
-    private static final String PREDICATE_SEPERATOR = "-";
+    private static final String PREDICATE_SEPERATOR = "_";
     private static final String PREDICATE_SEPERATOR_REPLACEMENT_STRING = "";
 
     @Override
