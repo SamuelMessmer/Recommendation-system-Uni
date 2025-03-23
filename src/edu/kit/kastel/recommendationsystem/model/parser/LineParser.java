@@ -1,20 +1,26 @@
 package edu.kit.kastel.recommendationsystem.model.parser;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.kit.kastel.recommendationsystem.model.Category;
-import edu.kit.kastel.recommendationsystem.model.DTO;
 import edu.kit.kastel.recommendationsystem.model.Node;
 import edu.kit.kastel.recommendationsystem.model.Product;
+import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
 public class LineParser {
 
     private static final String ERROR_INVALID_STRING_PATTERN = "the given string does not match the provided pattern. line: %s";
-    private static final String INVALID_PREDICATE = "the given predicate is incorrect %s";
+    private static final String ERROR_INVALID_PREDICATE = "the given predicate is incorrect %s";
 
+    private static final String REGEX_GROUP_SUBJECT_PRODUCT = "subjectProduct";
+    private static final String REGEX_GROUP_SUBJECT_ID = "subjectId";
+    private static final String REGEX_GROUP_SUBJECT_CATEGORY = "subjectCategory";
+    private static final String REGEX_GROUP_PREDICATE = "predicate";
+    private static final String REGEX_GROUP_OBJECT_PRODUCT = "objectProduct";
+    private static final String REGEX_GROUP_OBJECT_ID = "objectId";
+    private static final String REGEX_GROUP_OBJECT_CATEGORY = "objectCategory";
     private static final Pattern REGEX_LINE_PATTERN = Pattern.compile(
             "^("
                     + "((?<subjectProduct>[a-zA-Z0-9]+)\\s*\\(\\s*id\\s*=\\s*(?<subjectId>[0-9]+)\\s*\\))"
@@ -32,7 +38,7 @@ public class LineParser {
         // Utility class
     }
 
-    public static DTO parse(String line) throws DataParsException {
+    public static RelationshipDTO parse(String line) throws DataParsException {
         Matcher matcher = REGEX_LINE_PATTERN.matcher(line);
 
         if (!matcher.matches()) {
@@ -41,19 +47,19 @@ public class LineParser {
         }
 
         Node subject = parseNode(
-                matcher.group("subjectProduct"),
-                matcher.group("subjectId"),
-                matcher.group("subjectCategory"));
+                matcher.group(REGEX_GROUP_SUBJECT_PRODUCT),
+                matcher.group(REGEX_GROUP_SUBJECT_ID),
+                matcher.group(REGEX_GROUP_SUBJECT_CATEGORY));
 
         RelationshipType predicate = parsePredicate(
-                matcher.group("predicate"));
+                matcher.group(REGEX_GROUP_PREDICATE));
 
         Node object = parseNode(
-                matcher.group("objectProduct"),
-                matcher.group("objectId"),
-                matcher.group("objectCategory"));
+                matcher.group(REGEX_GROUP_OBJECT_PRODUCT),
+                matcher.group(REGEX_GROUP_OBJECT_ID),
+                matcher.group(REGEX_GROUP_OBJECT_CATEGORY));
 
-        return new DTO(subject, predicate, object);
+        return new RelationshipDTO(subject, predicate, object);
     }
 
     private static Node parseNode(String productName, String productId, String categoryName) throws DataParsException {
@@ -65,7 +71,7 @@ public class LineParser {
 
     private static RelationshipType parsePredicate(String relationship) throws DataParsException {
         if (RelationshipType.fromString(relationship) == null) {
-            throw new DataParsException(String.format(INVALID_PREDICATE, relationship));
+            throw new DataParsException(String.format(ERROR_INVALID_PREDICATE, relationship));
         }
         return RelationshipType.fromString(relationship);
     }

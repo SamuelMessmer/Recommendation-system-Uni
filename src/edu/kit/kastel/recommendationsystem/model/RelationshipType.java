@@ -2,8 +2,6 @@ package edu.kit.kastel.recommendationsystem.model;
 
 import java.util.List;
 
-import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
-
 public enum RelationshipType {
     CONTAINS("contains"),
     CONTAINED_IN("contained-in"),
@@ -45,9 +43,9 @@ public enum RelationshipType {
         };
     }
 
-    public static boolean isAllowedBetween(DTO dto) {
-        if (dto.subject().isOfType(NodeType.CATEGORY) && dto.object().isOfType(NodeType.CATEGORY)) {
-            return CATEGORY_ALLOWED_RELATIONSHIPS.contains(dto.predicate());
+    public static boolean isAllowedBetween(RelationshipDTO relationship) {
+        if (relationship.subject().isOfType(NodeType.CATEGORY) && relationship.object().isOfType(NodeType.CATEGORY)) {
+            return CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationship.predicate());
         }
         return true;
     }

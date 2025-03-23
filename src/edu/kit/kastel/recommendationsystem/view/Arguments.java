@@ -5,11 +5,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Set;
 
-import edu.kit.kastel.recommendationsystem.model.DTO;
-import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
-import edu.kit.kastel.recommendationsystem.model.RelationshipType;
+import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
 import edu.kit.kastel.recommendationsystem.model.parser.LineParser;
 import edu.kit.kastel.recommendationsystem.view.commands.Command;
@@ -94,7 +92,7 @@ public class Arguments {
         return DATABASE_FLAG;
     }
 
-    public DTO parseLine() throws InvalidArgumentException {
+    public RelationshipDTO parseLine() throws InvalidArgumentException {
         if (isExhausted()) {
             throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
         }
@@ -102,20 +100,20 @@ public class Arguments {
         String line = retrieveLine();
 
         try {
-            DTO dto = LineParser.parse(line);
-            return processDTO(dto);
+            RelationshipDTO relationship = LineParser.parse(line);
+            return processDTO(relationship);
         } catch (DataParsException exception) {
             throw new InvalidArgumentException(exception.getMessage());
         }
     }
 
-    private DTO processDTO(DTO dto) throws DataParsException {
+    private RelationshipDTO processDTO(RelationshipDTO relationship) throws DataParsException {
         Set<Node> nodes = graph.getNodes();
 
-        Node subject = getOrRegisterNode(dto.subject(), nodes);
-        Node object = getOrRegisterNode(dto.object(), nodes);
+        Node subject = getOrRegisterNode(relationship.subject(), nodes);
+        Node object = getOrRegisterNode(relationship.object(), nodes);
 
-        return new DTO(subject, dto.predicate(), object);
+        return new RelationshipDTO(subject, relationship.predicate(), object);
     }
 
     private static Node getOrRegisterNode(Node node, Set<Node> nodes) {

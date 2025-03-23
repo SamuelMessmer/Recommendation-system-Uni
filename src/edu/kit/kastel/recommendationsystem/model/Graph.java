@@ -22,34 +22,34 @@ public class Graph {
         return Collections.unmodifiableSet(this.nodes);
     }
 
-    public boolean removeEdge(DTO dto) {
-        if (dto == null || !this.edges.contains(dto.edge()) || !this.edges.contains(dto.reverseEdge())) {
+    public boolean removeEdge(RelationshipDTO relationship) {
+        if (relationship == null || !this.edges.contains(relationship.edge()) || !this.edges.contains(relationship.reverseEdge())) {
             return false;
         }
 
-        edges.remove(dto.edge());
-        edges.remove(dto.reverseEdge());
-        cleanupOrphanedNodes(dto.subject(), dto.object(), dto.edge(), dto.reverseEdge());
+        edges.remove(relationship.edge());
+        edges.remove(relationship.reverseEdge());
+        cleanupOrphanedNodes(relationship.subject(), relationship.object(), relationship.edge(), relationship.reverseEdge());
         return true;
     }
 
-    public boolean addRelationship(DTO dto) {
-        if (dto == null || !canAddRelationship(dto)) {
+    public boolean addRelationship(RelationshipDTO relationship) {
+        if (relationship == null || !canAddRelationship(relationship)) {
             return false;
         }
 
-        this.edges.add(dto.edge());
-        this.edges.add(dto.reverseEdge());
-        dto.subject().addEdge(dto.edge());
-        dto.object().addEdge(dto.reverseEdge());
+        this.edges.add(relationship.edge());
+        this.edges.add(relationship.reverseEdge());
+        relationship.subject().addEdge(relationship.edge());
+        relationship.object().addEdge(relationship.reverseEdge());
         return true;
     }
 
-    private boolean canAddRelationship(DTO dto) {
-        return !this.edges.contains(dto.edge())
-                && this.nodes.contains(dto.subject())
-                && this.nodes.contains(dto.object())
-                && RelationshipType.isAllowedBetween(dto);
+    private boolean canAddRelationship(RelationshipDTO relationship) {
+        return !this.edges.contains(relationship.edge())
+                && this.nodes.contains(relationship.subject())
+                && this.nodes.contains(relationship.object())
+                && RelationshipType.isAllowedBetween(relationship);
     }
 
     private void cleanupOrphanedNodes(Node firstNode, Node secondNode, Edge removedEdge, Edge reversedEdge) {

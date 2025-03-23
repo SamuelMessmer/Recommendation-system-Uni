@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.kit.kastel.recommendationsystem.model.DTO;
 import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
 public final class DatabaseParser {
@@ -21,20 +21,20 @@ public final class DatabaseParser {
         final Set<Edge> edges = new HashSet<>();
 
         for (String line : lines) {
-            final DTO dto = LineParser.parse(line);
+            RelationshipDTO relationship = LineParser.parse(line);
 
-            ValidationUtils.validateDTO(dto, nodes);
-            processDTO(dto, nodes, edges);
+            ValidationUtils.validateDTO(relationship, nodes);
+            processDTO(relationship, nodes, edges);
         }
 
         return new Graph(nodes, edges);
     }
 
-    private static void processDTO(DTO dto, Set<Node> nodes, Set<Edge> edges) {
-        final Node subject = getOrRegisterNode(dto.subject(), nodes);
-        final Node object = getOrRegisterNode(dto.object(), nodes);
+    private static void processDTO(RelationshipDTO relationship, Set<Node> nodes, Set<Edge> edges) {
+        final Node subject = getOrRegisterNode(relationship.subject(), nodes);
+        final Node object = getOrRegisterNode(relationship.object(), nodes);
 
-        createEdgeIfAbsent(subject, object, dto.predicate(), edges);
+        createEdgeIfAbsent(subject, object, relationship.predicate(), edges);
     }
 
     private static Node getOrRegisterNode(Node node, Set<Node> nodes) {
@@ -63,28 +63,31 @@ public final class DatabaseParser {
 
     private final class ValidationUtils {
 
-        private static void validateDTO(DTO dto, Set<Node> existingNodes) throws DataParsException {
-            validateNoSelfReference(dto);
-            RelationshipType.isAllowedBetween(dto);
-            validateExistingEdges(dto, existingNodes);
+        private static void validateDTO(RelationshipDTO relationship, Set<Node> existingNodes)
+                throws DataParsException {
+            validateNoSelfReference(relationship);
+            RelationshipType.isAllowedBetween(relationship);
+            validateExistingEdges(relationship, existingNodes);
         }
 
-        private static void validateNoSelfReference(DTO dto) throws DataParsException {
-            if (dto.subject().equals(dto.object())) {
+        private static void validateNoSelfReference(RelationshipDTO relationship) throws DataParsException {
+            if (relationship.subject().equals(relationship.object())) {
                 throw new DataParsException("Self-reference not allowed");
             }
         }
 
-        private static void validateExistingEdges(DTO dto, Set<Node> nodes) throws DataParsException {
-            if (edgeExists(dto, nodes)) {
+        private static void validateExistingEdges(RelationshipDTO relationship, Set<Node> nodes)
+                throws DataParsException {
+            if (edgeExists(relationship, nodes)) {
                 throw new DataParsException("Duplicate edge detected");
             }
         }
 
-        private static boolean edgeExists(DTO dto, Set<Node> nodes) {
+        private static boolean edgeExists(RelationshipDTO relationship, Set<Node> nodes) {
             for (Node node : nodes) {
                 for (Edge edge : node.getEdges()) {
-                    if (edge.equals(new Edge(dto.subject(), dto.object(), dto.predicate()))) {
+                    if (edge.equals(
+                            new Edge(relationship.subject(), relationship.object(), relationship.predicate()))) {
                         return true;
                     }
                 }

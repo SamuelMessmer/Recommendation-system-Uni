@@ -1,19 +1,21 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
-import edu.kit.kastel.recommendationsystem.model.DTO;
 import edu.kit.kastel.recommendationsystem.model.Graph;
+import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
 public class CommandRemove implements Command<Graph> {
 
-    private final DTO dto;
+    private static final String ERROR_EDGE_NOT_REMOVEABLE = "Edge can not be removed";
 
-    public CommandRemove(DTO dto) {
-        this.dto = dto;
+    private final RelationshipDTO relationship;
+
+    public CommandRemove(RelationshipDTO relationship) {
+        this.relationship = relationship;
     }
 
     @Override
     public Result execute(Graph handle) {
-        return handle.removeEdge(this.dto) ? Result.success() : Result.error("Edge can not be removed");
+        return handle.removeEdge(this.relationship) ? Result.success() : Result.error(ERROR_EDGE_NOT_REMOVEABLE);
     }
 }
