@@ -53,6 +53,10 @@ public class Graph {
         firstNode.removeEdge(removedEdge);
         secondNode.removeEdge(removedEdge);
 
+        Edge reversedEdge = new Edge(secondNode, firstNode, removedEdge.getRelationship().getReverse());
+        firstNode.removeEdge(reversedEdge);
+        secondNode.removeEdge(reversedEdge);
+
         if (firstNode.getEdges().isEmpty()) {
             this.nodes.remove(firstNode);
         }

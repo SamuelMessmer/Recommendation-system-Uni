@@ -111,8 +111,6 @@ public class Arguments {
 
     private DTO processDTO(DTO dto) throws DataParsException {
         Set<Node> nodes = graph.getNodes();
-        // Set<Edge> edges = graph.getEdges();
-
 
         Node subject = getOrRegisterNode(dto.subject(), nodes);
         Node object = getOrRegisterNode(dto.object(), nodes);
@@ -129,14 +127,6 @@ public class Arguments {
         nodes.add(node);
         return node;
     }
-
-    // private static void isEdgeExisting(Node from, Node to, RelationshipType type, Set<Edge> edges)
-    //         throws DataParsException {
-    //     Edge edge = new Edge(from, to, type);
-    //     if (!edges.contains(edge)) {
-    //         throw new DataParsException("Edge is not existing");
-    //     }
-    // }
 
     private String retrieveLine() {
         StringBuilder builder = new StringBuilder();
