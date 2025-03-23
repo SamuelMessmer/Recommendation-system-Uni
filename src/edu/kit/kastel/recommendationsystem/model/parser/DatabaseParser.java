@@ -8,18 +8,12 @@ import edu.kit.kastel.recommendationsystem.model.DTO;
 import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
-import edu.kit.kastel.recommendationsystem.model.NodeType;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
 public final class DatabaseParser {
-    private static final List<RelationshipType> PRODUCT_ONLY_RELATIONSHIPS = List.of(
-            RelationshipType.PART_OF,
-            RelationshipType.HAS_PART,
-            RelationshipType.SUCCESSOR_OF,
-            RelationshipType.PREDECESSOR_OF);
 
     private DatabaseParser() {
-        throw new UnsupportedOperationException("Utility class");
+        // Utility class
     }
 
     public static Graph parse(List<String> lines) throws DataParsException {
@@ -71,7 +65,7 @@ public final class DatabaseParser {
 
         private static void validateDTO(DTO dto, Set<Node> existingNodes) throws DataParsException {
             validateNoSelfReference(dto);
-            validateNodeTypes(dto);
+            RelationshipType.isAllowedBetween(dto);
             validateExistingEdges(dto, existingNodes);
         }
 
@@ -79,21 +73,6 @@ public final class DatabaseParser {
             if (dto.subject().equals(dto.object())) {
                 throw new DataParsException("Self-reference not allowed");
             }
-        }
-
-        private static void validateNodeTypes(DTO dto) throws DataParsException {
-            if (bothAreCategories(dto) && hasProductOnlyRelationship(dto)) {
-                throw new DataParsException("Invalid relationship between categories");
-            }
-        }
-
-        private static boolean bothAreCategories(DTO dto) {
-            return dto.subject().isOfType(NodeType.CATEGORY)
-                    && dto.object().isOfType(NodeType.CATEGORY);
-        }
-
-        private static boolean hasProductOnlyRelationship(DTO dto) {
-            return PRODUCT_ONLY_RELATIONSHIPS.contains(dto.predicate());
         }
 
         private static void validateExistingEdges(DTO dto, Set<Node> nodes) throws DataParsException {

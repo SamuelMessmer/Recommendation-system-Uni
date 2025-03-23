@@ -23,45 +23,44 @@ public class Graph {
     }
 
     public boolean removeEdge(DTO dto) {
-        Edge removedEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
-        Edge reversedEdge = new Edge(dto.object(), dto.subject(), dto.predicate().getReverse());
-
-        if (!this.edges.contains(removedEdge)) {
+        if (dto == null || !this.edges.contains(dto.edge()) || !this.edges.contains(dto.reverseEdge())) {
             return false;
         }
 
-        edges.remove(removedEdge);
-        edges.remove(reversedEdge);
-        updateNodes(dto.subject(), dto.object(), removedEdge, reversedEdge);
-
+        edges.remove(dto.edge());
+        edges.remove(dto.reverseEdge());
+        cleanupOrphanedNodes(dto.subject(), dto.object(), dto.edge(), dto.reverseEdge());
         return true;
     }
 
     public boolean addRelationship(DTO dto) {
-        Edge newEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
-
-        if (this.edges.contains(newEdge) || !this.nodes.contains(dto.subject()) || !this.nodes.contains(dto.object())) {
+        if (dto == null || !canAddRelationship(dto)) {
             return false;
         }
 
-        this.edges.add(newEdge);
-        this.edges.add(new Edge(dto.object(), dto.subject(), dto.predicate().getReverse()));
-        this.nodes.add(dto.object());
-        this.nodes.add(dto.subject());
+        this.edges.add(dto.edge());
+        this.edges.add(dto.reverseEdge());
+        dto.subject().addEdge(dto.edge());
+        dto.object().addEdge(dto.reverseEdge());
         return true;
     }
 
-    private void updateNodes(Node firstNode, Node secondNode, Edge removedEdge, Edge reversedEdge) {
+    private boolean canAddRelationship(DTO dto) {
+        return !this.edges.contains(dto.edge())
+                && this.nodes.contains(dto.subject())
+                && this.nodes.contains(dto.object())
+                && RelationshipType.isAllowedBetween(dto);
+    }
+
+    private void cleanupOrphanedNodes(Node firstNode, Node secondNode, Edge removedEdge, Edge reversedEdge) {
         firstNode.removeEdge(removedEdge);
-        secondNode.removeEdge(removedEdge);
-
         firstNode.removeEdge(reversedEdge);
-        secondNode.removeEdge(reversedEdge);
-
         if (firstNode.getEdges().isEmpty()) {
             this.nodes.remove(firstNode);
         }
 
+        secondNode.removeEdge(removedEdge);
+        secondNode.removeEdge(reversedEdge);
         if (secondNode.getEdges().isEmpty()) {
             this.nodes.remove(secondNode);
         }
