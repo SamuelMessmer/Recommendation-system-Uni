@@ -24,13 +24,15 @@ public class Graph {
 
     public boolean removeEdge(DTO dto) {
         Edge removedEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
+        Edge reversedEdge = new Edge(dto.object(), dto.subject(), dto.predicate().getReverse());
 
         if (!this.edges.contains(removedEdge)) {
             return false;
         }
 
         edges.remove(removedEdge);
-        updateNodes(dto.subject(), dto.object(), removedEdge);
+        edges.remove(reversedEdge);
+        updateNodes(dto.subject(), dto.object(), removedEdge, reversedEdge);
 
         return true;
     }
@@ -49,11 +51,10 @@ public class Graph {
         return true;
     }
 
-    private void updateNodes(Node firstNode, Node secondNode, Edge removedEdge) {
+    private void updateNodes(Node firstNode, Node secondNode, Edge removedEdge, Edge reversedEdge) {
         firstNode.removeEdge(removedEdge);
         secondNode.removeEdge(removedEdge);
 
-        Edge reversedEdge = new Edge(secondNode, firstNode, removedEdge.getRelationship().getReverse());
         firstNode.removeEdge(reversedEdge);
         secondNode.removeEdge(reversedEdge);
 
