@@ -150,10 +150,10 @@ public class Arguments {
                 return existingNode;
             }
         }
-        // graph.addNode(node);
+        graph.addNode(node);
 
-        // return node;
-        throw new DataParsException("the Node: " + node + " could not be found");
+        return node;
+        // throw new DataParsException("the Node: " + node + " could not be found");
     }
 
     /**
