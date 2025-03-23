@@ -104,7 +104,7 @@ public final class DatabaseParser {
                     throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
                 }
                 if (relationship.object() instanceof Product
-                        || ((Product) relationship.object()).getId() == ((Product) existingNode).getId()) {
+                        && ((Product) relationship.object()).getId() == ((Product) existingNode).getId()) {
                     throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
                 }
             }
