@@ -5,33 +5,36 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import edu.kit.kastel.recommendationsystem.model.*;
+import edu.kit.kastel.recommendationsystem.model.Graph;
+import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.Product;
+import edu.kit.kastel.recommendationsystem.model.recommendationstrategy.RecommendationStrategy;
+import edu.kit.kastel.recommendationsystem.util.SortNodes;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
 public class CommandRecommend implements Command<Graph> {
 
-    private String input;
+    private final String input;
     private int position;
     private Graph graph;
+
+    public CommandRecommend(String input) {
+        this.input = input.trim()
+                .replaceAll("\\s*([(),])\\s*", "$1")
+                .replaceAll("\\s+", " ");
+        this.position = 0;
+    }
 
     @Override
     public Result execute(Graph handle) {
         this.graph = handle;
         try {
             Term term = parseRecommendCommand();
-            Set<Product> recommendations = term.evaluate();
+            Set<Node> recommendations = term.evaluate();
             return Result.success(formatOutput(recommendations));
-        } catch (ParseException e) {
-            return Result.error("Error: " + e.getMessage());
+        } catch (ParseException exception) {
+            return Result.error(exception.getMessage());
         }
-    }
-
-    public void setInput(String input) {
-        // Entferne unerwünschte Leerzeichen um Operatoren und Kommas
-        this.input = input.trim()
-                .replaceAll("\\s*([(),])\\s*", "$1")
-                .replaceAll("\\s+", " ");
-        this.position = 0;
     }
 
     private Term parseRecommendCommand() throws ParseException {
@@ -145,30 +148,27 @@ public class CommandRecommend implements Command<Graph> {
         return new ParseException(message + " at position " + position + " in: '" + input + "'");
     }
 
-    private String formatOutput(Set<Product> products) {
-        if (products.isEmpty()) {
+    private String formatOutput(Set<Node> nodes) {
+        if (nodes.isEmpty()) {
             return "";
         }
 
-        List<Product> sorted = new ArrayList<>(products);
-        sorted.sort((p1, p2) -> {
-            int nameCompare = p1.getName().compareToIgnoreCase(p2.getName());
-            return nameCompare != 0 ? nameCompare : Integer.compare(p1.getId(), p2.getId());
-        });
+        List<Node> sorted = new ArrayList<>(nodes);
+        SortNodes.sort(sorted); 
 
         StringBuilder sb = new StringBuilder();
-        for (Product p : sorted) {
+        for (Node p : sorted) {
             if (sb.length() > 0) {
                 sb.append(" ");
             }
-            sb.append(p.getName().toLowerCase()).append(":").append(p.getId());
+            sb.append(p.toString()).append(" ");
         }
         return sb.toString();
     }
 
     // Term Interface und Implementierungen
     private interface Term {
-        Set<Product> evaluate() throws ParseException;
+        Set<Node> evaluate() throws ParseException;
     }
 
     private static class FinalTerm implements Term {
@@ -183,18 +183,18 @@ public class CommandRecommend implements Command<Graph> {
         }
 
         @Override
-        public Set<Product> evaluate() throws ParseException {
-            // Product product = graph.findProductById(productId)
-                    // .orElseThrow(() -> new ParseException("Product not found: " + productId));
+        public Set<Node> evaluate() throws ParseException {
+            Node node = graph.findProductById(productId);
+            if (node == null) {
+                throw new ParseException("Product not found: " + productId);
+            }
 
-            return null;
-
-            // return switch (strategy) {
-            // case "S1" -> graph.findSiblingProducts(product);
-            // case "S2" -> graph.findSuccessorProducts(product);
-            // case "S3" -> graph.findPredecessorProducts(product);
-            // default -> throw new ParseException("Unknown strategy: " + strategy);
-            // };
+            return switch (strategy) {
+                case "S1" -> RecommendationStrategy.findSiblingProducts(node, graph);
+                case "S2" -> RecommendationStrategy.findSuccessorProducts(node, graph);
+                case "S3" -> RecommendationStrategy.findPredecessorProducts(node, graph);
+                default -> throw new ParseException("Unknown strategy: " + strategy);
+            };
         }
     }
 
@@ -208,8 +208,8 @@ public class CommandRecommend implements Command<Graph> {
         }
 
         @Override
-        public Set<Product> evaluate() throws ParseException {
-            Set<Product> result = new HashSet<>(left.evaluate());
+        public Set<Node> evaluate() throws ParseException {
+            Set<Node> result = new HashSet<>(left.evaluate());
             result.addAll(right.evaluate());
             return result;
         }
@@ -225,8 +225,8 @@ public class CommandRecommend implements Command<Graph> {
         }
 
         @Override
-        public Set<Product> evaluate() throws ParseException {
-            Set<Product> leftResult = left.evaluate();
+        public Set<Node> evaluate() throws ParseException {
+            Set<Node> leftResult = left.evaluate();
             leftResult.retainAll(right.evaluate());
             return leftResult;
         }

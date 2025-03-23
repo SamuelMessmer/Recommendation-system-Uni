@@ -37,7 +37,7 @@ public enum GraphKeyword implements Keyword<Graph> {
     /**
      * The keyword for the {@link CommandRecommend recommend} command.
      */
-    RECOMMEND(arguments -> new CommandRecommend()),
+    RECOMMEND(arguments -> new CommandRecommend(arguments.retrieveLine())),
     /**
      * The keyword for the {@link CommandRemove remove} command.
      */

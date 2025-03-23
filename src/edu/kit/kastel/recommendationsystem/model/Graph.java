@@ -65,4 +65,9 @@ public class Graph {
             this.nodes.remove(secondNode);
         }
     }
+
+    public Node findProductById(int productId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findProductById'");
+    }
 }

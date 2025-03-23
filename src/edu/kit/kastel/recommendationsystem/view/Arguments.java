@@ -128,7 +128,7 @@ public class Arguments {
         return node;
     }
 
-    private String retrieveLine() {
+    public String retrieveLine() {
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < arguments.length; i++) {

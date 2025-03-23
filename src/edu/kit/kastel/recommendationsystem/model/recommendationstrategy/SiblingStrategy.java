@@ -1,5 +1,10 @@
 package edu.kit.kastel.recommendationsystem.model.recommendationstrategy;
 
-public class SiblingStrategy {
-    
+import java.util.Set;
+
+import edu.kit.kastel.recommendationsystem.model.Graph;
+import edu.kit.kastel.recommendationsystem.model.Node;
+
+public final class SiblingStrategy {
+
 }
