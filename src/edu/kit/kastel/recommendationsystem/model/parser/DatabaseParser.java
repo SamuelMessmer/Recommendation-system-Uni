@@ -60,7 +60,7 @@ public final class DatabaseParser {
             from.addEdge(edge);
         }
 
-        final Edge reverseEdge = new Edge(from, to, type.getReverse());
+        final Edge reverseEdge = new Edge(to, from, type.getReverse());
         if (!edges.contains(reverseEdge)) {
             edges.add(reverseEdge);
             from.addEdge(reverseEdge);
