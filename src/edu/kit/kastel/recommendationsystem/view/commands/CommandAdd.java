@@ -14,7 +14,6 @@ public class CommandAdd implements Command<Graph> {
 
     @Override
     public Result execute(Graph handle) {
-        return handle.addRelationship(this.dto) ? Result.success() : Result.error(null);
+        return handle.addRelationship(this.dto) ? Result.success() : Result.error("ERror Message is missing");
     }
-
 }

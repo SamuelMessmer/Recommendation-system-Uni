@@ -25,6 +25,10 @@ public class Graph {
     public boolean removeEdge(DTO dto) {
         Edge removedEdge = new Edge(dto.subject(), dto.object(), dto.predicate());
 
+        if (!this.edges.contains(removedEdge)) {
+            return false;
+        }
+
         edges.remove(removedEdge);
         updateNodes(dto.subject(), dto.object(), removedEdge);
 
