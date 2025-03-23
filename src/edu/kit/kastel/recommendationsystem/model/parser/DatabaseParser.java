@@ -99,11 +99,11 @@ public final class DatabaseParser {
         private static void validateUniqueNode(RelationshipDTO relationship, Set<Node> existingNodes)
                 throws DataParsException {
             for (Node existingNode : existingNodes) {
-                if (relationship.subject() instanceof Product
+                if (relationship.subject() instanceof Product && existingNode instanceof Product
                         && ((Product) relationship.subject()).getId() == ((Product) existingNode).getId()) {
                     throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
                 }
-                if (relationship.object() instanceof Product
+                if (relationship.object() instanceof Product && existingNode instanceof Product
                         && ((Product) relationship.object()).getId() == ((Product) existingNode).getId()) {
                     throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
                 }
