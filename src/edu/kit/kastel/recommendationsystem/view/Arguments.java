@@ -144,15 +144,16 @@ public class Arguments {
         return new RelationshipDTO(subject, relationship.predicate(), object);
     }
 
-    private Node getOrRegisterNode(Node node, Set<Node> nodes) {
+    private Node getOrRegisterNode(Node node, Set<Node> nodes) throws DataParsException {
         for (Node existingNode : nodes) {
             if (existingNode.equals(node)) {
                 return existingNode;
             }
         }
-        graph.addNode(node); 
-            
-        return node;
+        // graph.addNode(node);
+
+        // return node;
+        throw new DataParsException("the Node: " + node + " could not be found");
     }
 
     /**

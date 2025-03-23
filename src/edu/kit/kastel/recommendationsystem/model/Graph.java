@@ -66,7 +66,9 @@ public class Graph {
      * @param newNode the node to be added
      */
     public void addNode(Node newNode) {
-        this.nodes.add(newNode);
+        if (!this.nodes.contains(newNode) && removeEdge(null)) {
+            this.nodes.add(newNode);
+        }
     }
 
     /**
