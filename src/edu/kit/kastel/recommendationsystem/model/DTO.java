@@ -5,11 +5,11 @@ public record DTO(
         RelationshipType predicate,
         Node object) {
 
-    Edge edge() {
+    public Edge edge() {
         return new Edge(subject, object, predicate);
     }
 
-    Edge reverseEdge() {
+    public Edge reverseEdge() {
         return new Edge(object, subject, predicate.getReverse());
     }
 }

@@ -48,16 +48,16 @@ public final class DatabaseParser {
     }
 
     private static void createEdgeIfAbsent(Node from, Node to, RelationshipType type, Set<Edge> edges) {
-        final Edge edge = new Edge(from, to, type);
+        Edge edge = new Edge(from, to, type);
         if (!edges.contains(edge)) {
             edges.add(edge);
             from.addEdge(edge);
         }
 
-        final Edge reverseEdge = new Edge(to, from, type.getReverse());
+        Edge reverseEdge = new Edge(to, from, type.getReverse());
         if (!edges.contains(reverseEdge)) {
             edges.add(reverseEdge);
-            from.addEdge(reverseEdge);
+            to.addEdge(reverseEdge);
         }
     }
 
