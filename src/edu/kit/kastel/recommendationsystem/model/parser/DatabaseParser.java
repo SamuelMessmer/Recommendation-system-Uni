@@ -7,6 +7,7 @@ import java.util.Set;
 import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.Product;
 import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
@@ -95,13 +96,15 @@ public final class DatabaseParser {
             }
         }
 
-        private static void validateUniqueNode(RelationshipDTO relationship, Set<Node> existingNodes) {
-            // for (Node existingNode : existingNodes) {
-            //     if (relationship.subject().equals(existingNodes)) {
-            //         throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
-            //     }
-            // }
-
+        private static void validateUniqueNode(RelationshipDTO relationship, Set<Node> existingNodes)
+                throws DataParsException {
+            for (Node existingNode : existingNodes) {
+                if (relationship.subject() instanceof Product
+                        && (((Product) relationship.subject()).getId() == ((Product) existingNode).getId()
+                                || ((Product) relationship.object()).getId() == ((Product) existingNode).getId())) {
+                    throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
+                }
+            }
         }
 
         private static void validateExistingEdges(RelationshipDTO relationship, Set<Node> nodes)
