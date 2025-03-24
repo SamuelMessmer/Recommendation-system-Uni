@@ -10,12 +10,43 @@ import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
 /**
- * A utility class for parsing lines from a database file syntax into
- * {@link RelationshipDTO} objects.
- * This class uses regular expressions to validate and extract information from
- * input lines, ensuring they conform to the expected format for relationships
- * between nodes.
- * Possible input looks like: centos7 ( id = 107 ) contained-in operatingsystem
+ * Parses lines from a database file into {@link RelationshipDTO} objects.
+ * Validates input against a strict syntax and converts it to structured
+ * relationship data.
+ * 
+ * <h2>Accepted Grammar (BNF Format)</h2>
+ * 
+ * <pre>
+ * {@code
+ * line          ::= subject whitespace predicate whitespace object
+ * subject       ::= product | category
+ * object        ::= product | category
+ * product       ::= productName '(' 'id' '=' productId ')'
+ * category      ::= categoryName
+ * predicate     ::= "contains" | "contained-in" | "part-of" 
+ *                 | "has-part" | "successor-of" | "predecessor-of"
+ * 
+ * productName   ::= [a-zA-Z0-9]+
+ * categoryName  ::= [a-zA-Z0-9]+
+ * productId     ::= [0-9]+
+ * whitespace    ::= (\s*)
+ * }
+ * </pre>
+ * 
+ * <h2>Syntax Rules</h2>
+ * <ul>
+ * <li>Product definitions require exact pattern:
+ * {@code "name ( id = number )"}</li>
+ * <li>Categories are simple identifiers without special formatting</li>
+ * <li>Whitespace is allowed:
+ * <ul>
+ * <li>Around parentheses and equals sign in product definitions</li>
+ * <li>Between elements (subject-predicate-object)</li>
+ * </ul>
+ * </li>
+ * <li>Case-insensitive for relationship types</li>
+ * </ul>
+ *
  * 
  * @author urrwg
  */
