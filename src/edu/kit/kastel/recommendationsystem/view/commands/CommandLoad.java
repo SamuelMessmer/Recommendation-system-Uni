@@ -20,7 +20,7 @@ import edu.kit.kastel.recommendationsystem.view.Communication;
  */
 public class CommandLoad implements Command<Communication> {
 
-    private static final String ERROR_READING_FILE = "Could not read config file: %s";
+    private static final String ERROR_READING_FILE = "Could not read config file";
 
     private final Path databasePath;
 
@@ -52,7 +52,7 @@ public class CommandLoad implements Command<Communication> {
         try {
             return Files.readAllLines(this.databasePath);
         } catch (IOException | SecurityException exception) {
-            throw new DataParsException(String.format(ERROR_READING_FILE, this.databasePath));
+            throw new DataParsException(ERROR_READING_FILE);
         }
     }
 
