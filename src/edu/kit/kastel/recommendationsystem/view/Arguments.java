@@ -151,12 +151,12 @@ public class Arguments {
                 return existingNode;
             }
         }
-        
+
         if (validateNodePlacement(node, nodes)) {
             graph.addNode(node);
             return node;
         }
-        throw new DataParsException(null, " Im your Grandfather not your commanding Officers");
+        throw new DataParsException(" Im your Grandfather not your commanding Officers");
     }
 
     private boolean validateNodePlacement(Node node, Set<Node> nodes) {

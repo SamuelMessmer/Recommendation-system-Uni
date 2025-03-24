@@ -60,8 +60,7 @@ public final class LineParser {
         Matcher matcher = REGEX_LINE_PATTERN.matcher(line);
 
         if (!matcher.matches()) {
-            throw new DataParsException(null, String.format(ERROR_INVALID_STRING_PATTERN,
-                    line));
+            throw new DataParsException(String.format(ERROR_INVALID_STRING_PATTERN, line));
         }
 
         Node subject = parseNode(
@@ -89,7 +88,7 @@ public final class LineParser {
 
     private static RelationshipType parsePredicate(String relationship) throws DataParsException {
         if (RelationshipType.fromString(relationship) == null) {
-            throw new DataParsException(null, String.format(ERROR_INVALID_PREDICATE, relationship));
+            throw new DataParsException(String.format(ERROR_INVALID_PREDICATE, relationship));
         }
         return RelationshipType.fromString(relationship);
     }
@@ -98,7 +97,7 @@ public final class LineParser {
         try {
             return Integer.parseInt(numberRepresentation);
         } catch (NumberFormatException exception) {
-            throw new DataParsException(null, exception.getMessage());
+            throw new DataParsException(exception.getMessage());
         }
     }
 }

@@ -55,23 +55,15 @@ public class CommandLoad implements Command<Communication> {
         try {
             return Files.readAllLines(pathToDataBaseFile);
         } catch (IOException | SecurityException exception) {
-            throw new DataParsException(null, String.format(ERROR_READING_FILE, pathToDataBaseFile));
+            throw new DataParsException(String.format(ERROR_READING_FILE, pathToDataBaseFile));
         }
     }
 
     private String createOutputString() throws DataParsException {
-        // StringBuilder output = new StringBuilder();
-
-        // for (String line : processedLines) {
-        // output.append(line).append(System.lineSeparator());
-        // }
-
-        // return output.toString().trim();
-
         try {
             return Files.readString(this.dataBasePath);
         } catch (IOException exception) {
-            throw new DataParsException(null, ERROR_READING_FILE);
+            throw new DataParsException(ERROR_READING_FILE);
         }
     }
 }
