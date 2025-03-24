@@ -120,9 +120,18 @@ public final class DatabaseParser {
                         && !relationship.object().equals(existingNode)) {
                     throw new DataParsException(null, "detacted several products with the same id.");
                 }
-                // if (relationship.subject().getName().equals(existingNode.getName())) {
-                //     throw new DataParsException(null, "node name is already occupied");
-                // }
+                if (relationship.subject() instanceof Product && existingNode instanceof Product
+                        && ((Product) relationship.subject()).getId() == ((Product) existingNode).getId()
+                        && relationship.subject().getName() == existingNode.getName()
+                        && !relationship.subject().equals(existingNode)) {
+                    throw new DataParsException(null, "detacted several products with the same id.");
+                }
+                if (relationship.object() instanceof Product && existingNode instanceof Product
+                        && ((Product) relationship.object()).getId() == ((Product) existingNode).getId()
+                        && relationship.object().getName() == existingNode.getName()
+                        && !relationship.object().equals(existingNode)) {
+                    throw new DataParsException(null, "detacted several products with the same id.");
+                }
             }
         }
 
