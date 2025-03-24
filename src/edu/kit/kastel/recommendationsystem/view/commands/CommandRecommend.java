@@ -22,7 +22,7 @@ import edu.kit.kastel.recommendationsystem.view.Result;
 public class CommandRecommend implements Command<Graph> {
 
     private static final String OUTPUT_SEPARATOR = " ";
-    private static final String EMPTY_OUTPUT = " ";
+    private static final String EMPTY_OUTPUT = "";
 
     private final String input;
 

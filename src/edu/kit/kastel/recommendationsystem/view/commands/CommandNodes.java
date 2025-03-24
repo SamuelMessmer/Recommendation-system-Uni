@@ -17,7 +17,7 @@ import edu.kit.kastel.recommendationsystem.view.Result;
  */
 public class CommandNodes implements Command<Graph> {
 
-    private static final String EMPTY_NODES_OUTPUT = "";
+    private static final String EMPTY_NODES_OUTPUT = " ";
     private static final String NODE_SEPERATOR = " ";
 
     @Override
