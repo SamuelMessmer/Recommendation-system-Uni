@@ -27,7 +27,7 @@ public class CommandNodes implements Command<Graph> {
 
     private String createOutputString(Graph graph) {
         List<Node> nodes = new ArrayList<>(graph.getNodes());
-        SortUtils.SortNodes(nodes);
+        SortUtils.sortNodes(nodes);
 
         StringBuilder output = new StringBuilder();
 

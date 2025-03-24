@@ -153,7 +153,7 @@ public class CommandRecommend implements Command<Graph> {
         }
 
         List<Node> sorted = new ArrayList<>(nodes);
-        SortUtils.SortNodes(sorted);
+        SortUtils.sortNodes(sorted);
 
         StringBuilder sb = new StringBuilder();
         for (Node node : sorted) {

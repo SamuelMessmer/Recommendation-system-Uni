@@ -68,7 +68,7 @@ public final class SortUtils {
      *
      * @param nodes the list of nodes to sort
      */
-    public static void SortNodes(List<Node> nodes) {
+    public static void sortNodes(List<Node> nodes) {
         nodes.sort(new Comparator<Node>() {
             @Override
             public int compare(Node firstNode, Node secondNode) {
