@@ -11,6 +11,8 @@ import java.util.Objects;
  */
 public class Product extends Node {
 
+    private static final String PRODUCT_OUPUT_FORMAT = "%s:%s";
+
     private final int id;
 
     /**
@@ -35,7 +37,7 @@ public class Product extends Node {
 
     @Override
     public String toString() {
-        return this.name + ":" + this.id;
+        return String.format(PRODUCT_OUPUT_FORMAT, this.name, this.id);
     }
 
     @Override
