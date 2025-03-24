@@ -37,13 +37,15 @@ public class CommandLoad implements Command<Communication> {
 
     @Override
     public Result execute(Communication handle) {
+        String outputString = null;
         try {
+            outputString = createOutputString();
             ParseResult result = DatabaseParser.parse(parseStringArray(this.dataBasePath));
             handle.setGraph(result.getGraph());
 
-            return Result.success(createOutputString(result.getProcessedLines()));
+            return Result.success(createOutputString());
         } catch (DataParsException exception) {
-            handle.print(createOutputString(exception.getProcessedLines()));
+            handle.print(outputString);
 
             return Result.error(exception.getMessage());
         }
@@ -57,13 +59,19 @@ public class CommandLoad implements Command<Communication> {
         }
     }
 
-    private String createOutputString(List<String> processedLines) {
-        StringBuilder output = new StringBuilder();
+    private String createOutputString() throws DataParsException {
+        // StringBuilder output = new StringBuilder();
 
-        for (String line : processedLines) {
-            output.append(line).append(System.lineSeparator());
+        // for (String line : processedLines) {
+        // output.append(line).append(System.lineSeparator());
+        // }
+
+        // return output.toString().trim();
+
+        try {
+            return Files.readString(this.dataBasePath);
+        } catch (IOException exception) {
+            throw new DataParsException(null, ERROR_READING_FILE);
         }
-
-        return output.toString().trim();
     }
 }
