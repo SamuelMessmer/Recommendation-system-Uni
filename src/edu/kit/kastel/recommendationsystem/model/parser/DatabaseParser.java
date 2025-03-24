@@ -92,7 +92,9 @@ public final class DatabaseParser {
                 validateNoSelfReference(relationship);
                 // validateExistingObject(relationship, existingNodes);
                 validateUniqueNode(relationship, existingNodes);
-                RelationshipType.isAllowedBetween(relationship);
+                if (!RelationshipType.isAllowedBetween(relationship)) {
+                    throw new DataParsException("the relationship is wrong");
+                }
                 validateExistingEdges(relationship, existingNodes);
             } catch (DataParsException exception) {
                 throw new DataParsException(exception.getMessage());
