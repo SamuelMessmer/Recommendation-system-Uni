@@ -39,15 +39,11 @@ public final class DatabaseParser {
         Set<Node> nodes = new HashSet<>();
         Set<Edge> edges = new HashSet<>();
 
-        try {
-            for (String line : lines) {
-                RelationshipDTO relationship = LineParser.parse(line);
+        for (String line : lines) {
+            RelationshipDTO relationship = LineParser.parse(line);
 
-                ValidationUtils.validateDTO(relationship, nodes);
-                processDTO(relationship, nodes, edges);
-            }
-        } catch (DataParsException exception) {
-            throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
+            ValidationUtils.validateDTO(relationship, nodes);
+            processDTO(relationship, nodes, edges);
         }
 
         return new Graph(nodes, edges);
@@ -56,7 +52,6 @@ public final class DatabaseParser {
     private static void processDTO(RelationshipDTO relationship, Set<Node> nodes, Set<Edge> edges) {
         Node subject = getOrRegisterNode(relationship.subject(), nodes);
         Node object = getOrRegisterNode(relationship.object(), nodes);
-
         createEdgeIfAbsent(subject, object, relationship.predicate(), edges);
     }
 
@@ -88,17 +83,12 @@ public final class DatabaseParser {
 
         private static void validateDTO(RelationshipDTO relationship, Set<Node> existingNodes)
                 throws DataParsException {
-            try {
-                validateNoSelfReference(relationship);
-                // validateExistingObject(relationship, existingNodes);
-                validateUniqueNode(relationship, existingNodes);
-                if (!RelationshipType.isAllowedBetween(relationship)) {
-                    throw new DataParsException("the relationship is wrong");
-                }
-                validateExistingEdges(relationship, existingNodes);
-            } catch (DataParsException exception) {
-                throw new DataParsException(exception.getMessage());
+            if (!RelationshipType.isAllowedBetween(relationship)) {
+                throw new DataParsException("the relationship is wrong");
             }
+            validateNoSelfReference(relationship);
+            validateUniqueIdentifiers(relationship, existingNodes);
+            validateExistingEdges(relationship, existingNodes);
         }
 
         private static void validateNoSelfReference(RelationshipDTO relationship) throws DataParsException {
@@ -107,43 +97,31 @@ public final class DatabaseParser {
             }
         }
 
-        // private static void validateExistingObject(RelationshipDTO relationship,
-        // Set<Node> existingNodes)
-        // throws DataParsException {
-        // if (!existingNodes.contains(relationship.object())) {
-        // throw new DataParsException(null, "second node is not yet created");
-        // }
-        // }
-
-        private static void validateUniqueNode(RelationshipDTO relationship, Set<Node> existingNodes)
+        private static void validateUniqueIdentifiers(RelationshipDTO relationship, Set<Node> nodes)
                 throws DataParsException {
-            for (Node existingNode : existingNodes) {
-                if (relationship.subject() instanceof Product && existingNode instanceof Product) {
-                    int subjectId = ((Product) relationship.subject()).getId();
-                    int existingId = ((Product) existingNode).getId();
-                    if (subjectId == existingId && !relationship.subject().equals(existingNode)) {
-                        throw new DataParsException("Error, Duplicate product ID detected: " + subjectId);
-                    }
-                }
-                if (relationship.object() instanceof Product && existingNode instanceof Product) {
-                    int objectId = ((Product) relationship.object()).getId();
-                    int existingId = ((Product) existingNode).getId();
-                    if (objectId == existingId && !relationship.object().equals(existingNode)) {
-                        throw new DataParsException("Error, Duplicate product ID detected: " + objectId);
-                    }
-                }
+            for (Node existingNode : nodes) {
+                checkProductIdUniqueness(relationship.subject(), existingNode);
+                checkProductIdUniqueness(relationship.object(), existingNode);
+                checkNodeNameUniqueness(relationship.subject(), existingNode);
+                checkNodeNameUniqueness(relationship.object(), existingNode);
+            }
+        }
 
-                String subjectName = relationship.subject().getName().toLowerCase();
-                String existingName = existingNode.getName().toLowerCase();
-                if (subjectName.equals(existingName) && !relationship.subject().equals(existingNode)) {
-                    throw new DataParsException("Error, Duplicate node name detected: " + existingNode.getName());
-                }
+        private static void checkProductIdUniqueness(Node currentNode, Node existingNode) throws DataParsException {
+            if (currentNode instanceof Product && existingNode instanceof Product) {
+                Product currentProduct = (Product) currentNode;
+                Product existingProduct = (Product) existingNode;
 
-                String objectName = relationship.object().getName().toLowerCase();
-                existingName = existingNode.getName().toLowerCase();
-                if (objectName.equals(existingName) && !relationship.object().equals(existingNode)) {
-                    throw new DataParsException("Error, Duplicate node name detected: " + existingNode.getName());
+                if (currentProduct.getId() == existingProduct.getId() && !currentNode.equals(existingNode)) {
+                    throw new DataParsException(String.format("Test fjewiofjwfjioa", currentProduct.getId()));
                 }
+            }
+        }
+
+        private static void checkNodeNameUniqueness(Node currentNode, Node existingNode) throws DataParsException {
+            if (currentNode.getName().equalsIgnoreCase(existingNode.getName())
+                    && !currentNode.equals(existingNode)) {
+                throw new DataParsException(String.format("wjiefoöawjiefojwieofjwief", existingNode.getName()));
             }
         }
 
