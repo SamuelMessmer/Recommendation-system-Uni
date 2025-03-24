@@ -110,25 +110,31 @@ public final class DatabaseParser {
         private static void validateUniqueNode(RelationshipDTO relationship, Set<Node> existingNodes)
                 throws DataParsException {
             for (Node existingNode : existingNodes) {
-                if (relationship.subject() instanceof Product && existingNode instanceof Product
-                        && ((Product) relationship.subject()).getId() == ((Product) existingNode).getId()
-                        && !relationship.subject().equals(existingNode)) {
-                    throw new DataParsException(null, "detacted several products with the same id.");
+                if (relationship.subject() instanceof Product && existingNode instanceof Product) {
+                    int subjectId = ((Product) relationship.subject()).getId();
+                    int existingId = ((Product) existingNode).getId();
+                    if (subjectId == existingId && !relationship.subject().equals(existingNode)) {
+                        throw new DataParsException(null, "Error, Duplicate product ID detected: " + subjectId);
+                    }
                 }
-                if (relationship.object() instanceof Product && existingNode instanceof Product
-                        && ((Product) relationship.object()).getId() == ((Product) existingNode).getId()
-                        && !relationship.object().equals(existingNode)) {
-                    throw new DataParsException(null, "detacted several products with the same id.");
+                if (relationship.object() instanceof Product && existingNode instanceof Product) {
+                    int objectId = ((Product) relationship.object()).getId();
+                    int existingId = ((Product) existingNode).getId();
+                    if (objectId == existingId && !relationship.object().equals(existingNode)) {
+                        throw new DataParsException(null, "Error, Duplicate product ID detected: " + objectId);
+                    }
                 }
-                if (relationship.subject() instanceof Product && existingNode instanceof Product
-                        && ((Product) relationship.subject()).getId() != ((Product) existingNode).getId()
-                        && relationship.subject().getName() == existingNode.getName()) {
-                    throw new DataParsException(null, "detacted several products with the same id.");
+
+                String subjectName = relationship.subject().getName().toLowerCase();
+                String existingName = existingNode.getName().toLowerCase();
+                if (subjectName.equals(existingName) && !relationship.subject().equals(existingNode)) {
+                    throw new DataParsException(null, "Error, Duplicate node name detected: " + existingNode.getName());
                 }
-                if (relationship.object() instanceof Product && existingNode instanceof Product
-                        && ((Product) relationship.object()).getId() != ((Product) existingNode).getId()
-                        && relationship.object().getName() == existingNode.getName()) {
-                    throw new DataParsException(null, "detacted several products with the same id.");
+
+                String objectName = relationship.object().getName().toLowerCase();
+                existingName = existingNode.getName().toLowerCase();
+                if (objectName.equals(existingName) && !relationship.object().equals(existingNode)) {
+                    throw new DataParsException(null, "Error, Duplicate node name detected: " + existingNode.getName());
                 }
             }
         }
