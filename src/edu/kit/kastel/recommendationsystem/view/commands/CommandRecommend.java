@@ -2,7 +2,7 @@ package edu.kit.kastel.recommendationsystem.view.commands;
 
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
-import edu.kit.kastel.recommendationsystem.model.recommendationstrategy.RecommendationStrategy;
+import edu.kit.kastel.recommendationsystem.model.RecommendationStrategy;
 import edu.kit.kastel.recommendationsystem.util.SortNodes;
 import edu.kit.kastel.recommendationsystem.view.Result;
 

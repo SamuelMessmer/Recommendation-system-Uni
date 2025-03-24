@@ -1,16 +1,10 @@
-package edu.kit.kastel.recommendationsystem.model.recommendationstrategy;
+package edu.kit.kastel.recommendationsystem.model;
 
-import edu.kit.kastel.recommendationsystem.model.Edge;
-import edu.kit.kastel.recommendationsystem.model.Graph;
-import edu.kit.kastel.recommendationsystem.model.Node;
-import edu.kit.kastel.recommendationsystem.model.Product;
-import edu.kit.kastel.recommendationsystem.model.RelationshipType;
-
-import java.util.Collections;
+import java.util.Set;
+import java.util.Queue;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.Collections;
 
 /**
  * Provides recommendation strategies for finding related products in a graph.

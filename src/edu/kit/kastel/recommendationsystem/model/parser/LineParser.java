@@ -15,6 +15,7 @@ import edu.kit.kastel.recommendationsystem.model.RelationshipType;
  * This class uses regular expressions to validate and extract information from
  * input lines, ensuring they conform to the expected format for relationships
  * between nodes.
+ * Possible input looks like: centos7 ( id = 107 ) contained-in operatingsystem
  * 
  * @author urrwg
  */
@@ -49,7 +50,8 @@ public final class LineParser {
 
     /**
      * Parses a line from the database file into a {@link RelationshipDTO} object.
-     * The line must conform to the expected format for relationships between nodes.
+     * The line must conform to the expected format for relationships between nodes,
+     * which is stated in the BNF-grammatic.
      * 
      * @param line the input line to parse
      * @return a {@link RelationshipDTO} representing the parsed relationship
@@ -86,11 +88,11 @@ public final class LineParser {
         return new Product(productName.toLowerCase(), parseInt(productId));
     }
 
-    private static RelationshipType parsePredicate(String relationship) throws DataParsException {
-        if (RelationshipType.fromString(relationship) == null) {
-            throw new DataParsException(String.format(ERROR_INVALID_PREDICATE, relationship));
+    private static RelationshipType parsePredicate(String type) throws DataParsException {
+        if (RelationshipType.fromString(type) == null) {
+            throw new DataParsException(String.format(ERROR_INVALID_PREDICATE, type));
         }
-        return RelationshipType.fromString(relationship);
+        return RelationshipType.fromString(type);
     }
 
     private static int parseInt(String numberRepresentation) throws DataParsException {

@@ -21,24 +21,11 @@ import edu.kit.kastel.recommendationsystem.model.RelationshipType;
  */
 public final class DatabaseParser {
 
-    // private static final String ERROR_INVALID_RELATIONSHIP_PARTNER =
-    // "Self-reference not allowed";
-    // private static final String ERROR_ALREADY_EXISTING_EDGE = "Duplicate edge
-    // detected";
-
     private static final String ERROR_SELF_REFERENCE = "Self-reference not allowed";
     private static final String ERROR_DUPLICATE_EDGE = "Duplicate edge detected";
     private static final String ERROR_DUPLICATE_PRODUCT_ID = "Duplicate product ID detected: %d";
     private static final String ERROR_DUPLICATE_NODE_NAME = "Duplicate node name detected: %s";
     private static final String ERROR_INVALID_RELATIONSHIP = "the relationship: %s, is not aplicable for the given node types";
-    // private static final String ERROR_INVALID_CONTAINS = "'contains' requires
-    // category as source";
-    // private static final String ERROR_INVALID_CONTAINED_IN = "'contained-in'
-    // requires category as target";
-    // private static final String ERROR_INVALID_PART_RELATION = "'part-of/has-part'
-    // requires products";
-    // private static final String ERROR_INVALID_SUCCESSOR_RELATION =
-    // "'successor/predecessor' requires products";
 
     private DatabaseParser() {
         // This is a utitlity class
@@ -95,6 +82,10 @@ public final class DatabaseParser {
         }
     }
 
+    /**
+     * Validation util class, solely used to validate the Input retrieved from the
+     * {@link LineParser} to prevent semantic errors.
+     */
     private final class ValidationUtils {
 
         private static void validateDTO(RelationshipDTO relationship, Set<Node> existingNodes)
@@ -162,7 +153,6 @@ public final class DatabaseParser {
                 }
             }
             return false;
-
         }
     }
 }
