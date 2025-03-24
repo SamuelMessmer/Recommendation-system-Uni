@@ -156,7 +156,7 @@ public class Arguments {
             graph.addNode(node);
             return node;
         }
-        throw new DataParsException(" Im your Grandfather not your commanding Officers");
+        throw new DataParsException(null, " Im your Grandfather not your commanding Officers");
     }
 
     private boolean validateNodePlacement(Node node, Set<Node> nodes) {

@@ -56,7 +56,7 @@ public class CommandLoad implements Command<Communication> {
         try {
             return Files.readAllLines(pathToDataBaseFile);
         } catch (IOException | SecurityException exception) {
-            throw new DataParsException(String.format(ERROR_READING_FILE, pathToDataBaseFile));
+            throw new DataParsException(null, String.format(ERROR_READING_FILE, pathToDataBaseFile));
         }
     }
 

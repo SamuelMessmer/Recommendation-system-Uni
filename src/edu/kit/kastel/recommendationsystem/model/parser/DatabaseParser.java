@@ -93,13 +93,13 @@ public final class DatabaseParser {
                 RelationshipType.isAllowedBetween(relationship);
                 validateExistingEdges(relationship, existingNodes);
             } catch (DataParsException exception) {
-                throw new DataParsException(exception.getMessage());
+                throw new DataParsException(null, exception.getMessage());
             }
         }
 
         private static void validateNoSelfReference(RelationshipDTO relationship) throws DataParsException {
             if (relationship.subject().equals(relationship.object())) {
-                throw new DataParsException(ERROR_INVALID_RELATIONSHIP_PARTNER);
+                throw new DataParsException(null, ERROR_INVALID_RELATIONSHIP_PARTNER);
             }
         }
 
@@ -109,12 +109,12 @@ public final class DatabaseParser {
                 if (relationship.subject() instanceof Product && existingNode instanceof Product
                         && ((Product) relationship.subject()).getId() == ((Product) existingNode).getId()
                         && !relationship.subject().equals(existingNode)) {
-                    throw new DataParsException("detacted several products with the same id.");
+                    throw new DataParsException(null, "detacted several products with the same id.");
                 }
                 if (relationship.object() instanceof Product && existingNode instanceof Product
                         && ((Product) relationship.object()).getId() == ((Product) existingNode).getId()
                         && !relationship.object().equals(existingNode)) {
-                    throw new DataParsException("detacted several products with the same id.");
+                    throw new DataParsException(null, "detacted several products with the same id.");
                 }
             }
         }
@@ -122,7 +122,7 @@ public final class DatabaseParser {
         private static void validateExistingEdges(RelationshipDTO relationship, Set<Node> nodes)
                 throws DataParsException {
             if (edgeExists(relationship, nodes)) {
-                throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
+                throw new DataParsException(null, ERROR_ALREADY_EXISTING_EDGE);
             }
         }
 
