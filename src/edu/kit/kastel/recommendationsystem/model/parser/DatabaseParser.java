@@ -41,12 +41,16 @@ public final class DatabaseParser {
         Set<Edge> edges = new HashSet<>();
         List<String> processedLines = new ArrayList<>();
 
-        for (String line : lines) {
-            RelationshipDTO relationship = LineParser.parse(line);
+        try {
+            for (String line : lines) {
+                RelationshipDTO relationship = LineParser.parse(line);
 
-            ValidationUtils.validateDTO(relationship, nodes);
-            processDTO(relationship, nodes, edges);
-            processedLines.add(line);
+                ValidationUtils.validateDTO(relationship, nodes);
+                processDTO(relationship, nodes, edges);
+                processedLines.add(line);
+            }
+        } catch (DataParsException exception) {
+            throw new DataParsException(processedLines, ERROR_ALREADY_EXISTING_EDGE);
         }
 
         return new ParseResult(new Graph(nodes, edges), processedLines);
