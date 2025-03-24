@@ -93,7 +93,7 @@ public final class DatabaseParser {
                 throws DataParsException {
             try {
                 validateNoSelfReference(relationship);
-                validateExistingObject(relationship, existingNodes);
+                // validateExistingObject(relationship, existingNodes);
                 validateUniqueNode(relationship, existingNodes);
                 RelationshipType.isAllowedBetween(relationship);
                 validateExistingEdges(relationship, existingNodes);
@@ -108,12 +108,12 @@ public final class DatabaseParser {
             }
         }
 
-        private static void validateExistingObject(RelationshipDTO relationship, Set<Node> existingNodes)
-                throws DataParsException {
-            if (!existingNodes.contains(relationship.object())) {
-                throw new DataParsException(null, "second node is not yet created");
-            }
-        }
+        // private static void validateExistingObject(RelationshipDTO relationship, Set<Node> existingNodes)
+        //         throws DataParsException {
+        //     if (!existingNodes.contains(relationship.object())) {
+        //         throw new DataParsException(null, "second node is not yet created");
+        //     }
+        // }
 
         private static void validateUniqueNode(RelationshipDTO relationship, Set<Node> existingNodes)
                 throws DataParsException {
