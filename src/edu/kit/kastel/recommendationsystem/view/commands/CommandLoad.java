@@ -41,6 +41,7 @@ public class CommandLoad implements Command<Communication> {
         List<String> processedLines = new ArrayList<>();
         try {
             ParseResult result = DatabaseParser.parse(parseStringArray(this.dataBasePath));
+            processedLines = result.getProcessedLines();
             handle.setGraph(result.getGraph());
 
             return Result.success(createOutputString(processedLines));
