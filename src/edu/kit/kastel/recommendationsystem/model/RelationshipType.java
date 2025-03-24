@@ -1,6 +1,8 @@
 package edu.kit.kastel.recommendationsystem.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents the type of relationship between two nodes in the graph.
@@ -48,6 +50,13 @@ public enum RelationshipType {
             CONTAINS,
             CONTAINED_IN);
 
+    private static final Map<String, RelationshipType> ENUM_REPRESENTATIONS = new HashMap<>();
+    static {
+        for (RelationshipType type : values()) {
+            ENUM_REPRESENTATIONS.put(type.representation, type);
+        }
+    }
+
     private final String representation;
 
     RelationshipType(String representation) {
@@ -74,19 +83,11 @@ public enum RelationshipType {
      * Converts a string representation of a relationship type to the corresponding
      * enum value.
      *
-     * @param value the string representation of the relationship type
+     * @param representationString the string representation of the relationship type
      * @return the corresponding {@link RelationshipType}
      */
-    public static RelationshipType fromString(String value) {
-        return switch (value.toLowerCase()) {
-            case "contains" -> CONTAINS;
-            case "contained-in" -> CONTAINED_IN;
-            case "part-of" -> PART_OF;
-            case "has-part" -> HAS_PART;
-            case "successor-of" -> SUCCESSOR_OF;
-            case "predecessor-of" -> PREDECESSOR_OF;
-            default -> null;
-        };
+    public static RelationshipType fromString(String representationString) {
+        return ENUM_REPRESENTATIONS.get(representationString.toLowerCase());
     }
 
     /**
