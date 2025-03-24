@@ -151,7 +151,6 @@ public class Arguments {
             }
         }
         graph.addNode(node);
-
         return node;
         // throw new DataParsException("the Node: " + node + " could not be found");
     }

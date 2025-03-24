@@ -113,8 +113,7 @@ public class Graph {
     }
 
     private boolean canAddRelationship(RelationshipDTO relationship) {
-        return !this.edges.contains(relationship.edge())
-                && this.nodes.contains(relationship.subject())
+        return this.nodes.contains(relationship.subject())
                 && this.nodes.contains(relationship.object())
                 && RelationshipType.isAllowedBetween(relationship);
     }
