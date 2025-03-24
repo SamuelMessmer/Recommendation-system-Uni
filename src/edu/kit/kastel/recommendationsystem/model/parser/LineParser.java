@@ -42,7 +42,8 @@ public final class LineParser {
                     + ")\\s*$");
 
     private static final String ERROR_INVALID_STRING_PATTERN = "the given string does not match the provided pattern. line: %s";
-    private static final String ERROR_INVALID_PREDICATE = "the given predicate is incorrect %s";
+    private static final String ERROR_INVALID_PREDICATE = "the given predicate is incorrect: %s";
+    private static final String ERROR_INVALID_ID_NUMBER = "please provide a valid number instead of: %s";
 
     private LineParser() {
         // Utility class
@@ -95,11 +96,11 @@ public final class LineParser {
         return RelationshipType.fromString(type);
     }
 
-    private static int parseInt(String numberRepresentation) throws DataParsException {
+    private static int parseInt(String numberString) throws DataParsException {
         try {
-            return Integer.parseInt(numberRepresentation);
+            return Integer.parseInt(numberString);
         } catch (NumberFormatException exception) {
-            throw new DataParsException(exception.getMessage());
+            throw new DataParsException(String.format(ERROR_INVALID_ID_NUMBER, numberString));
         }
     }
 }
