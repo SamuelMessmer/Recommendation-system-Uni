@@ -120,6 +120,10 @@ public final class DatabaseParser {
                         && !relationship.object().equals(existingNode)) {
                     throw new DataParsException(null, "detacted several products with the same id.");
                 }
+                if (relationship.subject().getName().equals(existingNode.getName())
+                        || relationship.object().getName().equals(existingNode.getName())) {
+                    throw new DataParsException(null, "node name is already occupied");
+                }
             }
         }
 
