@@ -76,8 +76,6 @@ public enum RelationshipType {
      *
      * @param value the string representation of the relationship type
      * @return the corresponding {@link RelationshipType}
-     * @throws IllegalArgumentException if the string does not match any
-     *                                  relationship type
      */
     public static RelationshipType fromString(String value) {
         return switch (value.toLowerCase()) {
@@ -87,7 +85,7 @@ public enum RelationshipType {
             case "has-part" -> HAS_PART;
             case "successor-of" -> SUCCESSOR_OF;
             case "predecessor-of" -> PREDECESSOR_OF;
-            default -> throw new IllegalArgumentException();
+            default -> null;
         };
     }
 

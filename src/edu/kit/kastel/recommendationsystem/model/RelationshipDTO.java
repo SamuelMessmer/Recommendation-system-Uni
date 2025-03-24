@@ -25,7 +25,7 @@ public record RelationshipDTO(
      * @return the primary edge representing the relationship
      */
     public Edge edge() {
-        return new Edge(subject, object, predicate);
+        return new Edge(this.subject, this.object, this.predicate);
     }
 
     /**
@@ -36,6 +36,6 @@ public record RelationshipDTO(
      * @return the reverse edge of the relationship
      */
     public Edge reverseEdge() {
-        return new Edge(object, subject, predicate.getReverse());
+        return new Edge(this.object, this.subject, this.predicate.getReverse());
     }
 }
