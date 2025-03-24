@@ -19,6 +19,7 @@ public final class RecursiveDescentParser {
     private static final String WHITESPACE_NORMALIZATION_REGEX = "\\s*([(),])\\s*";
     private static final String MULTIPLE_WHITESPACE_REGEX = "\\s+";
     private static final String STRATEGY_PREFIX = "S";
+    private static final String INPUT_SEPERATOR = " ";
     private static final String UNION_OPERATOR = "UNION";
     private static final String INTERSECTION_OPERATOR = "INTERSECTION";
 
@@ -29,6 +30,8 @@ public final class RecursiveDescentParser {
     private static final String ERROR_INVALID_STRATEGY = "invalid strategy: %s";
     private static final String ERROR_EXPECTED_CHARACTER = "expected: '%s'";
     private static final String ERROR_UNEXPECTED_END_OF_INPUT = "unexpected characters at end of input";
+
+    private static final String ZEICHEN = "$1";
 
     private static final char UNION_START_SYMBOL = 'U';
     private static final char INTERSECTION_START_SYMBOL = 'I';
@@ -230,8 +233,8 @@ public final class RecursiveDescentParser {
 
         ParserState(String input, Graph graph) {
             this.input = input.trim()
-                    .replaceAll(WHITESPACE_NORMALIZATION_REGEX, "$1")
-                    .replaceAll(MULTIPLE_WHITESPACE_REGEX, " ");
+                    .replaceAll(WHITESPACE_NORMALIZATION_REGEX, ZEICHEN)
+                    .replaceAll(MULTIPLE_WHITESPACE_REGEX, INPUT_SEPERATOR);
             this.graph = graph;
             this.position = 0;
         }

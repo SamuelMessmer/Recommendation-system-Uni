@@ -26,8 +26,11 @@ public class Arguments {
     private static final String INPUT_LINE_SEPERATOR = " ";
 
     private static final String ERROR_INVALID_PATH_TO_DATABASE_FILE = "the provided path is incorrect";
+    private static final String ERROR_INVALID_NODE = "the node: %s can not be added";
     private static final String ERROR_TOO_FEW_ARGUMENTS = "too few provided arguments.";
     private static final String ERROR_MISSING_DATABASE_FLAG = "the second is missing. Should be: 'database'";
+
+    private static final int MODELING_HINT = 0;
 
     private final Graph graph;
     private String[] arguments;
@@ -128,7 +131,7 @@ public class Arguments {
     public String retrieveLine() {
         StringBuilder builder = new StringBuilder();
 
-        for (int i = 0; i < arguments.length; i++) {
+        for (int i = MODELING_HINT; i < arguments.length; i++) {
             String argumentString = retrieveArgument();
             builder.append(argumentString).append(INPUT_LINE_SEPERATOR);
         }
@@ -156,7 +159,7 @@ public class Arguments {
             graph.addNode(node);
             return node;
         }
-        throw new DataParsException(" Im your Grandfather not your commanding Officers");
+        throw new DataParsException(String.format(ERROR_INVALID_NODE, node));
     }
 
     private boolean validateNodePlacement(Node node, Set<Node> nodes) {
@@ -170,7 +173,6 @@ public class Arguments {
                 }
             }
         }
-
         return true;
     }
 
