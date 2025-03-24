@@ -3,12 +3,14 @@ package edu.kit.kastel.recommendationsystem.view.commands;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.kit.kastel.recommendationsystem.view.Result;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
 import edu.kit.kastel.recommendationsystem.model.parser.DatabaseParser;
+import edu.kit.kastel.recommendationsystem.model.parser.ParseResult;
 import edu.kit.kastel.recommendationsystem.view.Communication;
 
 /**
@@ -37,13 +39,16 @@ public class CommandLoad implements Command<Communication> {
 
     @Override
     public Result execute(Communication handle) {
-        try {
-            Graph graph = DatabaseParser.parse(parseStringArray(this.dataBasePath));
-            handle.setGraph(graph);
+        List<String> processedLines = new ArrayList<>();
 
-            return Result.success(createOutputString());
+        try {
+            ParseResult result = DatabaseParser.parse(parseStringArray(this.dataBasePath));
+            handle.setGraph(result.getGraph());
+            processedLines = result.getProcessedLines();
+
+            return Result.success(createOutputString(processedLines));
         } catch (DataParsException exception) {
-            return Result.error(exception.getMessage());
+            return Result.error(String.join(createOutputString(processedLines), exception.getMessage()));
         }
     }
 
@@ -55,12 +60,17 @@ public class CommandLoad implements Command<Communication> {
         }
     }
 
-    private String createOutputString() throws DataParsException {
-        try {
-            return Files.readString(this.dataBasePath);
-        } catch (IOException exception) {
-            throw new DataParsException(exception.getMessage());
-        }
+    private String createOutputString(List<String> processedLines) {
+        // try {
+        // return Files.readString(this.dataBasePath);
+        // } catch (IOException exception) {
+        // throw new DataParsException(exception.getMessage());
+        // }
 
+        StringBuilder output = new StringBuilder();
+        for (String line : processedLines) {
+            output.append(line).append(System.lineSeparator());
+        }
+        return output.toString();
     }
 }

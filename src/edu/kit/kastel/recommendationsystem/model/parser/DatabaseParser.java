@@ -1,6 +1,7 @@
 package edu.kit.kastel.recommendationsystem.model.parser;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,18 +36,20 @@ public final class DatabaseParser {
      * @return the constructed graph
      * @throws DataParsException if parsing or validation fails
      */
-    public static Graph parse(List<String> lines) throws DataParsException {
+    public static ParseResult parse(List<String> lines) throws DataParsException {
         Set<Node> nodes = new HashSet<>();
         Set<Edge> edges = new HashSet<>();
+        List<String> processedLines = new ArrayList<>();
 
         for (String line : lines) {
             RelationshipDTO relationship = LineParser.parse(line);
 
             ValidationUtils.validateDTO(relationship, nodes);
             processDTO(relationship, nodes, edges);
+            processedLines.add(line);
         }
 
-        return new Graph(nodes, edges);
+        return new ParseResult(new Graph(nodes, edges), processedLines);
     }
 
     private static void processDTO(RelationshipDTO relationship, Set<Node> nodes, Set<Edge> edges) {
@@ -84,10 +87,14 @@ public final class DatabaseParser {
 
         private static void validateDTO(RelationshipDTO relationship, Set<Node> existingNodes)
                 throws DataParsException {
-            validateNoSelfReference(relationship);
-            validateUniqueNode(relationship, existingNodes);
-            RelationshipType.isAllowedBetween(relationship);
-            validateExistingEdges(relationship, existingNodes);
+            try {
+                validateNoSelfReference(relationship);
+                validateUniqueNode(relationship, existingNodes);
+                RelationshipType.isAllowedBetween(relationship);
+                validateExistingEdges(relationship, existingNodes);
+            } catch (DataParsException exception) {
+                throw new DataParsException(exception.getMessage());
+            }
         }
 
         private static void validateNoSelfReference(RelationshipDTO relationship) throws DataParsException {
