@@ -151,6 +151,7 @@ public class Arguments {
                 return existingNode;
             }
         }
+        
         if (validateNodePlacement(node, nodes)) {
             graph.addNode(node);
             return node;
@@ -160,6 +161,9 @@ public class Arguments {
 
     private boolean validateNodePlacement(Node node, Set<Node> nodes) {
         for (Node existingNode : nodes) {
+            if (existingNode.getName().equals(node.getName())) {
+                return false;
+            }
             if (existingNode instanceof Product && node instanceof Product) {
                 if (((Product) existingNode).getId() == ((Product) node).getId()) {
                     return false;
