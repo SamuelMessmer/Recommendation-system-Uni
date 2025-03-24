@@ -28,7 +28,7 @@ public class CommandRecommend implements Command<Graph> {
     private static final String INTERSECTION_OPERATOR = "INTERSECTION";
     private static final String INPUT_SEPARATOR = " ";
     private static final String OUTPUT_SEPARATOR = " ";
-    private static final String EMPTY_OUTPUT = " ";
+    private static final String EMPTY_OUTPUT = "";
 
     private static final String ERROR_UNKNOWN_OPERATOR = "Unknown operator: %s";
     private static final String ERROR_INVALID_STRATEGY_NUMBER = "Invalid strategy number";
