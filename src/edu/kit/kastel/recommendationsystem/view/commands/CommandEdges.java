@@ -5,7 +5,7 @@ import java.util.List;
 
 import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
-import edu.kit.kastel.recommendationsystem.util.SortEdges;
+import edu.kit.kastel.recommendationsystem.util.SortUtils;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
 /**
@@ -23,7 +23,7 @@ public class CommandEdges implements Command<Graph> {
 
     private String createOutputString(Graph handle) {
         List<Edge> edges = new ArrayList<>(handle.getEdges());
-        SortEdges.sort(edges);
+        SortUtils.sortEdges(edges);
 
         StringBuilder output = new StringBuilder();
         for (Edge edge : edges) {

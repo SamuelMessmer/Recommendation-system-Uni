@@ -10,7 +10,7 @@ import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
 import edu.kit.kastel.recommendationsystem.model.NodeType;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
-import edu.kit.kastel.recommendationsystem.util.SortEdges;
+import edu.kit.kastel.recommendationsystem.util.SortUtils;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
 /**
@@ -34,7 +34,7 @@ public class CommandExport implements Command<Graph> {
     @Override
     public Result execute(Graph handle) {
         List<Edge> edges = new ArrayList<>(handle.getEdges());
-        SortEdges.sort(edges);
+        SortUtils.sortEdges(edges);
 
         StringBuilder output = new StringBuilder();
 

@@ -22,24 +22,24 @@ public class CommandLoad implements Command<Communication> {
 
     private static final String ERROR_READING_FILE = "Could not read config file: %s";
 
-    private final Path dataBasePath;
+    private final Path databasePath;
 
     /**
      * Constructs a new CommandLoad instance.
      * 
      * @param databaseFlag a flag indicating database-related operations (not used
      *                     internally)
-     * @param dataBasePath the path to the database file that should be loaded
+     * @param databasePath the path to the database file that should be loaded
      */
-    public CommandLoad(String databaseFlag, Path dataBasePath) {
-        this.dataBasePath = dataBasePath;
+    public CommandLoad(String databaseFlag, Path databasePath) {
+        this.databasePath = databasePath;
     }
 
     @Override
     public Result execute(Communication handle) {
         try {
             handle.print(createOutputString());
-            Graph graph = DatabaseParser.parse(parseStringArray(this.dataBasePath));
+            Graph graph = DatabaseParser.parse(parseFiletoStringArray());
             handle.setGraph(graph);
 
             return Result.success();
@@ -48,18 +48,18 @@ public class CommandLoad implements Command<Communication> {
         }
     }
 
-    private static List<String> parseStringArray(Path pathToDataBaseFile) throws DataParsException {
+    private List<String> parseFiletoStringArray() throws DataParsException {
         try {
-            return Files.readAllLines(pathToDataBaseFile);
+            return Files.readAllLines(this.databasePath);
         } catch (IOException | SecurityException exception) {
-            throw new DataParsException(String.format(ERROR_READING_FILE, pathToDataBaseFile));
+            throw new DataParsException(String.format(ERROR_READING_FILE, this.databasePath));
         }
     }
 
     private String createOutputString() throws DataParsException {
         try {
-            return Files.readString(this.dataBasePath);
-        } catch (IOException exception) {
+            return Files.readString(this.databasePath);
+        } catch (IOException | OutOfMemoryError | SecurityException exception) {
             throw new DataParsException(ERROR_READING_FILE);
         }
     }

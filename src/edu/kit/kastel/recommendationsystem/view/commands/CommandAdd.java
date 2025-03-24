@@ -13,6 +13,8 @@ import edu.kit.kastel.recommendationsystem.view.Result;
  */
 public class CommandAdd implements Command<Graph> {
 
+    private static final String ERROR_RELATIONSHIP_NOT_ADDABLE = "relationship could not be added to the graph";
+
     private final RelationshipDTO relationship;
 
     /**
@@ -26,6 +28,7 @@ public class CommandAdd implements Command<Graph> {
 
     @Override
     public Result execute(Graph handle) {
-        return handle.addRelationship(this.relationship) ? Result.success() : Result.error("ERror Message is missing");
+        return handle.addRelationship(this.relationship) ? Result.success()
+                : Result.error(ERROR_RELATIONSHIP_NOT_ADDABLE);
     }
 }

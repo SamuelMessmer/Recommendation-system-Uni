@@ -1,16 +1,17 @@
 package edu.kit.kastel.recommendationsystem.view.commands;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
-import edu.kit.kastel.recommendationsystem.util.SortNodes;
+import edu.kit.kastel.recommendationsystem.util.SortUtils;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
 /**
  * Command implementation for listing all nodes in the graph.
- * Outputs nodes sorted alphabetically by name, with products formatted as name:id.
+ * Outputs nodes sorted alphabetically by name, with products formatted as
+ * name:id.
  * 
  * @author urrwg
  */
@@ -26,14 +27,15 @@ public class CommandNodes implements Command<Graph> {
 
     private String createOutputString(Graph graph) {
         List<Node> nodes = new ArrayList<>(graph.getNodes());
-        SortNodes.sort(nodes);
+        SortUtils.SortNodes(nodes);
 
         StringBuilder output = new StringBuilder();
 
         for (Node node : nodes) {
-            output.append(node.toString()).append(NODE_SEPERATOR);
+            output.append(node.toString())
+                    .append(NODE_SEPERATOR);
         }
 
-        return output.length() == 0 ? EMPTY_NODES_OUTPUT : output.toString().trim();
+        return output.isEmpty() ? EMPTY_NODES_OUTPUT : output.toString().trim();
     }
 }

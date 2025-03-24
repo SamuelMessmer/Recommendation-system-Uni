@@ -3,7 +3,7 @@ package edu.kit.kastel.recommendationsystem.view.commands;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
 import edu.kit.kastel.recommendationsystem.model.RecommendationStrategy;
-import edu.kit.kastel.recommendationsystem.util.SortNodes;
+import edu.kit.kastel.recommendationsystem.util.SortUtils;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
 import java.util.ArrayList;
@@ -153,7 +153,7 @@ public class CommandRecommend implements Command<Graph> {
         }
 
         List<Node> sorted = new ArrayList<>(nodes);
-        SortNodes.sort(sorted);
+        SortUtils.SortNodes(sorted);
 
         StringBuilder sb = new StringBuilder();
         for (Node node : sorted) {

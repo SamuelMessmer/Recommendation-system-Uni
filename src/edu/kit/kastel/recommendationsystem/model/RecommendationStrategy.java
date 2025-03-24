@@ -32,16 +32,16 @@ public final class RecommendationStrategy {
         Set<Node> siblings = new HashSet<>();
 
         Set<Node> categories = new HashSet<>();
-        for (Edge e : node.getEdges()) {
-            if (e.getRelationship() == RelationshipType.CONTAINED_IN) {
-                categories.add(e.getEndNode());
+        for (Edge edge : node.getEdges()) {
+            if (edge.getRelationship() == RelationshipType.CONTAINED_IN) {
+                categories.add(edge.getEndNode());
             }
         }
 
         for (Node category : categories) {
-            for (Edge e : graph.getEdges()) {
-                if (e.getRelationship() == RelationshipType.CONTAINS && e.getStartNode().equals(category)) {
-                    Node endNode = e.getEndNode();
+            for (Edge edge : graph.getEdges()) {
+                if (edge.getRelationship() == RelationshipType.CONTAINS && edge.getStartNode().equals(category)) {
+                    Node endNode = edge.getEndNode();
                     if (endNode instanceof Product) {
                         siblings.add(endNode);
                     }
@@ -63,7 +63,7 @@ public final class RecommendationStrategy {
      * @return a set of successor products
      */
     public static Set<Node> findSuccessorProducts(Node node, Graph graph) {
-        return traverseRelationship(node, graph, RelationshipType.PREDECESSOR_OF);
+        return traverseRelationship(node, RelationshipType.PREDECESSOR_OF);
     }
 
     /**
@@ -76,7 +76,7 @@ public final class RecommendationStrategy {
      * @return a set of predecessor products
      */
     public static Set<Node> findPredecessorProducts(Node node, Graph graph) {
-        return traverseRelationship(node, graph, RelationshipType.SUCCESSOR_OF);
+        return traverseRelationship(node, RelationshipType.SUCCESSOR_OF);
     }
 
     /**
@@ -84,26 +84,26 @@ public final class RecommendationStrategy {
      * specified relationship.Uses a breadth-first search (BFS) to explore the
      * graph.
      *
-     * @param start        the starting node for the traversal
+     * @param startNode    the starting node for the traversal
      * @param graph        the graph containing the nodes and edges
      * @param relationship the relationship type to traverse
-     * @return a set of products connected to the start node via the specified
+     * @return a set of products connected to the startNode node via the specified
      *         relationship
      */
-    private static Set<Node> traverseRelationship(Node start, Graph graph, RelationshipType relationship) {
+    private static Set<Node> traverseRelationship(Node startNode, RelationshipType relationship) {
         Set<Node> result = new HashSet<>();
         Set<Node> visited = new HashSet<>();
         Queue<Node> queue = new LinkedList<>();
 
-        queue.add(start);
-        visited.add(start);
+        queue.add(startNode);
+        visited.add(startNode);
 
         while (!queue.isEmpty()) {
-            Node current = queue.poll();
+            Node currentNode = queue.poll();
 
-            for (Edge e : current.getEdges()) {
-                if (e.getRelationship() == relationship) {
-                    Node neighbor = e.getEndNode();
+            for (Edge edge : currentNode.getEdges()) {
+                if (edge.getRelationship() == relationship) {
+                    Node neighbor = edge.getEndNode();
                     if (neighbor instanceof Product && !visited.contains(neighbor)) {
                         visited.add(neighbor);
                         queue.add(neighbor);
@@ -112,7 +112,6 @@ public final class RecommendationStrategy {
                 }
             }
         }
-
         return Collections.unmodifiableSet(result);
     }
 }

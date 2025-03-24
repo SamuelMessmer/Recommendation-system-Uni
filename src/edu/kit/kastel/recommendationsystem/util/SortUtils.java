@@ -1,19 +1,20 @@
 package edu.kit.kastel.recommendationsystem.util;
 
-import java.util.List;
 import java.util.Comparator;
+import java.util.List;
 
 import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.NodeType;
+import edu.kit.kastel.recommendationsystem.model.Product;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
 
 /**
- * Utility class for sorting edges based on their source node, target node,
- * and relationship type in a predefined order.
+ * Provides utility methods for sorting nodes and edges in a graph.
  * 
  * @author urrwg
  */
-public final class SortEdges {
+public final class SortUtils {
 
     private static final List<RelationshipType> RELATIONSHIP_ORDER = List.of(
             RelationshipType.CONTAINS,
@@ -23,17 +24,17 @@ public final class SortEdges {
             RelationshipType.SUCCESSOR_OF,
             RelationshipType.PREDECESSOR_OF);
 
-    private SortEdges() {
+    private SortUtils() {
         // This is a Utility class
     }
 
     /**
-     * Sorts a list of edges based on their start node, end node, and relationship
-     * type.
+     * Sorts a list of edges based on the name of their start node, end node, and
+     * relationship type in alphabeticall order.
      * 
      * @param edges the list of edges to be sorted
      */
-    public static void sort(List<Edge> edges) {
+    public static void sortEdges(List<Edge> edges) {
         edges.sort(new Comparator<Edge>() {
             @Override
             public int compare(Edge firstEdge, Edge secondEdge) {
@@ -56,6 +57,32 @@ public final class SortEdges {
 
             private int compareNodes(Node firstNode, Node secondNode) {
                 return firstNode.getName().compareToIgnoreCase(secondNode.getName());
+            }
+        });
+    }
+
+    /**
+     * Sorts a list of nodes alphabetically by name.
+     * If two nodes have the same name, products are sorted by their ID, and
+     * categories are sorted after products.
+     *
+     * @param nodes the list of nodes to sort
+     */
+    public static void SortNodes(List<Node> nodes) {
+        nodes.sort(new Comparator<Node>() {
+            @Override
+            public int compare(Node firstNode, Node secondNode) {
+                int nameCompare = firstNode.getName().compareToIgnoreCase(secondNode.getName());
+                if (nameCompare != 0) {
+                    return nameCompare;
+                }
+
+                if (firstNode.isOfType(NodeType.PRODUCT) && secondNode.isOfType(NodeType.PRODUCT)) {
+                    return Integer.compare(
+                            ((Product) firstNode).getId(),
+                            ((Product) secondNode).getId());
+                }
+                return firstNode.isOfType(NodeType.PRODUCT) ? -1 : 1;
             }
         });
     }
