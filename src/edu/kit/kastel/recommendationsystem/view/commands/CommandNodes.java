@@ -36,6 +36,6 @@ public class CommandNodes implements Command<Graph> {
                     .append(NODE_SEPERATOR);
         }
 
-        return output.isEmpty() ? EMPTY_NODES_OUTPUT : output.toString().trim();
+        return nodes.isEmpty() ? EMPTY_NODES_OUTPUT : output.toString().trim();
     }
 }
