@@ -25,9 +25,9 @@ public class Communication {
     private static final String ERROR_UNKNOWN_COMMAND_FORMAT = ERROR_PREFIX + " unknown command: %s";
     private static final String ERROR_TOO_MANY_ARGUMENTS = ERROR_PREFIX + "too many arguments provided.";
     private static final String ERROR_INVALID_PRECONDITION = ERROR_PREFIX + "command cannot be used right now.";
+    
     private final Set<GraphKeyword> graphKeywords = EnumSet.allOf(GraphKeyword.class);
     private final Set<ViewKeyword> viewKeywords = EnumSet.allOf(ViewKeyword.class);
-
     private final InputStream inputSource;
     private final PrintStream defaultStream;
     private final PrintStream errorStream;
