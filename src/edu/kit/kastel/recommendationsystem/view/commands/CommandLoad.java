@@ -42,13 +42,12 @@ public class CommandLoad implements Command<Communication> {
 
         try {
             ParseResult result = DatabaseParser.parse(parseStringArray(this.dataBasePath));
-            handle.setGraph(result.getGraph());
             processedLines = result.getProcessedLines();
+            handle.setGraph(result.getGraph());
 
             return Result.success(createOutputString(processedLines));
         } catch (DataParsException exception) {
-            return Result.error(
-                    String.join(System.lineSeparator(), createOutputString(processedLines), exception.getMessage()));
+            return Result.error(createOutputString(processedLines) + System.lineSeparator() + exception.getMessage());
         }
     }
 
