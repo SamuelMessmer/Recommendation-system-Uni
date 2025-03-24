@@ -66,6 +66,17 @@ public class Communication {
     }
 
     /**
+     * Prints the given output, if the Communication is listenig.
+     * 
+     * @param output the output to print
+     */
+    public void print(String output) {
+        if (this.isRunning) {
+            this.defaultStream.println(output);
+        }
+    }
+
+    /**
      * Starts the interaction with the user. This method will block while
      * interacting.
      * The interaction will continue as long as the provided source has more lines
