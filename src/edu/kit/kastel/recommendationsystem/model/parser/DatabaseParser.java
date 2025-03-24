@@ -21,8 +21,24 @@ import edu.kit.kastel.recommendationsystem.model.RelationshipType;
  */
 public final class DatabaseParser {
 
-    private static final String ERROR_INVALID_RELATIONSHIP_PARTNER = "Self-reference not allowed";
-    private static final String ERROR_ALREADY_EXISTING_EDGE = "Duplicate edge detected";
+    // private static final String ERROR_INVALID_RELATIONSHIP_PARTNER =
+    // "Self-reference not allowed";
+    // private static final String ERROR_ALREADY_EXISTING_EDGE = "Duplicate edge
+    // detected";
+
+    private static final String ERROR_SELF_REFERENCE = "Self-reference not allowed";
+    private static final String ERROR_DUPLICATE_EDGE = "Duplicate edge detected";
+    private static final String ERROR_DUPLICATE_PRODUCT_ID = "Duplicate product ID detected: %d";
+    private static final String ERROR_DUPLICATE_NODE_NAME = "Duplicate node name detected: %s";
+    private static final String ERROR_INVALID_RELATIONSHIP = "the relationship: %s, is not aplicable for the given node types";
+    // private static final String ERROR_INVALID_CONTAINS = "'contains' requires
+    // category as source";
+    // private static final String ERROR_INVALID_CONTAINED_IN = "'contained-in'
+    // requires category as target";
+    // private static final String ERROR_INVALID_PART_RELATION = "'part-of/has-part'
+    // requires products";
+    // private static final String ERROR_INVALID_SUCCESSOR_RELATION =
+    // "'successor/predecessor' requires products";
 
     private DatabaseParser() {
         // This is a utitlity class
@@ -83,17 +99,21 @@ public final class DatabaseParser {
 
         private static void validateDTO(RelationshipDTO relationship, Set<Node> existingNodes)
                 throws DataParsException {
-            if (!RelationshipType.isAllowedBetween(relationship)) {
-                throw new DataParsException("the relationship is wrong");
-            }
+            validateRelationship(relationship);
             validateNoSelfReference(relationship);
             validateUniqueIdentifiers(relationship, existingNodes);
-            validateExistingEdges(relationship, existingNodes);
+            validateEdgeUniqueness(relationship, existingNodes);
+        }
+
+        private static void validateRelationship(RelationshipDTO relationship) throws DataParsException {
+            if (!RelationshipType.isAllowedBetween(relationship)) {
+                throw new DataParsException(String.format(ERROR_INVALID_RELATIONSHIP, relationship.predicate()));
+            }
         }
 
         private static void validateNoSelfReference(RelationshipDTO relationship) throws DataParsException {
             if (relationship.subject().equals(relationship.object())) {
-                throw new DataParsException(ERROR_INVALID_RELATIONSHIP_PARTNER);
+                throw new DataParsException(ERROR_SELF_REFERENCE);
             }
         }
 
@@ -113,7 +133,7 @@ public final class DatabaseParser {
                 Product existingProduct = (Product) existingNode;
 
                 if (currentProduct.getId() == existingProduct.getId() && !currentNode.equals(existingNode)) {
-                    throw new DataParsException(String.format("Test fjewiofjwfjioa", currentProduct.getId()));
+                    throw new DataParsException(String.format(ERROR_DUPLICATE_PRODUCT_ID, currentProduct.getId()));
                 }
             }
         }
@@ -121,14 +141,14 @@ public final class DatabaseParser {
         private static void checkNodeNameUniqueness(Node currentNode, Node existingNode) throws DataParsException {
             if (currentNode.getName().equalsIgnoreCase(existingNode.getName())
                     && !currentNode.equals(existingNode)) {
-                throw new DataParsException(String.format("wjiefoöawjiefojwieofjwief", existingNode.getName()));
+                throw new DataParsException(String.format(ERROR_DUPLICATE_NODE_NAME, existingNode.getName()));
             }
         }
 
-        private static void validateExistingEdges(RelationshipDTO relationship, Set<Node> nodes)
+        private static void validateEdgeUniqueness(RelationshipDTO relationship, Set<Node> nodes)
                 throws DataParsException {
             if (edgeExists(relationship, nodes)) {
-                throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
+                throw new DataParsException(ERROR_DUPLICATE_EDGE);
             }
         }
 
@@ -142,6 +162,7 @@ public final class DatabaseParser {
                 }
             }
             return false;
+
         }
     }
 }
