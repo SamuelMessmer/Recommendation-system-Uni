@@ -99,11 +99,11 @@ public enum RelationshipType {
      */
     public static boolean isAllowedBetween(RelationshipDTO relationship) {
         if (relationship.subject().isOfType(NodeType.CATEGORY) && relationship.object().isOfType(NodeType.PRODUCT)
-                && relationship.predicate() == CONTAINED_IN) {
+                && relationship.predicate() != CONTAINED_IN) {
             return false;
         }
         if (relationship.subject().isOfType(NodeType.PRODUCT) && relationship.object().isOfType(NodeType.CATEGORY)
-                && relationship.predicate() == CONTAINS) {
+                && relationship.predicate() != CONTAINS) {
             return false;
         }
         if (relationship.subject().isOfType(NodeType.CATEGORY) || relationship.object().isOfType(NodeType.CATEGORY)) {
