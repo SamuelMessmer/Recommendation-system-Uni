@@ -1,9 +1,8 @@
-package edu.kit.kastel.recommendationsystem.util;
+package edu.kit.kastel.recommendationsystem.util.parser;
 
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
 import edu.kit.kastel.recommendationsystem.model.RecommendationStrategy;
-import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
 
 import java.util.Set;
 import java.util.List;
@@ -37,7 +36,11 @@ public final class RecursiveDescentParser {
     private static final char PAREN_CLOSE = ')';
     private static final char COMMA = ',';
     private static final char STRATEGY_ID_PREFIX = 'S';
-    private static final List<Character> STRATEGY_RECOGNITION_NUMBERS = List.of('1', '2', '3');
+    private static final char SIBLING_STRATEGY_NUMBER = '1';
+    private static final char SUCCESOR_STRATEGY_NUMBER = '2';
+    private static final char PREDECESSOR_STRATEGY_NUMBER = '3';
+    private static final List<Character> STRATEGY_RECOGNITION_NUMBERS = List.of(SIBLING_STRATEGY_NUMBER,
+            SUCCESOR_STRATEGY_NUMBER, PREDECESSOR_STRATEGY_NUMBER);
 
     private RecursiveDescentParser() {
         // This is a utility class

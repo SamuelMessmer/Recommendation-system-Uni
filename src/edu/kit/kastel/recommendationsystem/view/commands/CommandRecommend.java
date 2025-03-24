@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
-import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
-import edu.kit.kastel.recommendationsystem.util.RecursiveDescentParser;
 import edu.kit.kastel.recommendationsystem.util.SortUtils;
+import edu.kit.kastel.recommendationsystem.util.parser.DataParsException;
+import edu.kit.kastel.recommendationsystem.util.parser.RecursiveDescentParser;
 import edu.kit.kastel.recommendationsystem.view.Result;
 
 /**
@@ -54,13 +54,11 @@ public class CommandRecommend implements Command<Graph> {
         List<Node> sorted = new ArrayList<>(nodes);
         SortUtils.sortNodes(sorted);
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder output = new StringBuilder();
         for (Node node : sorted) {
-            if (sb.length() > 0) {
-                sb.append(OUTPUT_SEPARATOR);
-            }
-            sb.append(node.toString().toLowerCase());
+            output.append(node.toString().toLowerCase())
+                    .append(OUTPUT_SEPARATOR);
         }
-        return sb.toString();
+        return output.toString().trim();
     }
 }

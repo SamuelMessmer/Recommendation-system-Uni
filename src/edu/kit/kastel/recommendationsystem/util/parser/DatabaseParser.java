@@ -1,4 +1,4 @@
-package edu.kit.kastel.recommendationsystem.model.parser;
+package edu.kit.kastel.recommendationsystem.util.parser;
 
 import java.util.List;
 import java.util.HashSet;

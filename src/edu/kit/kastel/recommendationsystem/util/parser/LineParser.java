@@ -1,4 +1,4 @@
-package edu.kit.kastel.recommendationsystem.model.parser;
+package edu.kit.kastel.recommendationsystem.util.parser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

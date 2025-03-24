@@ -78,7 +78,6 @@ public class CommandExport implements Command<Graph> {
             output.append(category.getName())
                     .append(CATEGORY_IDENTIFIER_STRING)
                     .append(System.lineSeparator());
-
         }
     }
 

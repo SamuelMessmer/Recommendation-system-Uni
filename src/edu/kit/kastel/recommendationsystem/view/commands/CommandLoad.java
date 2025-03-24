@@ -7,8 +7,8 @@ import java.util.List;
 
 import edu.kit.kastel.recommendationsystem.view.Result;
 import edu.kit.kastel.recommendationsystem.model.Graph;
-import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
-import edu.kit.kastel.recommendationsystem.model.parser.DatabaseParser;
+import edu.kit.kastel.recommendationsystem.util.parser.DataParsException;
+import edu.kit.kastel.recommendationsystem.util.parser.DatabaseParser;
 import edu.kit.kastel.recommendationsystem.view.Communication;
 
 /**
@@ -58,7 +58,7 @@ public class CommandLoad implements Command<Communication> {
 
     private String createOutputString() throws DataParsException {
         try {
-            return Files.readString(this.databasePath);
+            return Files.readString(this.databasePath).trim();
         } catch (IOException | OutOfMemoryError | SecurityException exception) {
             throw new DataParsException(ERROR_READING_FILE);
         }

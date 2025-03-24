@@ -1,4 +1,4 @@
-package edu.kit.kastel.recommendationsystem.model.parser;
+package edu.kit.kastel.recommendationsystem.util.parser;
 
 /**
  * Signals that parsing/retrieving a Database failed.

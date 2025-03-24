@@ -27,7 +27,8 @@ public class CommandEdges implements Command<Graph> {
 
         StringBuilder output = new StringBuilder();
         for (Edge edge : edges) {
-            output.append(edge.toString()).append(System.lineSeparator());
+            output.append(edge.toString())
+                    .append(System.lineSeparator());
         }
         return output.toString().trim();
     }

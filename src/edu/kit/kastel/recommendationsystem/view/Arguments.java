@@ -9,8 +9,8 @@ import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
 import edu.kit.kastel.recommendationsystem.model.Product;
 import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
-import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
-import edu.kit.kastel.recommendationsystem.model.parser.LineParser;
+import edu.kit.kastel.recommendationsystem.util.parser.DataParsException;
+import edu.kit.kastel.recommendationsystem.util.parser.LineParser;
 import edu.kit.kastel.recommendationsystem.view.commands.Command;
 
 /**
