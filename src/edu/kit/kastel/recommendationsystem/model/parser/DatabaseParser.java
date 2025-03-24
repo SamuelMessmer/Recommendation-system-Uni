@@ -45,9 +45,9 @@ public final class DatabaseParser {
             for (String line : lines) {
                 RelationshipDTO relationship = LineParser.parse(line);
 
+                processedLines.add(line);
                 ValidationUtils.validateDTO(relationship, nodes);
                 processDTO(relationship, nodes, edges);
-                processedLines.add(line);
             }
         } catch (DataParsException exception) {
             throw new DataParsException(processedLines, ERROR_ALREADY_EXISTING_EDGE);
