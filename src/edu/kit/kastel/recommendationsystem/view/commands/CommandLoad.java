@@ -58,7 +58,7 @@ public class CommandLoad implements Command<Communication> {
 
     private String createOutputString() throws DataParsException {
         try {
-            return Files.readString(this.databasePath).trim();
+            return Files.readString(this.databasePath);
         } catch (IOException | OutOfMemoryError | SecurityException exception) {
             throw new DataParsException(ERROR_READING_FILE);
         }
