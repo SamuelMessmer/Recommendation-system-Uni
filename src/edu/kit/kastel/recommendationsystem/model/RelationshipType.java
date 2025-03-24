@@ -98,13 +98,8 @@ public enum RelationshipType {
      * @return {@code true} if the relationship is allowed, {@code false} otherwise
      */
     public static boolean isAllowedBetween(RelationshipDTO relationship) {
-        if (relationship.subject().isOfType(NodeType.CATEGORY) && relationship.object().isOfType(NodeType.PRODUCT)
-                && relationship.predicate() != CONTAINED_IN) {
-            return false;
-        }
-        if (relationship.subject().isOfType(NodeType.PRODUCT) && relationship.object().isOfType(NodeType.CATEGORY)
-                && relationship.predicate() != CONTAINS) {
-            return false;
+        if (relationship.subject().isOfType(NodeType.PRODUCT) && relationship.object().isOfType(NodeType.PRODUCT)) {
+            return !CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationship.predicate());
         }
         if (relationship.subject().isOfType(NodeType.CATEGORY) || relationship.object().isOfType(NodeType.CATEGORY)) {
             return CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationship.predicate());
