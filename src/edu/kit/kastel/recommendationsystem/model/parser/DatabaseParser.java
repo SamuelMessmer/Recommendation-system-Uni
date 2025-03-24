@@ -1,7 +1,6 @@
 package edu.kit.kastel.recommendationsystem.model.parser;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,16 +35,14 @@ public final class DatabaseParser {
      * @return the constructed graph
      * @throws DataParsException if parsing or validation fails
      */
-    public static ParseResult parse(List<String> lines) throws DataParsException {
+    public static Graph parse(List<String> lines) throws DataParsException {
         Set<Node> nodes = new HashSet<>();
         Set<Edge> edges = new HashSet<>();
-        List<String> processedLines = new ArrayList<>();
 
         try {
             for (String line : lines) {
                 RelationshipDTO relationship = LineParser.parse(line);
 
-                processedLines.add(line);
                 ValidationUtils.validateDTO(relationship, nodes);
                 processDTO(relationship, nodes, edges);
             }
@@ -53,7 +50,7 @@ public final class DatabaseParser {
             throw new DataParsException(ERROR_ALREADY_EXISTING_EDGE);
         }
 
-        return new ParseResult(new Graph(nodes, edges), processedLines);
+        return new Graph(nodes, edges);
     }
 
     private static void processDTO(RelationshipDTO relationship, Set<Node> nodes, Set<Edge> edges) {

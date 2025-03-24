@@ -6,9 +6,9 @@ import java.nio.file.Path;
 import java.util.List;
 
 import edu.kit.kastel.recommendationsystem.view.Result;
+import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
 import edu.kit.kastel.recommendationsystem.model.parser.DatabaseParser;
-import edu.kit.kastel.recommendationsystem.model.parser.ParseResult;
 import edu.kit.kastel.recommendationsystem.view.Communication;
 
 /**
@@ -37,16 +37,13 @@ public class CommandLoad implements Command<Communication> {
 
     @Override
     public Result execute(Communication handle) {
-        String outputString = null;
         try {
-            outputString = createOutputString();
-            ParseResult result = DatabaseParser.parse(parseStringArray(this.dataBasePath));
-            handle.setGraph(result.getGraph());
+            handle.print(createOutputString());
+            Graph graph = DatabaseParser.parse(parseStringArray(this.dataBasePath));
+            handle.setGraph(graph);
 
-            return Result.success(createOutputString());
+            return Result.success();
         } catch (DataParsException exception) {
-            handle.print(outputString);
-
             return Result.error(exception.getMessage());
         }
     }
