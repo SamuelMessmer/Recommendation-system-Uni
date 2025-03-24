@@ -20,6 +20,23 @@ import java.util.Set;
  */
 public class CommandRecommend implements Command<Graph> {
 
+    private static final String WHITESPACE_NORMALIZATION_REGEX = "\\s*([(),])\\s*";
+    private static final String MULTIPLE_WHITESPACE_REGEX = "\\s+";
+    private static final String STRATEGY_PREFIX = "S";
+    private static final String UNION_OPERATOR = "UNION";
+    private static final String INTERSECTION_OPERATOR = "INTERSECTION";
+    private static final String ERROR_UNKNOWN_OPERATOR = "Unknown operator: ";
+    private static final String ERROR_UNEXPECTED_CHARACTERS = "Unexpected characters at end of input";
+    private static final String ERROR_INVALID_STRATEGY_NUMBER = "Invalid strategy number";
+    private static final String ERROR_MISSING_PRODUCT_ID = "Expected product ID";
+    private static final String ERROR_PRODUCT_NOT_FOUND = "Product not found: ";
+    private static final String ERROR_INVALID_STRATEGY = "Invalid strategy: ";
+    private static final String OUTPUT_SEPARATOR = " ";
+    private static final char PAREN_OPEN = '(';
+    private static final char PAREN_CLOSE = ')';
+    private static final char COMMA = ',';
+    private static final char STRATEGY_ID_PREFIX = 'S';
+
     private final String input;
     private int position;
     private Graph graph;
@@ -32,8 +49,8 @@ public class CommandRecommend implements Command<Graph> {
      */
     public CommandRecommend(String input) {
         this.input = input.trim()
-                .replaceAll("\\s*([(),])\\s*", "$1") // Normalize whitespace
-                .replaceAll("\\s+", " "); // Collapse multiple spaces
+                .replaceAll(WHITESPACE_NORMALIZATION_REGEX, "$1")
+                .replaceAll(MULTIPLE_WHITESPACE_REGEX, " ");
         this.position = 0;
     }
 
@@ -55,29 +72,29 @@ public class CommandRecommend implements Command<Graph> {
         if (peek() == 'U' || peek() == 'I') {
             String operator = parseIdentifier();
             return switch (operator.toUpperCase()) {
-                case "UNION" -> parseUnion();
-                case "INTERSECTION" -> parseIntersection();
-                default -> throw error("Unknown operator: " + operator);
+                case UNION_OPERATOR -> parseUnion();
+                case INTERSECTION_OPERATOR -> parseIntersection();
+                default -> throw error(ERROR_UNKNOWN_OPERATOR + operator);
             };
         }
         return parseFinal();
     }
 
     private UnionTerm parseUnion() throws ParseException {
-        match('(');
+        match(PAREN_OPEN);
         Term left = parseTerm();
-        match(',');
+        match(COMMA);
         Term right = parseTerm();
-        match(')');
+        match(PAREN_CLOSE);
         return new UnionTerm(left, right);
     }
 
     private IntersectionTerm parseIntersection() throws ParseException {
-        match('(');
+        match(PAREN_OPEN);
         Term left = parseTerm();
-        match(',');
+        match(COMMA);
         Term right = parseTerm();
-        match(')');
+        match(PAREN_CLOSE);
         return new IntersectionTerm(left, right);
     }
 
@@ -88,13 +105,13 @@ public class CommandRecommend implements Command<Graph> {
     }
 
     private String parseStrategy() throws ParseException {
-        match('S');
+        match(STRATEGY_ID_PREFIX);
         char num = peek();
         if (num < '1' || num > '3') {
-            throw error("Invalid strategy number");
+            throw error(ERROR_INVALID_STRATEGY_NUMBER);
         }
         position++;
-        return "S" + num;
+        return STRATEGY_PREFIX + num;
     }
 
     private int parseProductId() throws ParseException {
@@ -104,7 +121,7 @@ public class CommandRecommend implements Command<Graph> {
             position++;
         }
         if (start == position) {
-            throw error("Expected product ID");
+            throw error(ERROR_MISSING_PRODUCT_ID);
         }
         return Integer.parseInt(input.substring(start, position));
     }
@@ -170,6 +187,10 @@ public class CommandRecommend implements Command<Graph> {
     }
 
     private static class FinalTerm implements Term {
+        private static final String STRATEGY_S1 = "S1";
+        private static final String STRATEGY_S2 = "S2";
+        private static final String STRATEGY_S3 = "S3";
+
         private final String strategy;
         private final int productId;
         private final Graph graph;
@@ -184,14 +205,14 @@ public class CommandRecommend implements Command<Graph> {
         public Set<Node> evaluate() throws ParseException {
             Node productNode = graph.findProductById(productId);
             if (productNode == null) {
-                throw new ParseException("Product not found: " + productId);
+                throw new ParseException(ERROR_PRODUCT_NOT_FOUND + productId);
             }
 
             Set<Node> result = switch (strategy) {
-                case "S1" -> RecommendationStrategy.findSiblingProducts(productNode, graph);
-                case "S2" -> RecommendationStrategy.findSuccessorProducts(productNode, graph);
-                case "S3" -> RecommendationStrategy.findPredecessorProducts(productNode, graph);
-                default -> throw new ParseException("Invalid strategy: " + strategy);
+                case STRATEGY_S1 -> RecommendationStrategy.findSiblingProducts(productNode, graph);
+                case STRATEGY_S2 -> RecommendationStrategy.findSuccessorProducts(productNode, graph);
+                case STRATEGY_S3 -> RecommendationStrategy.findPredecessorProducts(productNode, graph);
+                default -> throw new ParseException(ERROR_INVALID_STRATEGY + strategy);
             };
 
             return result;
