@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.kit.kastel.recommendationsystem.view.Result;
-import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
 import edu.kit.kastel.recommendationsystem.model.parser.DatabaseParser;
 import edu.kit.kastel.recommendationsystem.model.parser.ParseResult;
@@ -48,7 +47,8 @@ public class CommandLoad implements Command<Communication> {
 
             return Result.success(createOutputString(processedLines));
         } catch (DataParsException exception) {
-            return Result.error(String.join(createOutputString(processedLines), exception.getMessage()));
+            return Result.error(
+                    String.join(System.lineSeparator(), createOutputString(processedLines), exception.getMessage()));
         }
     }
 
@@ -71,6 +71,6 @@ public class CommandLoad implements Command<Communication> {
         for (String line : processedLines) {
             output.append(line).append(System.lineSeparator());
         }
-        return output.toString();
+        return output.toString().trim();
     }
 }
