@@ -18,7 +18,7 @@ import edu.kit.kastel.recommendationsystem.view.commands.Command;
  * 
  * @author urrwg
  */
-public class Communication {
+public class UserInterface {
 
     private static final String COMMAND_SEPARATOR = " ";
     private static final String ERROR_PREFIX = "Error, ";
@@ -42,14 +42,14 @@ public class Communication {
      * @param defaultStream the output stream used for standard messages
      * @param errorStream   the output stream used for error messages
      */
-    public Communication(InputStream inputSource, PrintStream defaultStream, PrintStream errorStream) {
+    public UserInterface(InputStream inputSource, PrintStream defaultStream, PrintStream errorStream) {
         this.inputSource = inputSource;
         this.defaultStream = defaultStream;
         this.errorStream = errorStream;
     }
 
     /**
-     * Sets the graph instance that is provided by this class {@link Communication}
+     * Sets the graph instance that is provided by this class {@link UserInterface}
      * to its managed commands.
      * 
      * @param graph the graph instance to be provided to the commands

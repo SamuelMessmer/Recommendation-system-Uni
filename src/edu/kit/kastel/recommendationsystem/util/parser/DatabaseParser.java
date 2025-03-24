@@ -21,10 +21,10 @@ import edu.kit.kastel.recommendationsystem.model.RelationshipType;
  */
 public final class DatabaseParser {
 
-    private static final String ERROR_SELF_REFERENCE = "Self-reference not allowed";
-    private static final String ERROR_DUPLICATE_EDGE = "Duplicate edge detected";
-    private static final String ERROR_DUPLICATE_PRODUCT_ID = "Duplicate product ID detected: %d";
-    private static final String ERROR_DUPLICATE_NODE_NAME = "Duplicate node name detected: %s";
+    private static final String ERROR_SELF_REFERENCE = "self-reference not allowed";
+    private static final String ERROR_DUPLICATE_EDGE = "duplicate edge detected";
+    private static final String ERROR_DUPLICATE_PRODUCT_ID = "duplicate product ID detected: %d";
+    private static final String ERROR_DUPLICATE_NODE_NAME = "duplicate node name detected: %s";
     private static final String ERROR_INVALID_RELATIONSHIP = "the relationship: %s, is not aplicable for the given node types";
 
     private DatabaseParser() {

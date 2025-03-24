@@ -6,11 +6,11 @@ import edu.kit.kastel.recommendationsystem.view.commands.CommandProvider;
 import edu.kit.kastel.recommendationsystem.view.commands.CommandQuit;
 
 /**
- * This enum represents all keywords for commands handling an {@link Communication}.
+ * This enum represents all keywords for commands handling an {@link UserInterface}.
  * 
  * @author Programmieren-Team
  */
-public enum ViewKeyword implements Keyword<Communication> {
+public enum ViewKeyword implements Keyword<UserInterface> {
 
     /**
      * The keyword for the {@link CommandLoad load} command.
@@ -21,14 +21,14 @@ public enum ViewKeyword implements Keyword<Communication> {
      */
     QUIT(arguments -> new CommandQuit());
     
-    private final CommandProvider<Communication> provider;
+    private final CommandProvider<UserInterface> provider;
 
-    ViewKeyword(CommandProvider<Communication> provider) {
+    ViewKeyword(CommandProvider<UserInterface> provider) {
         this.provider = provider;
     }
     
     @Override
-    public Command<Communication> provide(Arguments arguments) throws InvalidArgumentException {
+    public Command<UserInterface> provide(Arguments arguments) throws InvalidArgumentException {
         return provider.provide(arguments);
     }
 

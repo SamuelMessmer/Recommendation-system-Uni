@@ -22,13 +22,13 @@ public final class RecursiveDescentParser {
     private static final String UNION_OPERATOR = "UNION";
     private static final String INTERSECTION_OPERATOR = "INTERSECTION";
 
-    private static final String ERROR_UNKNOWN_OPERATOR = "Unknown operator: %s";
-    private static final String ERROR_INVALID_STRATEGY_NUMBER = "Invalid strategy number";
-    private static final String ERROR_MISSING_PRODUCT_ID = "Expected product ID";
-    private static final String ERROR_PRODUCT_NOT_FOUND = "Product not found: %s";
-    private static final String ERROR_INVALID_STRATEGY = "Invalid strategy: %s";
-    private static final String ERROR_EXPECTED_CHARACTER = "Expected: '%s'";
-    private static final String ERROR_UNEXPECTED_END_OF_INPUT = "Unexpected characters at end of input";
+    private static final String ERROR_UNKNOWN_OPERATOR = "unknown operator: %s";
+    private static final String ERROR_INVALID_STRATEGY_NUMBER = "invalid strategy number";
+    private static final String ERROR_MISSING_PRODUCT_ID = "expected product ID";
+    private static final String ERROR_PRODUCT_NOT_FOUND = "product not found: %s";
+    private static final String ERROR_INVALID_STRATEGY = "invalid strategy: %s";
+    private static final String ERROR_EXPECTED_CHARACTER = "expected: '%s'";
+    private static final String ERROR_UNEXPECTED_END_OF_INPUT = "unexpected characters at end of input";
 
     private static final char UNION_START_SYMBOL = 'U';
     private static final char INTERSECTION_START_SYMBOL = 'I';

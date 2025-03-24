@@ -9,7 +9,7 @@ import edu.kit.kastel.recommendationsystem.view.Result;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.util.parser.DataParsException;
 import edu.kit.kastel.recommendationsystem.util.parser.DatabaseParser;
-import edu.kit.kastel.recommendationsystem.view.Communication;
+import edu.kit.kastel.recommendationsystem.view.UserInterface;
 
 /**
  * Command for loading a database file and initializing the graph structure.
@@ -18,9 +18,9 @@ import edu.kit.kastel.recommendationsystem.view.Communication;
  * 
  * @author urrwg
  */
-public class CommandLoad implements Command<Communication> {
+public class CommandLoad implements Command<UserInterface> {
 
-    private static final String ERROR_READING_FILE = "Could not read config file";
+    private static final String ERROR_READING_FILE = "could not read config file";
 
     private final Path databasePath;
 
@@ -36,7 +36,7 @@ public class CommandLoad implements Command<Communication> {
     }
 
     @Override
-    public Result execute(Communication handle) {
+    public Result execute(UserInterface handle) {
         try {
             handle.print(createOutputString());
             Graph graph = DatabaseParser.parse(parseFiletoStringArray());
