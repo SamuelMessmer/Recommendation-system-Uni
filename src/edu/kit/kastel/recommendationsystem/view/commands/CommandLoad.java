@@ -38,15 +38,13 @@ public class CommandLoad implements Command<Communication> {
 
     @Override
     public Result execute(Communication handle) {
-        List<String> processedLines = new ArrayList<>();
         try {
             ParseResult result = DatabaseParser.parse(parseStringArray(this.dataBasePath));
-            processedLines = result.getProcessedLines();
             handle.setGraph(result.getGraph());
 
-            return Result.success(createOutputString(processedLines));
+            return Result.success(createOutputString(result.getProcessedLines()));
         } catch (DataParsException exception) {
-            handle.print(createOutputString(processedLines));
+            handle.print(createOutputString(exception.getProcessedLines()));
 
             return Result.error(exception.getMessage());
         }
