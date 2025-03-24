@@ -12,6 +12,8 @@ import java.util.Objects;
  */
 public class Edge {
 
+    private static final String EDGE_OUTPUT_FORMAT = "%s-[%s]->%s";
+
     private final Node startNode;
     private final Node endNode;
     private final RelationshipType type;
@@ -59,7 +61,7 @@ public class Edge {
 
     @Override
     public String toString() {
-        return startNode.toString() + "-[" + type.toString() + "]->" + endNode;
+        return String.format(EDGE_OUTPUT_FORMAT, startNode.toString(), type.toString(), endNode.toString());
     }
 
     @Override
