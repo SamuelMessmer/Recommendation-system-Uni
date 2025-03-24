@@ -66,7 +66,7 @@ public class Graph {
      * @param newNode the node to be added
      */
     public void addNode(Node newNode) {
-        if (!this.nodes.contains(newNode) && removeEdge(null)) {
+        if (!this.nodes.contains(newNode)) {
             this.nodes.add(newNode);
         }
     }
@@ -113,7 +113,8 @@ public class Graph {
     }
 
     private boolean canAddRelationship(RelationshipDTO relationship) {
-        return this.nodes.contains(relationship.subject())
+        return !this.edges.contains(relationship.edge())
+                && this.nodes.contains(relationship.subject())
                 && this.nodes.contains(relationship.object())
                 && RelationshipType.isAllowedBetween(relationship);
     }
