@@ -7,6 +7,7 @@ import java.util.Set;
 
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.Product;
 import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.model.parser.DataParsException;
 import edu.kit.kastel.recommendationsystem.model.parser.LineParser;
@@ -150,9 +151,23 @@ public class Arguments {
                 return existingNode;
             }
         }
-        graph.addNode(node);
-        return node;
-        // throw new DataParsException("the Node: " + node + " could not be found");
+        if (validateNodePlacement(node, nodes)) {
+            graph.addNode(node);
+            return node;
+        }
+        throw new DataParsException(" Im your Grandfather not your commanding Officers");
+    }
+
+    private boolean validateNodePlacement(Node node, Set<Node> nodes) {
+        for (Node existingNode : nodes) {
+            if (existingNode instanceof Product && node instanceof Product) {
+                if (((Product) existingNode).getId() == ((Product) node).getId()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
