@@ -15,6 +15,7 @@ import edu.kit.kastel.recommendationsystem.view.commands.CommandRemove;
  * {@link Graph}.
  *
  * @author Programmieren-Team
+ * @author urrwg
  */
 public enum GraphKeyword implements Keyword<Graph> {
 

@@ -4,6 +4,7 @@ package edu.kit.kastel.recommendationsystem.view;
  * Signals that parsing/retrieving an argument failed.
  * 
  * @author Programmieren-Team
+ * @author urrwg
  */
 public class InvalidArgumentException extends Exception {
 

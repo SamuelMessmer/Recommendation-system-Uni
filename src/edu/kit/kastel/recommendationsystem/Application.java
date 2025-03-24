@@ -6,6 +6,7 @@ import edu.kit.kastel.recommendationsystem.view.UserInterface;
  * The class offering the entry point for the application.
  * 
  * @author Programmieren-Team
+ * @author urrwg
  */
 public final class Application {
 
@@ -26,7 +27,7 @@ public final class Application {
             return;
         }
 
-        UserInterface cummunication = new UserInterface(System.in, System.out, System.err);
-        cummunication.handleUserInput();
+        UserInterface userInterface = new UserInterface(System.in, System.out, System.err);
+        userInterface.handleUserInput();
     }
 }

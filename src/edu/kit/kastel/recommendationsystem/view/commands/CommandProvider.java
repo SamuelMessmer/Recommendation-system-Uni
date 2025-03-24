@@ -8,6 +8,7 @@ import edu.kit.kastel.recommendationsystem.view.InvalidArgumentException;
  * @param <T> the type of the value that is handled by the command
  *           
  * @author Programmieren-Team
+ * @author urrwg
  */
 public interface CommandProvider<T> {
 

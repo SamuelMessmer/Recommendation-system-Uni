@@ -16,6 +16,7 @@ import edu.kit.kastel.recommendationsystem.model.RelationshipType;
  */
 public final class SortUtils {
 
+    private static final int EQUAL_VALUE = 0;
     private static final List<RelationshipType> RELATIONSHIP_ORDER = List.of(
             RelationshipType.CONTAINS,
             RelationshipType.CONTAINED_IN,
@@ -39,12 +40,12 @@ public final class SortUtils {
             @Override
             public int compare(Edge firstEdge, Edge secondEdge) {
                 int sourceCompare = compareNodes(firstEdge.getStartNode(), secondEdge.getStartNode());
-                if (sourceCompare != 0) {
+                if (sourceCompare != EQUAL_VALUE) {
                     return sourceCompare;
                 }
 
                 int targetCompare = compareNodes(firstEdge.getEndNode(), secondEdge.getEndNode());
-                if (targetCompare != 0) {
+                if (targetCompare != EQUAL_VALUE) {
                     return targetCompare;
                 }
 
@@ -73,7 +74,7 @@ public final class SortUtils {
             @Override
             public int compare(Node firstNode, Node secondNode) {
                 int nameCompare = firstNode.getName().compareToIgnoreCase(secondNode.getName());
-                if (nameCompare != 0) {
+                if (nameCompare != EQUAL_VALUE) {
                     return nameCompare;
                 }
 

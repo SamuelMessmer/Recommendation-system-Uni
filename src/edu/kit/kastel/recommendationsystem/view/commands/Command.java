@@ -7,6 +7,7 @@ import edu.kit.kastel.recommendationsystem.view.Result;
  * @param <T> the type of the value to be handled
  *           
  * @author Programmieren-Team
+ * @author urrwg
  */
 @FunctionalInterface
 public interface Command<T> {

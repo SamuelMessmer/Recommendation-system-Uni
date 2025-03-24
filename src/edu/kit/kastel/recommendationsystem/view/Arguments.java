@@ -24,13 +24,12 @@ public class Arguments {
     private static final String CONFIG_FILE_EXTENSION = ".txt";
     private static final String DATABASE_FLAG = "database";
     private static final String INPUT_LINE_SEPERATOR = " ";
+    private static final int START_INDEX = 0;
 
     private static final String ERROR_INVALID_PATH_TO_DATABASE_FILE = "the provided path is incorrect";
     private static final String ERROR_INVALID_NODE = "the node: %s can not be added";
     private static final String ERROR_TOO_FEW_ARGUMENTS = "too few provided arguments.";
     private static final String ERROR_MISSING_DATABASE_FLAG = "the second is missing. Should be: 'database'";
-
-    private static final int MODELING_HINT = 0;
 
     private final Graph graph;
     private String[] arguments;
@@ -131,7 +130,7 @@ public class Arguments {
     public String retrieveLine() {
         StringBuilder builder = new StringBuilder();
 
-        for (int i = MODELING_HINT; i < arguments.length; i++) {
+        for (int i = START_INDEX; i < arguments.length; i++) {
             String argumentString = retrieveArgument();
             builder.append(argumentString).append(INPUT_LINE_SEPERATOR);
         }

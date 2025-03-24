@@ -7,6 +7,7 @@ import edu.kit.kastel.recommendationsystem.view.commands.CommandProvider;
  * @param <T> the type of the value that is handled by the command
  *     
  * @author Programmieren-Team
+ * @author urrwg
  */
 public interface Keyword<T> extends CommandProvider<T> {
 

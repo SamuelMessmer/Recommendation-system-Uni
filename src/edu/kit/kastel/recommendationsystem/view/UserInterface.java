@@ -16,6 +16,7 @@ import edu.kit.kastel.recommendationsystem.view.commands.Command;
  * This class reads input from a provided source, processes commands, and
  * executes them on the managed graph instance.
  * 
+ * @author Programmieren-Team
  * @author urrwg
  */
 public class UserInterface {
@@ -25,7 +26,7 @@ public class UserInterface {
     private static final String ERROR_UNKNOWN_COMMAND_FORMAT = ERROR_PREFIX + " unknown command: %s";
     private static final String ERROR_TOO_MANY_ARGUMENTS = ERROR_PREFIX + "too many arguments provided.";
     private static final String ERROR_INVALID_PRECONDITION = ERROR_PREFIX + "command cannot be used right now.";
-    
+
     private final Set<GraphKeyword> graphKeywords = EnumSet.allOf(GraphKeyword.class);
     private final Set<ViewKeyword> viewKeywords = EnumSet.allOf(ViewKeyword.class);
     private final InputStream inputSource;

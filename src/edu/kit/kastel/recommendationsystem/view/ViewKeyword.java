@@ -9,6 +9,7 @@ import edu.kit.kastel.recommendationsystem.view.commands.CommandQuit;
  * This enum represents all keywords for commands handling an {@link UserInterface}.
  * 
  * @author Programmieren-Team
+ * @author urrwg
  */
 public enum ViewKeyword implements Keyword<UserInterface> {
 

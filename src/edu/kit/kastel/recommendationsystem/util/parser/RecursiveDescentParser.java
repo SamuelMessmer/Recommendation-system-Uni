@@ -9,10 +9,23 @@ import java.util.List;
 import java.util.HashSet;
 
 /**
- * fhawiöfjawo-.
+ * A recursive descent parser for processing recommendation queries.
+ * Translates input strings into sets of recommended product nodes using
+ * a combination of recommendation strategies and set operations.
  * 
+ * <p>
+ * The parser supports the following operations:
+ * <ul>
+ * <li>Basic strategies: S1 (Siblings), S2 (Successors), S3 (Predecessors)</li>
+ * <li>Set operations: UNION and INTERSECTION</li>
+ * </ul>
+ * 
+ * <p>
+ * Example query: {@code "UNION(INTERSECTION(S1 100, S2 200), S3 300)"}
+ *
  * @author urrwg
  */
+
 public final class RecursiveDescentParser {
 
     // Region: Constants
@@ -50,12 +63,24 @@ public final class RecursiveDescentParser {
     }
 
     /**
-     * ejwioafjewio.
+     * Parses a input string and evaluates it against the provided graph.
      * 
-     * @param input jfweioj
-     * @param graph fjweoifj
-     * @return ewaoifw
-     * @throws DataParsException huwifh
+     * @param input The recommendation query string to parse. Expected format:
+     *              {@code "[OPERATION(][STRATEGY ID, ]*)"} where:
+     *              <ul>
+     *              <li>OPERATION: UNION | INTERSECTION</li>
+     *              <li>STRATEGY: S1 | S2 | S3</li>
+     *              <li>ID: Numeric product identifier</li>
+     *              </ul>
+     * @param graph The graph data structure containing products and relationships
+     * @return A set of recommended nodes matching the query criteria
+     * @throws DataParsException If any of these occur:
+     *                           <ul>
+     *                           <li>Syntax errors in the input string</li>
+     *                           <li>Invalid strategy specifications</li>
+     *                           <li>References to non-existent products</li>
+     *                           <li>Type mismatches in operations</li>
+     *                           </ul>
      */
     public static Set<Node> parse(String input, Graph graph) throws DataParsException {
         ParserState state = new ParserState(input, graph);

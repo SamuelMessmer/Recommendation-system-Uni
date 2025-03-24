@@ -4,6 +4,7 @@ package edu.kit.kastel.recommendationsystem.view;
  * The result of a command execution.
  * 
  * @author Programmieren-Team
+ * @author urrwg
  */
 public final class Result {
     
