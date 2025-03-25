@@ -64,18 +64,18 @@ public class Edge {
         return String.format(EDGE_OUTPUT_FORMAT, startNode.toString(), type.toString(), endNode.toString());
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        Edge edge = (Edge) o;
-        return this.startNode.equals(edge.startNode) && this.type == edge.type
-                && this.endNode.equals(edge.endNode);
-    }
+    // @Override
+    // public boolean equals(Object object) {
+    //     if (this == object) {
+    //         return true;
+    //     }
+    //     Edge edge = (Edge) object;
+    //     return this.startNode.equals(edge.startNode) && this.type == edge.type
+    //             && this.endNode.equals(edge.endNode);
+    // }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.startNode, this.type, this.endNode);
-    }
+    // @Override
+    // public int hashCode() {
+    //     return Objects.hash(this.startNode, this.type, this.endNode);
+    // }
 }
