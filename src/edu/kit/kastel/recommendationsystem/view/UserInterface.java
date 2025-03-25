@@ -22,6 +22,8 @@ import edu.kit.kastel.recommendationsystem.view.commands.Command;
 public class UserInterface {
 
     private static final String COMMAND_SEPARATOR = " ";
+    private static final int COMMAND_ARGUMENT_INDEX = 0;
+    private static final int SECOND_ARGUMENT_INDEX = 1;
     private static final String ERROR_PREFIX = "Error, ";
     private static final String ERROR_UNKNOWN_COMMAND_FORMAT = ERROR_PREFIX + " unknown command: %s";
     private static final String ERROR_TOO_MANY_ARGUMENTS = ERROR_PREFIX + "too many arguments provided.";
@@ -37,7 +39,7 @@ public class UserInterface {
     private boolean isRunning;
 
     /**
-     * Constructs a new Communication instance.
+     * Constructs a new user interface instance.
      *
      * @param inputSource   the input stream used to read user commands
      * @param defaultStream the output stream used for standard messages
@@ -99,9 +101,9 @@ public class UserInterface {
     }
 
     private void handleLine(String line) {
-        String[] split = line.split(COMMAND_SEPARATOR, -1);
-        String command = split[0];
-        String[] arguments = Arrays.copyOfRange(split, 1, split.length);
+        String[] split = line.split(COMMAND_SEPARATOR);
+        String command = split[COMMAND_ARGUMENT_INDEX];
+        String[] arguments = Arrays.copyOfRange(split, SECOND_ARGUMENT_INDEX, split.length);
 
         if (!findAndHandleCommand(this.viewKeywords, this, command, arguments)
                 && !findAndHandleCommand(this.graphKeywords, graph, command, arguments)) {

@@ -16,7 +16,9 @@ import edu.kit.kastel.recommendationsystem.model.RelationshipType;
  */
 public final class SortUtils {
 
-    private static final int EQUAL_VALUE = 0;
+    private static final int EQUAL = 0;
+    private static final int PRODUCT_FIRST = -1;
+    private static final int CATEGORY_FIRST = 1;
     private static final List<RelationshipType> RELATIONSHIP_ORDER = List.of(
             RelationshipType.CONTAINS,
             RelationshipType.CONTAINED_IN,
@@ -40,12 +42,12 @@ public final class SortUtils {
             @Override
             public int compare(Edge firstEdge, Edge secondEdge) {
                 int sourceCompare = compareNodes(firstEdge.getStartNode(), secondEdge.getStartNode());
-                if (sourceCompare != EQUAL_VALUE) {
+                if (sourceCompare != EQUAL) {
                     return sourceCompare;
                 }
 
                 int targetCompare = compareNodes(firstEdge.getEndNode(), secondEdge.getEndNode());
-                if (targetCompare != EQUAL_VALUE) {
+                if (targetCompare != EQUAL) {
                     return targetCompare;
                 }
 
@@ -74,7 +76,7 @@ public final class SortUtils {
             @Override
             public int compare(Node firstNode, Node secondNode) {
                 int nameCompare = firstNode.getName().compareToIgnoreCase(secondNode.getName());
-                if (nameCompare != EQUAL_VALUE) {
+                if (nameCompare != EQUAL) {
                     return nameCompare;
                 }
 
@@ -83,7 +85,7 @@ public final class SortUtils {
                             ((Product) firstNode).getId(),
                             ((Product) secondNode).getId());
                 }
-                return firstNode.isOfType(NodeType.PRODUCT) ? -1 : 1;
+                return firstNode.isOfType(NodeType.PRODUCT) ? PRODUCT_FIRST : CATEGORY_FIRST;
             }
         });
     }
