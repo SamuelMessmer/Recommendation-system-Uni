@@ -10,6 +10,7 @@ import edu.kit.kastel.recommendationsystem.view.UserInterface;
  */
 public final class Application {
 
+    private static final int EXPECTED_COMMAND_LINE_ARGUMENTS_COUNT = 0;
     private static final String ERROR_MESSAGE_COMMAND_LINE_ARGUMENTS = "Error, no command line arguments expected.";
 
     private Application() {
@@ -22,7 +23,7 @@ public final class Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        if (args.length != 0) {
+        if (args.length != EXPECTED_COMMAND_LINE_ARGUMENTS_COUNT) {
             System.err.println(ERROR_MESSAGE_COMMAND_LINE_ARGUMENTS);
             return;
         }

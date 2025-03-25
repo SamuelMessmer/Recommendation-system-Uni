@@ -30,7 +30,7 @@ public final class RecursiveDescentParser {
 
     private static final String MULTIPLE_WHITESPACE_REGEX = "\\s+";
     private static final String STRATEGY_PREFIX = "S";
-    private static final String INPUT_SEPERATOR = " ";
+    private static final String INPUT_SEPARATOR = " ";
     private static final String UNION_OPERATOR = "UNION";
     private static final String INTERSECTION_OPERATOR = "INTERSECTION";
 
@@ -42,17 +42,19 @@ public final class RecursiveDescentParser {
     private static final String ERROR_EXPECTED_CHARACTER = "expected: '%s'";
     private static final String ERROR_UNEXPECTED_END_OF_INPUT = "unexpected characters at end of input";
 
+    private static final int INITIAL_PARS_POSITION = 0;
     private static final char UNION_START_SYMBOL = 'U';
     private static final char INTERSECTION_START_SYMBOL = 'I';
     private static final char PAREN_OPEN = '(';
     private static final char PAREN_CLOSE = ')';
     private static final char COMMA = ',';
     private static final char STRATEGY_ID_PREFIX = 'S';
+    private static final char END_OF_INPUT_CHAR = 0;
     private static final char SIBLING_STRATEGY_NUMBER = '1';
-    private static final char SUCCESOR_STRATEGY_NUMBER = '2';
+    private static final char SUCCESSOR_STRATEGY_NUMBER = '2';
     private static final char PREDECESSOR_STRATEGY_NUMBER = '3';
     private static final List<Character> STRATEGY_RECOGNITION_NUMBERS = List.of(SIBLING_STRATEGY_NUMBER,
-            SUCCESOR_STRATEGY_NUMBER, PREDECESSOR_STRATEGY_NUMBER);
+            SUCCESSOR_STRATEGY_NUMBER, PREDECESSOR_STRATEGY_NUMBER);
 
     private RecursiveDescentParser() {
         // This is a utility class
@@ -162,7 +164,7 @@ public final class RecursiveDescentParser {
     }
 
     private static char peek(ParserState state) {
-        return state.position < state.input.length() ? state.input.charAt(state.position) : 0;
+        return state.position < state.input.length() ? state.input.charAt(state.position) : END_OF_INPUT_CHAR;
     }
 
     private static void skipWhitespace(ParserState state) {
@@ -183,6 +185,7 @@ public final class RecursiveDescentParser {
     }
 
     private static class FinalTerm implements Term {
+
         private static final String SIBLING_STRATEGY = "S1";
         private static final String SUCCESSOR_STRATEGY = "S2";
         private static final String PREDECESSOR_STRATEGY = "S3";
@@ -214,6 +217,7 @@ public final class RecursiveDescentParser {
     }
 
     private static class UnionTerm implements Term {
+
         private final Term left;
         private final Term right;
 
@@ -231,6 +235,7 @@ public final class RecursiveDescentParser {
     }
 
     private static class IntersectionTerm implements Term {
+
         private final Term left;
         private final Term right;
 
@@ -248,15 +253,16 @@ public final class RecursiveDescentParser {
     }
 
     private static class ParserState {
+
         final String input;
         final Graph graph;
         int position;
 
         ParserState(String input, Graph graph) {
             this.input = input.trim()
-                    .replaceAll(MULTIPLE_WHITESPACE_REGEX, INPUT_SEPERATOR);
+                    .replaceAll(MULTIPLE_WHITESPACE_REGEX, INPUT_SEPARATOR);
             this.graph = graph;
-            this.position = 0;
+            this.position = INITIAL_PARS_POSITION;
         }
     }
 }
