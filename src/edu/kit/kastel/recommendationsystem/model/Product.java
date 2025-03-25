@@ -19,7 +19,7 @@ public class Product extends Node {
      * Constructs a new product with the specified name and ID.
      *
      * @param name the name of the product
-     * @param id   the unique ID of the product
+     * @param id   the unique identification number (id) of the product
      */
     public Product(String name, int id) {
         super(name, NodeType.PRODUCT);
@@ -27,7 +27,7 @@ public class Product extends Node {
     }
 
     /**
-     * Returns the unique ID of the product.
+     * Returns the unique identification number (id) of the product.
      *
      * @return the product ID
      */

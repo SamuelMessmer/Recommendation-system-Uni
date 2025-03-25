@@ -1,9 +1,9 @@
 package edu.kit.kastel.recommendationsystem.model;
 
-import java.util.Collections;
+import java.util.Set;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
+import java.util.Collections;
 
 /**
  * Represents a node in the recommendation system graph.

@@ -1,8 +1,8 @@
 package edu.kit.kastel.recommendationsystem.util.parser;
 
+import java.util.Set;
 import java.util.List;
 import java.util.HashSet;
-import java.util.Set;
 
 import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
@@ -46,7 +46,7 @@ public final class DatabaseParser {
         for (String line : lines) {
             RelationshipDTO relationship = LineParser.parse(line);
 
-            ValidationUtils.validateDTO(relationship, nodes);
+            ValidationUtils.validateDTO(relationship, nodes, edges);
             processDTO(relationship, nodes, edges);
         }
 
@@ -89,12 +89,12 @@ public final class DatabaseParser {
      */
     private final class ValidationUtils {
 
-        private static void validateDTO(RelationshipDTO relationship, Set<Node> existingNodes)
+        private static void validateDTO(RelationshipDTO relationship, Set<Node> existingNodes, Set<Edge> existingEdges)
                 throws DataParsException {
             validateRelationship(relationship);
             validateNoSelfReference(relationship);
             validateUniqueIdentifiers(relationship, existingNodes);
-            validateEdgeUniqueness(relationship, existingNodes);
+            validateEdgeUniqueness(relationship, existingEdges);
         }
 
         private static void validateRelationship(RelationshipDTO relationship) throws DataParsException {
@@ -137,20 +137,18 @@ public final class DatabaseParser {
             }
         }
 
-        private static void validateEdgeUniqueness(RelationshipDTO relationship, Set<Node> nodes)
+        private static void validateEdgeUniqueness(RelationshipDTO relationship, Set<Edge> existingEdges)
                 throws DataParsException {
-            if (edgeExists(relationship, nodes)) {
+            if (edgeExists(relationship, existingEdges)) {
                 throw new DataParsException(ERROR_DUPLICATE_EDGE);
             }
         }
 
-        private static boolean edgeExists(RelationshipDTO relationship, Set<Node> nodes) {
-            for (Node node : nodes) {
-                for (Edge edge : node.getEdges()) {
-                    if (edge.equals(
-                            new Edge(relationship.subject(), relationship.object(), relationship.predicate()))) {
-                        return true;
-                    }
+        private static boolean edgeExists(RelationshipDTO relationship, Set<Edge> existinEdges) {
+            for (Edge existingEdge : existinEdges) {
+                if (existingEdge
+                        .equals(new Edge(relationship.subject(), relationship.object(), relationship.predicate()))) {
+                    return true;
                 }
             }
             return false;
