@@ -78,11 +78,11 @@ public abstract class Node {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (!(o instanceof Node node)) {
+        if (!(object instanceof Node node)) {
             return false;
         }
         return name.equals(node.name) && this.type == node.type;

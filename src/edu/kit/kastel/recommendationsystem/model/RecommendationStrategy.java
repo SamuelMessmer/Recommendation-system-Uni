@@ -42,7 +42,7 @@ public final class RecommendationStrategy {
             for (Edge edge : graph.getEdges()) {
                 if (edge.getRelationship() == RelationshipType.CONTAINS && edge.getStartNode().equals(category)) {
                     Node endNode = edge.getEndNode();
-                    if (endNode instanceof Product) {
+                    if (endNode.isOfType(NodeType.PRODUCT)) {
                         siblings.add(endNode);
                     }
                 }
@@ -104,7 +104,7 @@ public final class RecommendationStrategy {
             for (Edge edge : currentNode.getEdges()) {
                 if (edge.getRelationship() == relationship) {
                     Node neighbor = edge.getEndNode();
-                    if (neighbor instanceof Product && !visited.contains(neighbor)) {
+                    if (neighbor.isOfType(NodeType.PRODUCT) && !visited.contains(neighbor)) {
                         visited.add(neighbor);
                         queue.add(neighbor);
                         result.add(neighbor);

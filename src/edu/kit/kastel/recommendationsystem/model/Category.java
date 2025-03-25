@@ -20,14 +20,14 @@ public class Category extends Node {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (!(o instanceof Category)) {
+        if (!(object instanceof Category)) {
             return false;
         }
-        Category category = (Category) o;
+        Category category = (Category) object;
         return name.equals(category.name) && this.type == category.type;
     }
 

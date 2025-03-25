@@ -7,6 +7,7 @@ import java.util.Set;
 
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.NodeType;
 import edu.kit.kastel.recommendationsystem.model.Product;
 import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.util.parser.DataParsException;
@@ -165,7 +166,7 @@ public class Arguments {
             if (existingNode.getName().equals(node.getName())) {
                 return false;
             }
-            if (existingNode instanceof Product && node instanceof Product) {
+            if (existingNode.isOfType(NodeType.PRODUCT) && node.isOfType(NodeType.PRODUCT)) {
                 if (((Product) existingNode).getId() == ((Product) node).getId()) {
                     return false;
                 }

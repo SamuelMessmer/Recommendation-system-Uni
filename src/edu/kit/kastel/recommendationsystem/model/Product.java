@@ -41,14 +41,14 @@ public class Product extends Node {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (!(o instanceof Product)) {
+        if (!(object instanceof Product)) {
             return false;
         }
-        Product product = (Product) o;
+        Product product = (Product) object;
         return this.id == product.id && name.equals(product.name) && this.type == product.type;
     }
 

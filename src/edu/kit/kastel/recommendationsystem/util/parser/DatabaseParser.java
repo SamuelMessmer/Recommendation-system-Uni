@@ -7,6 +7,7 @@ import java.util.Set;
 import edu.kit.kastel.recommendationsystem.model.Edge;
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.NodeType;
 import edu.kit.kastel.recommendationsystem.model.Product;
 import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.model.RelationshipType;
@@ -119,7 +120,7 @@ public final class DatabaseParser {
         }
 
         private static void checkProductIdUniqueness(Node currentNode, Node existingNode) throws DataParsException {
-            if (currentNode instanceof Product && existingNode instanceof Product) {
+            if (currentNode.isOfType(NodeType.PRODUCT) && existingNode.isOfType(NodeType.PRODUCT)) {
                 Product currentProduct = (Product) currentNode;
                 Product existingProduct = (Product) existingNode;
 
