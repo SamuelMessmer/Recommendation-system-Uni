@@ -13,7 +13,7 @@ public final class Application {
     private static final String ERROR_MESSAGE_COMMAND_LINE_ARGUMENTS = "Error, no command line arguments expected.";
 
     private Application() {
-        // utility class
+        // This is a utility class
     }
 
     /**

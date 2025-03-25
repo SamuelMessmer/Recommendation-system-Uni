@@ -4,10 +4,15 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.management.relation.Relation;
+
 /**
  * Represents a graph structure for the recommendation system.
  * The graph consists of nodes (products and categories) and edges
  * (relationships between nodes).
+ * I have choosen a Set with a polymorphic design to follow the SOLID criteria
+ * and provide maximum expandability, even though Maps could theoretically be
+ * more perfomant (wiht larger graphs).
  * 
  * @author urrwg
  */
@@ -46,9 +51,9 @@ public class Graph {
     }
 
     /**
-     * Finds a product node by its unique ID.
+     * Finds a product node by its unique identification number (id).
      *
-     * @param productId the ID of the product to find
+     * @param productId the id of the product to find
      * @return the product node, or {@code null} if no such node exists
      */
     public Node findProductById(int productId) {
@@ -87,8 +92,7 @@ public class Graph {
 
         edges.remove(relationship.edge());
         edges.remove(relationship.reverseEdge());
-        cleanupOrphanedNodes(relationship.subject(), relationship.object(), relationship.edge(),
-                relationship.reverseEdge());
+        cleanupOrphanedNodes(relationship);
         return true;
     }
 
@@ -119,17 +123,17 @@ public class Graph {
                 && RelationshipType.isAllowedBetween(relationship);
     }
 
-    private void cleanupOrphanedNodes(Node firstNode, Node secondNode, Edge removedEdge, Edge reversedEdge) {
-        firstNode.removeEdge(removedEdge);
-        firstNode.removeEdge(reversedEdge);
-        if (firstNode.getEdges().isEmpty()) {
-            this.nodes.remove(firstNode);
+    private void cleanupOrphanedNodes(RelationshipDTO relationship) {
+        relationship.subject().removeEdge(relationship.edge());
+        relationship.subject().removeEdge(relationship.reverseEdge());
+        if (relationship.subject().getEdges().isEmpty()) {
+            this.nodes.remove(relationship.subject());
         }
 
-        secondNode.removeEdge(removedEdge);
-        secondNode.removeEdge(reversedEdge);
-        if (secondNode.getEdges().isEmpty()) {
-            this.nodes.remove(secondNode);
+        relationship.object().removeEdge(relationship.edge());
+        relationship.object().removeEdge(relationship.reverseEdge());
+        if (relationship.object().getEdges().isEmpty()) {
+            this.nodes.remove(relationship.object());
         }
     }
 }
