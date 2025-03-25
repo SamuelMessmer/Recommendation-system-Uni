@@ -85,8 +85,8 @@ public class Graph {
             return false;
         }
 
-        edges.remove(relationship.edge());
-        edges.remove(relationship.reverseEdge());
+        this.edges.remove(relationship.edge());
+        this.edges.remove(relationship.reverseEdge());
         cleanupNodes(relationship);
         return true;
     }
@@ -112,30 +112,30 @@ public class Graph {
     }
 
     private boolean edgeIsPresent(RelationshipDTO relationship) {
-        Edge primaryEdge = relationship.edge();
-        Edge reversedEdge = relationship.reverseEdge();
+        return !this.edges.contains(relationship.edge())
+                || !this.edges.contains(relationship.reverseEdge());
+    }
 
-        return !this.edges.contains(primaryEdge)
-                || !this.edges.contains(reversedEdge);
+    private void cleanupNodes(RelationshipDTO relationship) {
+        Node subjectNode = relationship.subject();
+        Node objectNode = relationship.object();
+
+        cleanupNode(subjectNode, relationship.edge(), relationship.reverseEdge());
+        cleanupNode(objectNode, relationship.edge(), relationship.reverseEdge());
+    }
+
+    private void cleanupNode(Node node, Edge primaryEdge, Edge reversedEdge) {
+        node.removeEdge(primaryEdge);
+        node.removeEdge(reversedEdge);
+
+        if (node.getEdges().isEmpty()) {
+            this.nodes.remove(node);
+        }
     }
 
     private boolean canAddRelationship(RelationshipDTO relationship) {
         return this.nodes.contains(relationship.subject())
                 && this.nodes.contains(relationship.object())
                 && RelationshipType.isAllowedBetween(relationship);
-    }
-
-    private void cleanupNodes(RelationshipDTO relationship) {
-        relationship.subject().removeEdge(relationship.edge());
-        relationship.subject().removeEdge(relationship.reverseEdge());
-        if (relationship.subject().getEdges().isEmpty()) {
-            this.nodes.remove(relationship.subject());
-        }
-
-        relationship.object().removeEdge(relationship.edge());
-        relationship.object().removeEdge(relationship.reverseEdge());
-        if (relationship.object().getEdges().isEmpty()) {
-            this.nodes.remove(relationship.object());
-        }
     }
 }

@@ -102,14 +102,13 @@ public enum RelationshipType {
         Node endNode = relationship.object();
         RelationshipType relationshipType = relationship.predicate();
 
-        if (startNode.isOfType(NodeType.CATEGORY) || endNode.isOfType(NodeType.CATEGORY)) {
-            return CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationshipType);
-        }
-
         if (startNode.isOfType(NodeType.PRODUCT) && endNode.isOfType(NodeType.PRODUCT)) {
             return !CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationshipType);
         }
-        
+
+        if (startNode.isOfType(NodeType.CATEGORY) || endNode.isOfType(NodeType.CATEGORY)) {
+            return CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationshipType);
+        }
         return true;
     }
 
