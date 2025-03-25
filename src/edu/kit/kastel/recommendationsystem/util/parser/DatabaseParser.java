@@ -139,19 +139,12 @@ public final class DatabaseParser {
 
         private static void validateEdgeUniqueness(RelationshipDTO relationship, Set<Edge> existingEdges)
                 throws DataParsException {
-            if (edgeExists(relationship, existingEdges)) {
-                throw new DataParsException(ERROR_DUPLICATE_EDGE);
-            }
-        }
-
-        private static boolean edgeExists(RelationshipDTO relationship, Set<Edge> existinEdges) {
-            for (Edge existingEdge : existinEdges) {
+            for (Edge existingEdge : existingEdges) {
                 if (existingEdge
                         .equals(new Edge(relationship.subject(), relationship.object(), relationship.predicate()))) {
-                    return true;
+                    throw new DataParsException(ERROR_DUPLICATE_EDGE);
                 }
             }
-            return false;
         }
     }
 }
