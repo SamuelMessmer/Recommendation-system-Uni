@@ -29,7 +29,6 @@ import java.util.HashSet;
 public final class RecursiveDescentParser {
 
     // Region: Constants
-    private static final String WHITESPACE_NORMALIZATION_REGEX = "\\s*([(),])\\s*";
     private static final String MULTIPLE_WHITESPACE_REGEX = "\\s+";
     private static final String STRATEGY_PREFIX = "S";
     private static final String INPUT_SEPERATOR = " ";
