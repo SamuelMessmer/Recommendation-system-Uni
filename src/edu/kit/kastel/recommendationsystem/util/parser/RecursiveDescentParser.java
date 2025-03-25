@@ -28,7 +28,6 @@ import java.util.HashSet;
 
 public final class RecursiveDescentParser {
 
-    // Region: Constants
     private static final String MULTIPLE_WHITESPACE_REGEX = "\\s+";
     private static final String STRATEGY_PREFIX = "S";
     private static final String INPUT_SEPERATOR = " ";
@@ -184,9 +183,9 @@ public final class RecursiveDescentParser {
     }
 
     private static class FinalTerm implements Term {
-        private static final String STRATEGY_S1 = "S1";
-        private static final String STRATEGY_S2 = "S2";
-        private static final String STRATEGY_S3 = "S3";
+        private static final String SIBLING_STRATEGY = "S1";
+        private static final String SUCCESSOR_STRATEGY = "S2";
+        private static final String PREDECESSOR_STRATEGY = "S3";
 
         private final String strategy;
         private final int productId;
@@ -206,9 +205,9 @@ public final class RecursiveDescentParser {
             }
 
             return switch (strategy) {
-                case STRATEGY_S1 -> RecommendationStrategy.findSiblingProducts(productNode, graph);
-                case STRATEGY_S2 -> RecommendationStrategy.findSuccessorProducts(productNode, graph);
-                case STRATEGY_S3 -> RecommendationStrategy.findPredecessorProducts(productNode, graph);
+                case SIBLING_STRATEGY -> RecommendationStrategy.findSiblingProducts(productNode, graph);
+                case SUCCESSOR_STRATEGY -> RecommendationStrategy.findSuccessorProducts(productNode, graph);
+                case PREDECESSOR_STRATEGY -> RecommendationStrategy.findPredecessorProducts(productNode, graph);
                 default -> throw new DataParsException(String.format(ERROR_INVALID_STRATEGY, strategy));
             };
         }

@@ -1,8 +1,8 @@
 package edu.kit.kastel.recommendationsystem.model;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
 
 /**
  * Represents the type of relationship between two nodes in the graph.
@@ -49,6 +49,11 @@ public enum RelationshipType {
     private static final List<RelationshipType> CATEGORY_ALLOWED_RELATIONSHIPS = List.of(
             CONTAINS,
             CONTAINED_IN);
+    private static final List<RelationshipType> PRODUCT_ALLOWED_RELATIONSHIPS = List.of(
+            PART_OF,
+            HAS_PART,
+            SUCCESSOR_OF,
+            PREDECESSOR_OF);
 
     private static final Map<String, RelationshipType> ENUM_REPRESENTATIONS = new HashMap<>();
     static {
@@ -103,7 +108,7 @@ public enum RelationshipType {
         RelationshipType relationshipType = relationship.predicate();
 
         if (startNode.isOfType(NodeType.PRODUCT) && endNode.isOfType(NodeType.PRODUCT)) {
-            return !CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationshipType);
+            return PRODUCT_ALLOWED_RELATIONSHIPS.contains(relationshipType);
         }
 
         if (startNode.isOfType(NodeType.CATEGORY) || endNode.isOfType(NodeType.CATEGORY)) {
