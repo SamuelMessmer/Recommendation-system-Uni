@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.management.relation.Relation;
-
 /**
  * Represents a graph structure for the recommendation system.
  * The graph consists of nodes (products and categories) and edges
