@@ -83,7 +83,8 @@ public enum RelationshipType {
      * Converts a string representation of a relationship type to the corresponding
      * enum value.
      *
-     * @param representationString the string representation of the relationship type
+     * @param representationString the string representation of the relationship
+     *                             type
      * @return the corresponding {@link RelationshipType}
      */
     public static RelationshipType fromString(String representationString) {
@@ -97,12 +98,18 @@ public enum RelationshipType {
      * @return {@code true} if the relationship is allowed, {@code false} otherwise
      */
     public static boolean isAllowedBetween(RelationshipDTO relationship) {
-        if (relationship.subject().isOfType(NodeType.PRODUCT) && relationship.object().isOfType(NodeType.PRODUCT)) {
-            return !CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationship.predicate());
+        Node startNode = relationship.subject();
+        Node endNode = relationship.object();
+        RelationshipType relationshipType = relationship.predicate();
+
+        if (startNode.isOfType(NodeType.CATEGORY) || endNode.isOfType(NodeType.CATEGORY)) {
+            return CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationshipType);
         }
-        if (relationship.subject().isOfType(NodeType.CATEGORY) || relationship.object().isOfType(NodeType.CATEGORY)) {
-            return CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationship.predicate());
+
+        if (startNode.isOfType(NodeType.PRODUCT) && endNode.isOfType(NodeType.PRODUCT)) {
+            return !CATEGORY_ALLOWED_RELATIONSHIPS.contains(relationshipType);
         }
+        
         return true;
     }
 

@@ -56,7 +56,7 @@ public class Graph {
      */
     public Node findProductById(int productId) {
         for (Node node : this.nodes) {
-            if (node instanceof Product && ((Product) node).getId() == productId) {
+            if (node.isOfType(NodeType.PRODUCT) && ((Product) node).getId() == productId) {
                 return node;
             }
         }
@@ -81,14 +81,13 @@ public class Graph {
      *         otherwise
      */
     public boolean removeEdge(RelationshipDTO relationship) {
-        if (relationship == null || !this.edges.contains(relationship.edge())
-                || !this.edges.contains(relationship.reverseEdge())) {
+        if (relationship == null || !edgeIsPresent(relationship)) {
             return false;
         }
 
         edges.remove(relationship.edge());
         edges.remove(relationship.reverseEdge());
-        cleanupOrphanedNodes(relationship);
+        cleanupNodes(relationship);
         return true;
     }
 
@@ -112,14 +111,21 @@ public class Graph {
         return true;
     }
 
+    private boolean edgeIsPresent(RelationshipDTO relationship) {
+        Edge primaryEdge = relationship.edge();
+        Edge reversedEdge = relationship.reverseEdge();
+
+        return !this.edges.contains(primaryEdge)
+                || !this.edges.contains(reversedEdge);
+    }
+
     private boolean canAddRelationship(RelationshipDTO relationship) {
-        return !this.edges.contains(relationship.edge())
-                && this.nodes.contains(relationship.subject())
+        return this.nodes.contains(relationship.subject())
                 && this.nodes.contains(relationship.object())
                 && RelationshipType.isAllowedBetween(relationship);
     }
 
-    private void cleanupOrphanedNodes(RelationshipDTO relationship) {
+    private void cleanupNodes(RelationshipDTO relationship) {
         relationship.subject().removeEdge(relationship.edge());
         relationship.subject().removeEdge(relationship.reverseEdge());
         if (relationship.subject().getEdges().isEmpty()) {
