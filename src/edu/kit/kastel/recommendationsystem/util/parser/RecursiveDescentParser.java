@@ -1,12 +1,12 @@
 package edu.kit.kastel.recommendationsystem.util.parser;
 
-import edu.kit.kastel.recommendationsystem.model.Graph;
-import edu.kit.kastel.recommendationsystem.model.Node;
-import edu.kit.kastel.recommendationsystem.model.RecommendationStrategy;
-
 import java.util.Set;
 import java.util.List;
 import java.util.HashSet;
+
+import edu.kit.kastel.recommendationsystem.model.Graph;
+import edu.kit.kastel.recommendationsystem.model.Node;
+import edu.kit.kastel.recommendationsystem.model.RecommendationStrategy;
 
 /**
  * A recursive descent parser for processing recommendation queries.
@@ -40,7 +40,7 @@ public final class RecursiveDescentParser {
     private static final String ERROR_PRODUCT_NOT_FOUND = "product not found: %s";
     private static final String ERROR_INVALID_STRATEGY = "invalid strategy: %s";
     private static final String ERROR_EXPECTED_CHARACTER = "expected: '%s'";
-    private static final String ERROR_UNEXPECTED_END_OF_INPUT = "unexpected characters at end of input";
+    // private static final String ERROR_UNEXPECTED_END_OF_INPUT = "unexpected characters at end of input";
 
     private static final char UNION_START_SYMBOL = 'U';
     private static final char INTERSECTION_START_SYMBOL = 'I';
@@ -81,7 +81,7 @@ public final class RecursiveDescentParser {
     public static Set<Node> parse(String input, Graph graph) throws DataParsException {
         ParserState state = new ParserState(input, graph);
         Term term = parseTerm(state);
-        validateEndOfInput(state);
+        // validateEndOfInput(state);
         return term.evaluate();
     }
 
@@ -171,12 +171,12 @@ public final class RecursiveDescentParser {
         }
     }
 
-    private static void validateEndOfInput(ParserState state) throws DataParsException {
-        skipWhitespace(state);
-        if (state.position < state.input.length()) {
-            throw new DataParsException(ERROR_UNEXPECTED_END_OF_INPUT);
-        }
-    }
+    // private static void validateEndOfInput(ParserState state) throws DataParsException {
+    //     skipWhitespace(state);
+    //     if (state.position < state.input.length()) {
+    //         throw new DataParsException(ERROR_UNEXPECTED_END_OF_INPUT);
+    //     }
+    // }
 
     private interface Term {
         Set<Node> evaluate() throws DataParsException;

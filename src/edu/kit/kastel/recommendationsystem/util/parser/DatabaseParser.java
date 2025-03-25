@@ -46,14 +46,14 @@ public final class DatabaseParser {
         for (String line : lines) {
             RelationshipDTO relationship = LineParser.parse(line);
 
-            ValidationUtils.validateDTO(relationship, nodes, edges);
-            processDTO(relationship, nodes, edges);
+            ValidationUtils.validateRelationship(relationship, nodes, edges);
+            processRelationship(relationship, nodes, edges);
         }
 
         return new Graph(nodes, edges);
     }
 
-    private static void processDTO(RelationshipDTO relationship, Set<Node> nodes, Set<Edge> edges) {
+    private static void processRelationship(RelationshipDTO relationship, Set<Node> nodes, Set<Edge> edges) {
         Node subject = getOrRegisterNode(relationship.subject(), nodes);
         Node object = getOrRegisterNode(relationship.object(), nodes);
         createEdgeIfAbsent(subject, object, relationship.predicate(), edges);
@@ -89,7 +89,8 @@ public final class DatabaseParser {
      */
     private final class ValidationUtils {
 
-        private static void validateDTO(RelationshipDTO relationship, Set<Node> existingNodes, Set<Edge> existingEdges)
+        private static void validateRelationship(RelationshipDTO relationship, Set<Node> existingNodes,
+                Set<Edge> existingEdges)
                 throws DataParsException {
             validateRelationship(relationship);
             validateNoSelfReference(relationship);
