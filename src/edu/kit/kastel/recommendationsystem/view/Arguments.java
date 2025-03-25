@@ -24,7 +24,6 @@ public class Arguments {
     private static final String CONFIG_FILE_EXTENSION = ".txt";
     private static final String DATABASE_FLAG = "database";
     private static final String INPUT_LINE_SEPERATOR = " ";
-    private static final int ARGUMENT_LOOP_START_INDEX = 0;
 
     private static final String ERROR_INVALID_PATH_TO_DATABASE_FILE = "the provided path is incorrect";
     private static final String ERROR_INVALID_NODE = "the node: %s can not be added";
@@ -130,7 +129,7 @@ public class Arguments {
     public String retrieveLine() {
         StringBuilder builder = new StringBuilder();
 
-        for (int i = ARGUMENT_LOOP_START_INDEX; i < arguments.length; i++) {
+        for (int i = 0; i < arguments.length; i++) {
             String argumentString = retrieveArgument();
             builder.append(argumentString).append(INPUT_LINE_SEPERATOR);
         }
