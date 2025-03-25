@@ -112,8 +112,8 @@ public class Graph {
     }
 
     private boolean edgeIsPresent(RelationshipDTO relationship) {
-        return !this.edges.contains(relationship.edge())
-                || !this.edges.contains(relationship.reverseEdge());
+        return this.edges.contains(relationship.edge())
+                || this.edges.contains(relationship.reverseEdge());
     }
 
     private void cleanupNodes(RelationshipDTO relationship) {
