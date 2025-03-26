@@ -57,8 +57,8 @@ public enum RelationshipType {
 
     private static final Map<String, RelationshipType> ENUM_REPRESENTATIONS = new HashMap<>();
     static {
-        for (RelationshipType type : values()) {
-            ENUM_REPRESENTATIONS.put(type.representation, type);
+        for (RelationshipType enumValue : values()) {
+            ENUM_REPRESENTATIONS.put(enumValue.representation, enumValue);
         }
     }
 
@@ -97,12 +97,13 @@ public enum RelationshipType {
     }
 
     /**
-     * Checks if the relationship is allowed between the specified nodes.
+     * Checks if the relationship is allowed between the specified start node
+     * and end node (subject and object).
      *
      * @param relationship the relationship to check
      * @return {@code true} if the relationship is allowed, {@code false} otherwise
      */
-    public static boolean isAllowedBetween(RelationshipDTO relationship) {
+    public static boolean isAllowedRelationship(RelationshipDTO relationship) {
         Node startNode = relationship.subject();
         Node endNode = relationship.object();
         RelationshipType relationshipType = relationship.predicate();

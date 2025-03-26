@@ -109,10 +109,6 @@ public class Arguments {
      * @throws InvalidArgumentException if the line cannot be parsed or is invalid
      */
     public RelationshipDTO parseLine() throws InvalidArgumentException {
-        if (isExhausted()) {
-            throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
-        }
-
         String line = retrieveLine();
 
         try {
@@ -127,13 +123,19 @@ public class Arguments {
      * Constructs a single input line from the provided arguments.
      * 
      * @return the combined input line
+     * @throws InvalidArgumentException
      */
-    public String retrieveLine() {
+    public String retrieveLine() throws InvalidArgumentException {
         StringBuilder builder = new StringBuilder();
 
         for (int i = FIRST_ARGUMENT_INDEX; i < arguments.length; i++) {
+            if (isExhausted()) {
+                throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
+            }
+
             String argumentString = retrieveArgument();
-            builder.append(argumentString).append(INPUT_LINE_SEPARATOR);
+            builder.append(argumentString)
+                    .append(INPUT_LINE_SEPARATOR);
         }
 
         return builder.toString();

@@ -77,6 +77,9 @@ public abstract class Node {
         this.edges.remove(removedEdge);
     }
 
+    /**
+     * necessary to avoid duplication in the set of nodes used in the graph class.
+     */
     @Override
     public boolean equals(Object object) {
         if (this == object) {

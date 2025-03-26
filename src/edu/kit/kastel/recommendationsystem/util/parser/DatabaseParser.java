@@ -99,7 +99,7 @@ public final class DatabaseParser {
         }
 
         private static void validateRelationship(RelationshipDTO relationship) throws DataParsException {
-            if (!RelationshipType.isAllowedBetween(relationship)) {
+            if (!RelationshipType.isAllowedRelationship(relationship)) {
                 throw new DataParsException(String.format(ERROR_INVALID_RELATIONSHIP, relationship.predicate()));
             }
         }

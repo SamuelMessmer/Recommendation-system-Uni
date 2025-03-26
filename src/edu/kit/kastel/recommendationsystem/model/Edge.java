@@ -64,6 +64,9 @@ public class Edge {
         return String.format(EDGE_OUTPUT_FORMAT, startNode.toString(), type.toString(), endNode.toString());
     }
 
+    /**
+     * necessary to avoid duplication in the set of edges used in the graph class.
+     */
     @Override
     public boolean equals(Object object) {
         if (this == object) {

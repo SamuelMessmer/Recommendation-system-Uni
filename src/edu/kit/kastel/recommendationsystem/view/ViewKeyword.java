@@ -16,7 +16,7 @@ public enum ViewKeyword implements Keyword<UserInterface> {
     /**
      * The keyword for the {@link CommandLoad load} command.
      */
-    LOAD(argumetns -> new CommandLoad(argumetns.parseDatabaseFlag(), argumetns.parsePath())),
+    LOAD(arguments -> new CommandLoad(arguments.parseDatabaseFlag(), arguments.parsePath())),
      /**
      * The keyword for the {@link CommandQuit quit} command.
      */
