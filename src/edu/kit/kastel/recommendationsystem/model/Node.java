@@ -25,7 +25,7 @@ public abstract class Node {
      * @param type the type of the node (product or category)
      */
     public Node(String name, NodeType type) {
-        this.name = name;
+        this.name = name.toLowerCase();
         this.type = type;
         this.edges = new HashSet<>();
     }
@@ -47,7 +47,7 @@ public abstract class Node {
      *         otherwise
      */
     public boolean isOfType(NodeType type) {
-        return this.type == type;
+        return this.type.equals(type);
     }
 
     /**

@@ -25,11 +25,11 @@ public class CommandExport implements Command<Graph> {
     private static final String DIGRAPH_START_SYMBOL = "digraph {";
     private static final String DIGRAPH_END_SYMBOL = "}";
     private static final String CATEGORY_IDENTIFIER_STRING = " [shape=box]";
-    private static final String EDGE_ARROW = " -> ";
+    private static final String EDGE_INDICATOR_ARROW = " -> ";
     private static final String LABEL_START_SYMBOL = " [label=";
     private static final String LABEL_END_SYMBOL = "]";
-    private static final String PREDICATE_SEPERATOR = "-";
-    private static final String PREDICATE_SEPERATOR_REPLACEMENT_STRING = "";
+    private static final String PREDICATE_SEPARATOR = "-";
+    private static final String PREDICATE_SEPARATOR_REPLACEMENT_STRING = "";
 
     @Override
     public Result execute(Graph handle) {
@@ -60,12 +60,12 @@ public class CommandExport implements Command<Graph> {
     }
 
     private static void processEdge(Edge edge, StringBuilder output) {
-        String source = edge.getStartNode().getName().toLowerCase();
-        String target = edge.getEndNode().getName().toLowerCase();
+        String source = edge.getStartNode().getName();
+        String target = edge.getEndNode().getName();
         String label = formatRelationship(edge.getRelationship());
 
         output.append(source)
-                .append(EDGE_ARROW)
+                .append(EDGE_INDICATOR_ARROW)
                 .append(target)
                 .append(LABEL_START_SYMBOL)
                 .append(label)
@@ -82,7 +82,7 @@ public class CommandExport implements Command<Graph> {
     }
 
     private static String formatRelationship(RelationshipType relationship) {
-        return relationship.toString().toLowerCase().replace(PREDICATE_SEPERATOR,
-                PREDICATE_SEPERATOR_REPLACEMENT_STRING);
+        return relationship.toString().toLowerCase().replace(PREDICATE_SEPARATOR,
+                PREDICATE_SEPARATOR_REPLACEMENT_STRING);
     }
 }

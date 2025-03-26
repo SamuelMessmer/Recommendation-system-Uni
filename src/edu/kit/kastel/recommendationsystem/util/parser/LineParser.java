@@ -83,7 +83,7 @@ public final class LineParser {
     /**
      * Parses a line from the database file into a {@link RelationshipDTO} object.
      * The line must conform to the expected format for relationships between nodes,
-     * which is stated in the BNF-grammatic.
+     * which is stated in the BNF-grammar.
      * 
      * @param line the input line to parse
      * @return a {@link RelationshipDTO} representing the parsed relationship
@@ -115,9 +115,9 @@ public final class LineParser {
 
     private static Node parseNode(String productName, String productId, String categoryName) throws DataParsException {
         if (productName == null) {
-            return new Category(categoryName.toLowerCase());
+            return new Category(categoryName);
         }
-        return new Product(productName.toLowerCase(), parseInt(productId));
+        return new Product(productName, parseInt(productId));
     }
 
     private static RelationshipType parsePredicate(String type) throws DataParsException {

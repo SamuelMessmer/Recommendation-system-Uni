@@ -29,7 +29,7 @@ public final class DatabaseParser {
     private static final String ERROR_INVALID_RELATIONSHIP = "the relationship: %s, is not aplicable for the given node types";
 
     private DatabaseParser() {
-        // This is a utitlity class
+        // This is a utility class
     }
 
     /**

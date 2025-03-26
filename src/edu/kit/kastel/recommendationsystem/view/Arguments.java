@@ -22,10 +22,10 @@ import edu.kit.kastel.recommendationsystem.view.commands.Command;
  */
 public class Arguments {
 
+    private static final int FIRST_ARGUMENT_INDEX = 0;
     private static final String CONFIG_FILE_EXTENSION = ".txt";
     private static final String DATABASE_FLAG = "database";
     private static final String INPUT_LINE_SEPARATOR = " ";
-    private static final int FIRST_ARGUMENT_INDEX = 0;
 
     private static final String ERROR_INVALID_PATH_TO_DATABASE_FILE = "the provided path is incorrect";
     private static final String ERROR_INVALID_NODE = "the node: %s can not be added";

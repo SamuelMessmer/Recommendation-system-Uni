@@ -8,9 +8,9 @@ import java.util.Collections;
  * Represents a graph structure for the recommendation system.
  * The graph consists of nodes (products and categories) and edges
  * (relationships between nodes).
- * I have choosen a Set with a polymorphic design to follow the SOLID criteria
+ * I have chosen a Set with a polymorphic design to follow the SOLID criteria
  * and provide maximum expandability, even though Maps could theoretically be
- * more perfomant (wiht larger graphs).
+ * more performant (with larger graphs).
  * 
  * @author urrwg
  */

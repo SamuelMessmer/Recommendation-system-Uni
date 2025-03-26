@@ -12,7 +12,7 @@ import edu.kit.kastel.recommendationsystem.view.Result;
  */
 public class CommandRemove implements Command<Graph> {
 
-    private static final String ERROR_EDGE_NOT_REMOVEABLE = "edge can not be removed";
+    private static final String ERROR_EDGE_NOT_REMOVABLE = "edge can not be removed";
 
     private final RelationshipDTO relationship;
 
@@ -27,6 +27,6 @@ public class CommandRemove implements Command<Graph> {
 
     @Override
     public Result execute(Graph handle) {
-        return handle.removeEdge(this.relationship) ? Result.success() : Result.error(ERROR_EDGE_NOT_REMOVEABLE);
+        return handle.removeEdge(this.relationship) ? Result.success() : Result.error(ERROR_EDGE_NOT_REMOVABLE);
     }
 }

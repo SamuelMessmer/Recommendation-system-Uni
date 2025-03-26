@@ -56,7 +56,7 @@ public class CommandRecommend implements Command<Graph> {
 
         StringBuilder output = new StringBuilder();
         for (Node node : sorted) {
-            output.append(node.toString().toLowerCase())
+            output.append(node.toString())
                     .append(OUTPUT_SEPARATOR);
         }
         return output.toString().trim();

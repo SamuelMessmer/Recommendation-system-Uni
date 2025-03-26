@@ -1,12 +1,12 @@
 package edu.kit.kastel.recommendationsystem.view;
 
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.util.Set;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Scanner;
-import java.util.Set;
+import java.io.PrintStream;
+import java.io.InputStream;
+import java.util.Collection;
 
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.view.commands.Command;
@@ -21,9 +21,9 @@ import edu.kit.kastel.recommendationsystem.view.commands.Command;
  */
 public class UserInterface {
 
-    private static final String COMMAND_SEPARATOR = " ";
     private static final int COMMAND_ARGUMENT_INDEX = 0;
     private static final int SECOND_ARGUMENT_INDEX = 1;
+    private static final String COMMAND_SEPARATOR = " ";
     private static final String ERROR_PREFIX = "Error, ";
     private static final String ERROR_UNKNOWN_COMMAND_FORMAT = ERROR_PREFIX + " unknown command: %s";
     private static final String ERROR_TOO_MANY_ARGUMENTS = ERROR_PREFIX + "too many arguments provided.";
@@ -69,7 +69,7 @@ public class UserInterface {
     }
 
     /**
-     * Prints the given output, if the Communication is listenig.
+     * Prints the given output, if the Communication is listening.
      * 
      * @param output the output to print
      */

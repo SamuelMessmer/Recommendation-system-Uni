@@ -33,7 +33,7 @@ public final class SortUtils {
 
     /**
      * Sorts a list of edges based on the name of their start node, end node, and
-     * relationship type in alphabeticall order.
+     * relationship type in alphabetical order.
      * 
      * @param edges the list of edges to be sorted
      */

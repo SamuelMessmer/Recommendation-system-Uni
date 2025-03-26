@@ -18,7 +18,7 @@ import edu.kit.kastel.recommendationsystem.view.Result;
 public class CommandNodes implements Command<Graph> {
 
     private static final String EMPTY_NODES_OUTPUT = " ";
-    private static final String NODE_SEPERATOR = " ";
+    private static final String NODE_SEPARATOR = " ";
 
     @Override
     public Result execute(Graph handle) {
@@ -33,7 +33,7 @@ public class CommandNodes implements Command<Graph> {
 
         for (Node node : nodes) {
             output.append(node.toString())
-                    .append(NODE_SEPERATOR);
+                    .append(NODE_SEPARATOR);
         }
 
         return nodes.isEmpty() ? EMPTY_NODES_OUTPUT : output.toString().trim();

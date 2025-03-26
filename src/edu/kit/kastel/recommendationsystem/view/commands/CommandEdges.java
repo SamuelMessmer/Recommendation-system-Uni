@@ -26,10 +26,12 @@ public class CommandEdges implements Command<Graph> {
         SortUtils.sortEdges(edges);
 
         StringBuilder output = new StringBuilder();
+       
         for (Edge edge : edges) {
             output.append(edge.toString())
                     .append(System.lineSeparator());
         }
+       
         return output.toString().trim();
     }
 }
