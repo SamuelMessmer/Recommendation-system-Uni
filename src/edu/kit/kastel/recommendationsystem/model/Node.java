@@ -88,7 +88,7 @@ public abstract class Node {
         if (!(object instanceof Node node)) {
             return false;
         }
-        return name.equals(node.name) && this.type == node.type;
+        return name.equals(node.name) && this.type.equals(node.type);
     }
 
     @Override

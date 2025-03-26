@@ -49,7 +49,7 @@ public class Product extends Node {
             return false;
         }
         Product product = (Product) object;
-        return this.id == product.id && name.equals(product.name) && this.type == product.type;
+        return this.id == product.id && name.equals(product.name) && this.type.equals(product.type);
     }
 
     @Override
