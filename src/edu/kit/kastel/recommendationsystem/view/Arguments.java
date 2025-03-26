@@ -157,26 +157,27 @@ public class Arguments {
             }
         }
 
-        // if (validateNodePlacement(node, nodes)) {
-        //     graph.addNode(node);
-        //     return node;
-        // }
+        if (validateNodePlacement(node, nodes)) {
+            graph.addNode(node);
+            return node;
+        }
         throw new DataParsException(String.format(ERROR_INVALID_NODE, node));
     }
 
-    // private boolean validateNodePlacement(Node node, Set<Node> nodes) {
-    //     for (Node existingNode : nodes) {
-    //         if (existingNode.getName().equals(node.getName())) {
-    //             return false;
-    //         }
-    //         if (existingNode.isOfType(NodeType.PRODUCT) && node.isOfType(NodeType.PRODUCT)) {
-    //             if (((Product) existingNode).getId() == ((Product) node).getId()) {
-    //                 return false;
-    //             }
-    //         }
-    //     }
-    //     return true;
-    // }
+    private boolean validateNodePlacement(Node node, Set<Node> nodes) {
+        // for (Node existingNode : nodes) {
+        // if (existingNode.getName().equals(node.getName())) {
+        // return false;
+        // }
+        // if (existingNode.isOfType(NodeType.PRODUCT) &&
+        // node.isOfType(NodeType.PRODUCT)) {
+        // if (((Product) existingNode).getId() == ((Product) node).getId()) {
+        // return false;
+        // }
+        // }
+        // }
+        return !nodes.contains(node);
+    }
 
     /**
      * Returns whether all provided arguments have been consumed.
