@@ -7,8 +7,8 @@ import java.nio.file.Files;
 
 import edu.kit.kastel.recommendationsystem.model.Graph;
 import edu.kit.kastel.recommendationsystem.model.Node;
-import edu.kit.kastel.recommendationsystem.model.NodeType;
-import edu.kit.kastel.recommendationsystem.model.Product;
+// import edu.kit.kastel.recommendationsystem.model.NodeType;
+// import edu.kit.kastel.recommendationsystem.model.Product;
 import edu.kit.kastel.recommendationsystem.model.RelationshipDTO;
 import edu.kit.kastel.recommendationsystem.util.parser.DataParsException;
 import edu.kit.kastel.recommendationsystem.util.parser.LineParser;
@@ -157,26 +157,26 @@ public class Arguments {
             }
         }
 
-        if (validateNodePlacement(node, nodes)) {
-            graph.addNode(node);
-            return node;
-        }
+        // if (validateNodePlacement(node, nodes)) {
+        //     graph.addNode(node);
+        //     return node;
+        // }
         throw new DataParsException(String.format(ERROR_INVALID_NODE, node));
     }
 
-    private boolean validateNodePlacement(Node node, Set<Node> nodes) {
-        for (Node existingNode : nodes) {
-            if (existingNode.getName().equals(node.getName())) {
-                return false;
-            }
-            if (existingNode.isOfType(NodeType.PRODUCT) && node.isOfType(NodeType.PRODUCT)) {
-                if (((Product) existingNode).getId() == ((Product) node).getId()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+    // private boolean validateNodePlacement(Node node, Set<Node> nodes) {
+    //     for (Node existingNode : nodes) {
+    //         if (existingNode.getName().equals(node.getName())) {
+    //             return false;
+    //         }
+    //         if (existingNode.isOfType(NodeType.PRODUCT) && node.isOfType(NodeType.PRODUCT)) {
+    //             if (((Product) existingNode).getId() == ((Product) node).getId()) {
+    //                 return false;
+    //             }
+    //         }
+    //     }
+    //     return true;
+    // }
 
     /**
      * Returns whether all provided arguments have been consumed.
